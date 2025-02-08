@@ -1,6 +1,6 @@
 // src/firebase.js
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import firebase from 'firebase/compat/app';  // Use the correct import path
+import 'firebase/compat/auth';  // Import Firebase authentication
 
 const firebaseConfig = {
   apiKey: process.env.GATSBY_FIREBASE_API_KEY,
@@ -11,6 +11,7 @@ const firebaseConfig = {
   appId: process.env.GATSBY_FIREBASE_APP_ID,
 };
 
+// Ensure Firebase initializes only once
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
