@@ -47,24 +47,30 @@ const Dashboard = () => {
     <ProtectedRoute>
       <Navbar />
       <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
-        <h1 className="text-3xl font-bold text-gray-800">Bienvenido, {user?.displayName || 'Estudiante'}</h1>
-        <p className="text-gray-600">{user.email}</p>
+        {user ? (
+          <>
+            <h1 className="text-3xl font-bold text-gray-800">Bienvenido, {user.displayName || 'Estudiante'}</h1>
+            <p className="text-gray-600">{user.email}</p>
 
-        <h2 className="text-2xl font-semibold mt-6">📚 Recursos de Aprendizaje</h2>
-        <ul className="mt-4 space-y-2">
-          {data.allContentfulResource.nodes.map((resource, index) => (
-            <li key={index} className="border p-3 rounded-md shadow-sm hover:bg-gray-100 transition">
-              <strong>{resource.title}</strong> - {resource.description.description}
-              <a href={resource.url} target="_blank" rel="noopener noreferrer" className="text-primary ml-2">
-                Ver recurso
-              </a>
-            </li>
-          ))}
-        </ul>
+            <h2 className="text-2xl font-semibold mt-6">📚 Recursos de Aprendizaje</h2>
+            <ul className="mt-4 space-y-2">
+              {data.allContentfulResource.nodes.map((resource, index) => (
+                <li key={index} className="border p-3 rounded-md shadow-sm hover:bg-gray-100 transition">
+                  <strong>{resource.title}</strong> - {resource.description.description}
+                  <a href={resource.url} target="_blank" rel="noopener noreferrer" className="text-primary ml-2">
+                    Ver recurso
+                  </a>
+                </li>
+              ))}
+            </ul>
 
-        <button onClick={logout} className="mt-6 bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition">
-          Cerrar sesión
-        </button>
+            <button onClick={logout} className="mt-6 bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition">
+              Cerrar sesión
+            </button>
+          </>
+        ) : (
+          <p className="text-gray-500 text-center">Cargando datos del usuario...</p>
+        )}
       </div>
     </ProtectedRoute>
   );
