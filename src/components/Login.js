@@ -7,15 +7,14 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { user, login } = useAuth(); // ✅ Fix: Ensure useAuth() is valid
+  const { user, login } = useAuth();
 
-  // ✅ Redirect to dashboard when user state changes
   useEffect(() => {
     if (user) {
       console.log('✅ Redirecting to dashboard...');
       navigate('/dashboard');
     }
-  }, [user]); // Runs when user state changes
+  }, [user]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -27,7 +26,7 @@ const Login = () => {
       console.log('✅ Login successful, waiting for redirect...');
     } catch (err) {
       console.error('❌ Login error:', err.message);
-      setError(err.message);
+      setError(err.message); // Asegúrate de que error sea una cadena de texto
       setLoading(false);
     }
   };
@@ -35,7 +34,7 @@ const Login = () => {
   return (
     <div>
       <h2>Login</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>} {/* Renderiza error como cadena de texto */}
       <form onSubmit={handleLogin}>
         <div>
           <label>Email:</label>

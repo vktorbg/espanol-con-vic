@@ -1,6 +1,7 @@
 // src/firebase.js
 import firebase from 'firebase/compat/app';  // Use the correct import path
 import 'firebase/compat/auth';  // Import Firebase authentication
+import 'firebase/compat/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.GATSBY_FIREBASE_API_KEY,
@@ -17,4 +18,5 @@ if (!firebase.apps.length) {
 }
 
 export const auth = firebase.auth();
+export const db = firebase.firestore(); // ✅ Exportamos Firestore
 export default firebase;
