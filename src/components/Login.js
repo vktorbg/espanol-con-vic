@@ -7,7 +7,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { user, login } = useAuth();
+  const { user, login } = useAuth(); // ✅ Verifica que login está presente
 
   useEffect(() => {
     if (user) {
@@ -22,11 +22,12 @@ const Login = () => {
     setLoading(true);
 
     try {
-      await login(email, password);
-      console.log('✅ Login successful, waiting for redirect...');
+      await login(email, password); // ✅ Llamar correctamente login()
+      console.log('✅ Login successful');
     } catch (err) {
       console.error('❌ Login error:', err.message);
-      setError(err.message); // Asegúrate de que error sea una cadena de texto
+      setError(err.message);
+    } finally {
       setLoading(false);
     }
   };
@@ -34,7 +35,7 @@ const Login = () => {
   return (
     <div>
       <h2>Login</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>} {/* Renderiza error como cadena de texto */}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleLogin}>
         <div>
           <label>Email:</label>
