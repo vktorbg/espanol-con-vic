@@ -1,76 +1,56 @@
-import React, { useEffect, useState } from 'react';
-import { navigate, graphql, useStaticQuery } from 'gatsby';
-import { useAuth } from '../context/AuthContext';
-import { db } from '../firebase';
-import ProtectedRoute from '../components/ProtectedRoute';
-import Navbar from '../components/Navbar';
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import ProtectedRoute from "../components/ProtectedRoute";
+import Navbar from "../components/Navbar";
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
-  const [progress, setProgress] = useState([]);
-
-  const data = useStaticQuery(graphql`
-    query {
-      allContentfulResource {
-        nodes {
-          title
-          description {
-            description
-          }
-          url
-        }
-      }
-    }
-  `);
+  const { currentUser, logout } = useAuth();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) return;
-    const fetchProgress = async () => {
-      try {
-        const progressSnapshot = await db
-          .collection('students')
-          .doc(user.uid)
-          .collection('progress')
-          .orderBy('date', 'desc')
-          .get();
-
-        setProgress(progressSnapshot.docs.map((doc) => doc.data()));
-      } catch (error) {
-        console.error('❌ Error obteniendo progreso:', error);
-      }
-    };
-
-    fetchProgress();
-  }, [user]);
+    if (currentUser) {
+      setLoading(false);
+    }
+  }, [currentUser]);
 
   return (
     <ProtectedRoute>
       <Navbar />
-      <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
-        {user ? (
-          <>
-            <h1 className="text-3xl font-bold text-gray-800">Bienvenido, {user.displayName || 'Estudiante'}</h1>
-            <p className="text-gray-600">{user.email}</p>
+      <div className="bg-gray-100 min-h-screen flex flex-col items-center py-10 px-4">
+        <div className="max-w-4xl w-full bg-white shadow-lg rounded-lg p-6">
+          <h1 className="text-3xl font-bold text-primary text-center mb-6">
+            Welcome to Your Dashboard
+          </h1>
 
-            <h2 className="text-2xl font-semibold mt-6">📚 Recursos de Aprendizaje</h2>
-            <ul className="mt-4 space-y-2">
-              {data.allContentfulResource.nodes.map((resource, index) => (
-                <li key={index} className="border p-3 rounded-md shadow-sm hover:bg-gray-100 transition">
-                  <strong>{resource.title}</strong> - {resource.description.description}
-                  <a href={resource.url} target="_blank" rel="noopener noreferrer" className="text-primary ml-2">
-                    Ver recurso
-                  </a>
-                </li>
-              ))}
-            </ul>
+          {loading ? (
+            <p className="text-center text-gray-600">Loading user data...</p>
+          ) : (
+            <>
+              {/* User Info Card */}
+              <div className="bg-gray-50 p-5 rounded-lg shadow-md">
+                <h2 className="text-xl font-semibold text-gray-800">
+                  {currentUser?.displayName || "User"}
+                </h2>
+                <p className="text-gray-600">{currentUser?.email}</p>
+              </div>
 
-            <button onClick={logout} className="mt-6 bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition">
-              Cerrar sesión
-            </button>
-          </>
-        ) : (
-          <p className="text-gray-500 text-center">Cargando datos del usuario...</p>
-        )}
+              {/* Actions Section */}
+              <div className="mt-6 flex flex-col md:flex-row gap-4">
+                <button 
+                  onClick={logout} 
+                  className="w-full md:w-auto bg-orange-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-orange-600 transition"
+                >
+                  Logout
+                </button>
+                <button 
+                  className="w-full md:w-auto bg-gray-900 text-white px-5 py-2 rounded-lg shadow-md hover:bg-gray-700 transition"
+                >
+                  View Progress
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </ProtectedRoute>
   );

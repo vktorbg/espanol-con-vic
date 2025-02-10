@@ -3,9 +3,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#ff914d", // Naranja vibrante
-        secondary: "#f9f9f9", // Fondo claro
-        accent: "#3b82f6", // Azul llamativo para acciones
+        primary: "#D97706", // Nuevo naranja más sobrio (ámbar oscuro)
+        secondary: "#F3F4F6", // Fondo claro más elegante
+        accent: "#2563EB", // Azul profesional para botones y detalles
+      },
+      fontFamily: {
+        sans: ["Inter", "sans-serif"], // Tipografía más moderna
       },
     },
   },

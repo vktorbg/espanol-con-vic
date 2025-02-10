@@ -1,11 +1,16 @@
-import React from 'react';
-import Login from '../components/Login';
+import React, { useState } from "react";
+import Navbar from "../components/Navbar";
+import Login from "../components/Login";
 
-const LoginPage = () => (
-  <div>
-    <h1>Login</h1>
-    <Login />
-  </div>
-);
+const LoginPage = () => {
+  const [isOpen, setIsOpen] = useState(true); // Login modal opens immediately
+
+  return (
+    <>
+      <Navbar />
+      {isOpen && <Login onClose={() => setIsOpen(false)} />}
+    </>
+  );
+};
 
 export default LoginPage;
