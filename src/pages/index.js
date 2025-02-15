@@ -1,13 +1,14 @@
 import React from "react";
 import { Link } from "gatsby";
 import Navbar from "../components/Navbar";
-import HeroImage from "../images/hero-class.PNG"; // Asegúrate de que esta imagen esté en /src/images/
-import ServiceImage1 from "../images/Services/service1.jpg"; // Actualiza con el nombre correcto de la imagen
-import ServiceImage2 from "../images/Services/service2.jpg"; // Actualiza con el nombre correcto de la imagen
-import ServiceImage3 from "../images/Services/service3.jpg"; // Actualiza con el nombre correcto de la imagen
 import { motion } from "framer-motion"; // Importamos Framer Motion para animaciones
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments, faBook, faClock } from '@fortawesome/free-solid-svg-icons';
+
+const HeroImage = "/images/hero-class.PNG"; // ✅ Use a direct path
+const ServiceImage1 = "/images/Services/service1.jpg";
+const ServiceImage2 = "/images/Services/service2.jpg";
+const ServiceImage3 = "/images/Services/service3.jpg";
 
 const plans = [
   {
