@@ -43,7 +43,7 @@ const Navbar = () => {
               </button>
               <button 
                 onClick={() => setIsSignupOpen(true)}
-                className="border border-orange-500 text-orange-500 px-5 py-2 rounded-lg shadow-md hover:bg-orange-500 hover:text-white transition font-semibold"
+                className="button-signup"
               >
                 Sign Up
               </button>

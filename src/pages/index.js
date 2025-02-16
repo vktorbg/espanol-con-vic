@@ -37,7 +37,7 @@ const IndexPage = () => {
       <Navbar />
 
       {/* HERO SECTION */}
-      <header className="relative text-white bg-gradient-to-r from-gray-900 via-primary to-orange-500">
+      <header className="relative text-white bg-gradient-to-r from-gray-900 via-primary to-orange-500" style={{ zIndex: 1 }}>
         <div className="absolute inset-0 bg-cover bg-center opacity-40" style={{ backgroundImage: `url(${HeroImage})` }}></div>
         
         <div className="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center text-center md:text-left py-24">
@@ -57,7 +57,7 @@ const IndexPage = () => {
             </p>
             <Link to="/plans">
               <motion.button 
-                className="mt-6 bg-white text-primary px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-gray-100 transition"
+                className="mt-6 bg-white text-primary px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-gray-200 transition"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >

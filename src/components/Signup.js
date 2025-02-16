@@ -23,8 +23,9 @@ const Signup = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+    <div className="modal">
+      <div className="modal-content">
+        <button onClick={onClose}>Close</button>
         <h2 className="text-2xl font-bold text-center">Sign Up</h2>
         {error && <p className="text-red-500 text-center">{error}</p>}
 
@@ -52,7 +53,7 @@ const Signup = ({ onClose }) => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-orange-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-orange-600 transition"
+            className="button-modal-signup"
           >
             {loading ? "Signing Up..." : "Sign Up"}
           </button>
