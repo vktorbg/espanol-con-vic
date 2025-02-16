@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, doc, updateDoc, setDoc } from 'firebase/firestore';
-import { app } from '../firebase'; // Asegúrate de que estás importando tu configuración de Firebase
+import { app, auth as firebaseAuth, db as firebaseDb } from '../firebase';
 
-const auth = getAuth(app);
-const db = getFirestore(app);
+const auth = typeof window !== "undefined" && firebaseAuth ? firebaseAuth : null;
+const db = typeof window !== "undefined" && firebaseDb ? firebaseDb : null;
 
 const AuthContext = createContext(null);
 
@@ -13,13 +13,17 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
-      setLoading(false);
-      console.log(user ? `🔥 User logged in: ${user.email}` : '❌ No user logged in');
-    });
+    if (auth) {
+      const unsubscribe = auth.onAuthStateChanged((user) => {
+        setCurrentUser(user);
+        setLoading(false);
+        console.log(user ? `🔥 User logged in: ${user.email}` : '❌ No user logged in');
+      });
 
-    return () => unsubscribe();
+      return () => unsubscribe();
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   const login = async (email, password) => {

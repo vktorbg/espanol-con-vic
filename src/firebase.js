@@ -1,13 +1,7 @@
 // src/firebase.js
 import { initializeApp, getApps, getApp } from "firebase/app";
-import { 
-  getAuth, 
-  signInWithEmailAndPassword, 
-  signOut, 
-  GoogleAuthProvider, 
-  signInWithPopup 
-} from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signOut, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.GATSBY_FIREBASE_API_KEY,
@@ -20,12 +14,15 @@ const firebaseConfig = {
 
 // Ensure Firebase initializes only once and only in the browser
 let app;
+let auth;
+let db;
+
 if (typeof window !== "undefined") {
   app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+  auth = getAuth(app);
+  db = getFirestore(app);
 }
 
-const auth = app ? getAuth(app) : null;
 const googleProvider = app ? new GoogleAuthProvider() : null;
-const db = app ? getFirestore(app) : null;
 
-export { auth, db, googleProvider, signInWithEmailAndPassword, signOut, signInWithPopup };
+export { app, auth, db, googleProvider, signInWithEmailAndPassword, signOut, signInWithPopup };

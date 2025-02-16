@@ -11,7 +11,7 @@ const BlogPage = () => {
 
   // ✅ Fetch membership level from Firestore
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser && db) {
       const fetchMembership = async () => {
         try {
           const userRef = doc(db, "users", currentUser.uid);
