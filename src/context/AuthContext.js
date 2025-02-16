@@ -1,5 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { auth, db, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from '../firebase';
+import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, doc, updateDoc, setDoc } from 'firebase/firestore';
+import { app } from '../firebase'; // Asegúrate de que estás importando tu configuración de Firebase
+
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 const AuthContext = createContext(null);
 
@@ -28,13 +33,30 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signup = async (email, password) => {
+  const signup = async (email, password, firstName, lastName) => {
     try {
+      console.log("🚀 Registering user...");
+      
+      // ✅ 1. Crear usuario en Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      setCurrentUser(userCredential.user);
-      return userCredential.user;
+      const user = userCredential.user;
+
+      console.log("✅ User created in Authentication:", user.uid);
+
+      // ✅ 2. Guardar información en Firestore
+      await setDoc(doc(db, "students", user.uid), {
+        firstName: firstName || "Unknown",
+        lastName: lastName || "Student",
+        email: user.email,
+        membership: "Basic",
+        createdAt: new Date(),
+      });
+
+      console.log("✅ User added to Firestore:", user.uid);
+      setCurrentUser(user);
+      return user;
     } catch (error) {
-      console.error("Signup Error:", error);
+      console.error("❌ Error signing up:", error);
       throw error;
     }
   };
@@ -49,8 +71,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const upgradeToVIP = async (userId) => {
+    try {
+      const userRef = doc(db, "users", userId);
+      await updateDoc(userRef, {
+        membership: "VIP",
+      });
+      console.log("✅ User upgraded to VIP");
+    } catch (error) {
+      console.error("❌ Error upgrading user:", error);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ currentUser, login, signup, logout }}>
+    <AuthContext.Provider value={{ currentUser, login, signup, logout, upgradeToVIP }}>
       {!loading ? children : <p>Loading authentication...</p>}
     </AuthContext.Provider>
   );

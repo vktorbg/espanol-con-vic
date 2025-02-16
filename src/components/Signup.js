@@ -2,21 +2,23 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 const Signup = ({ onClose }) => {
+  const { signup, loginWithGoogle } = useAuth();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { signup, loginWithGoogle } = useAuth();
 
-  const handleSignup = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setError(null);
     setLoading(true);
     try {
-      await signup(email, password);
+      await signup(email, password, `${firstName} ${lastName}`);
+      alert("Account created successfully!");
       onClose(); // Close modal after successful signup
     } catch (err) {
-      console.error("Signup Error:", err.message);
       setError(err.message);
     }
     setLoading(false);
@@ -26,34 +28,47 @@ const Signup = ({ onClose }) => {
     <div className="modal">
       <div className="modal-content">
         <button onClick={onClose}>Close</button>
-        <h2 className="text-2xl font-bold text-center">Sign Up</h2>
+        <h2 className="text-2xl font-bold text-center mb-4">Sign Up</h2>
+        
         {error && <p className="text-red-500 text-center">{error}</p>}
 
-        <form onSubmit={handleSignup} className="space-y-4">
-          <div>
-            <label className="block text-gray-700">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full p-2 border border-gray-300 rounded-lg"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full p-2 border border-gray-300 rounded-lg"
-            />
-          </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            placeholder="First Name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            className="w-full p-2 border rounded-md"
+            required
+          />
+          <input
+            type="text"
+            placeholder="Last Name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            className="w-full p-2 border rounded-md"
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-2 border rounded-md"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-2 border rounded-md"
+            required
+          />
           <button
             type="submit"
             disabled={loading}
-            className="button-modal-signup"
+            className="w-full bg-primary text-white py-2 rounded-md hover:bg-orange-600 transition"
           >
             {loading ? "Signing Up..." : "Sign Up"}
           </button>
