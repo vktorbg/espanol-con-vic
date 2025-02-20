@@ -25,7 +25,7 @@ const Navbar = () => {
           Español con Vic
         </Link>
         
-        {/* Navigation Links */}
+        {/* Desktop Navigation Links */}
         <div className="hidden md:flex space-x-6">
           <Link to="/learning-hub" className="text-gray-700 hover:text-orange-500 transition">
             Learning Hub
@@ -41,17 +41,8 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="focus:outline-none">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
-        
-        {/* Auth Buttons */}
-        <div className="flex space-x-4">
+        {/* Desktop Auth Buttons */}
+        <div className="hidden md:flex space-x-4">
           {!currentUser ? (
             <>
               <button 
@@ -86,15 +77,75 @@ const Navbar = () => {
             </>
           )}
         </div>
-      </div>
 
+        {/* Mobile Menu Button */}
+        <div className="md:hidden">
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="focus:outline-none">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden px-4 pt-2 pb-4 space-y-2">
-          <Link to="/learning-hub" className="block text-gray-700 hover:text-orange-500">Learning Hub</Link>
-          <Link to="/plans" className="block text-gray-700 hover:text-orange-500">Plans</Link>
-          <Link to="/services" className="block text-gray-700 hover:text-orange-500">Services</Link>
-          <Link to="/about" className="block text-gray-700 hover:text-orange-500">About Us</Link>
+          <Link to="/learning-hub" className="block text-gray-700 hover:text-orange-500" onClick={() => setIsMenuOpen(false)}>
+            Learning Hub
+          </Link>
+          <Link to="/plans" className="block text-gray-700 hover:text-orange-500" onClick={() => setIsMenuOpen(false)}>
+            Plans
+          </Link>
+          <Link to="/services" className="block text-gray-700 hover:text-orange-500" onClick={() => setIsMenuOpen(false)}>
+            Services
+          </Link>
+          <Link to="/about" className="block text-gray-700 hover:text-orange-500" onClick={() => setIsMenuOpen(false)}>
+            About Us
+          </Link>
+
+          {/* Mobile Auth Buttons */}
+          {!currentUser ? (
+            <>
+              <button 
+                onClick={() => {
+                  setIsLoginOpen(true);
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full text-left bg-primary text-white px-5 py-2 rounded-md shadow-md hover:bg-primary transition font-semibold"
+              >
+                Login
+              </button>
+              <button 
+                onClick={() => {
+                  setIsSignupOpen(true);
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full text-left border border-primary text-primary px-5 py-2 rounded-md shadow-sm hover:bg-orange-50 transition font-semibold"
+              >
+                Sign Up
+              </button>
+            </>
+          ) : (
+            <>
+              <Link 
+                to="/dashboard"
+                className="block text-gray-700 hover:text-orange-500"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                My Dashboard
+              </Link>
+              {currentUser.role === "admin" && (
+                <Link 
+                  to="/admin"
+                  className="block text-gray-700 hover:text-orange-500"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Admin
+                </Link>
+              )}
+            </>
+          )}
         </div>
       )}
 
