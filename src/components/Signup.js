@@ -15,7 +15,7 @@ const Signup = ({ onClose }) => {
     setError(null);
     setLoading(true);
     try {
-      await signup(email, password, `${firstName} ${lastName}`);
+      await signup(email, password, firstName, lastName);
       alert("Account created successfully!");
       onClose(); // Close modal after successful signup
     } catch (err) {
@@ -26,7 +26,7 @@ const Signup = ({ onClose }) => {
 
   return (
     <div className="modal">
-      <div className="modal-content">
+      <div className="modal-content max-w-sm mx-auto bg-white p-6 rounded-lg shadow-md">
         <button onClick={onClose}>Close</button>
         <h2 className="text-2xl font-bold text-center mb-4">Sign Up</h2>
         
@@ -78,7 +78,11 @@ const Signup = ({ onClose }) => {
           onClick={loginWithGoogle}
           className="w-full mt-4 flex items-center justify-center bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow-md hover:bg-gray-200 transition"
         >
-          <img src="/google-icon.png" alt="Google Icon" className="h-5 w-5 mr-2" />
+          <img 
+            src="https://img.icons8.com/color/48/000000/google-logo.png" 
+            alt="Google Icon" 
+            className="mr-2 h-6 w-6"
+          />
           Sign up with Google
         </button>
 

@@ -1,189 +1,186 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "gatsby";
+import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
-import { motion } from "framer-motion"; // Importamos Framer Motion para animaciones
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComments, faBook, faClock } from '@fortawesome/free-solid-svg-icons';
+import Footer from "../components/Footer";
 
-const HeroImage = "/images/hero-class.PNG"; // ✅ Use a direct path
-const ServiceImage1 = "/images/Services/service1.jpg";
-const ServiceImage2 = "/images/Services/service2.jpg";
-const ServiceImage3 = "/images/Services/service3.jpg";
+// Images from the static folder
+const ProfileImage = "/images/profile.png";
+const HeroBackground = "/images/hero-background.jpeg";
+const Service1Image = "/images/service1.jpg";
+const Service2Image = "/images/service2.jpg";
+const Service3Image = "/images/service3.jpg";
 
-const plans = [
-  {
-    title: "Trial Lesson",
-    price: "$10",
-    description: "A single session to assess your level and learning goals.",
-    image: ServiceImage1,
+// Aura for profile image (as before)
+const auraVariants = {
+  idle: {
+    boxShadow: [
+      "0 0 0 0 rgba(217,119,6,0.6)",
+      "0 0 40px 10px rgba(217,119,6,0)",
+      "0 0 0 0 rgba(217,119,6,0.6)"
+    ],
+    transition: { duration: 2, repeat: Infinity, ease: "easeInOut" }
   },
-  {
-    title: "2 Lessons per Week",
-    price: "$75/month",
-    description: "Steady improvement with two lessons every week.",
-    image: ServiceImage2,
-  },
-  {
-    title: "4 Lessons per Week",
-    price: "$140/month",
-    description: "Intensive learning with four lessons per week.",
-    image: ServiceImage3,
-  },
-];
+  hover: { scale: 1.05, transition: { duration: 0.3 } }
+};
 
-const IndexPage = () => {
+const HeroSplitScreen = () => {
+  const [hovered, setHovered] = useState(false);
+
   return (
-    <>
-      <Navbar />
+    <header className="relative text-white overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <img
+          src={HeroBackground}
+          alt="Medellín Street Scene"
+          className="w-full h-full object-cover"
+        />
+      </div>
 
-      {/* HERO SECTION */}
-      <header className="relative text-white bg-gradient-to-r from-gray-900 via-primary to-orange-500" style={{ zIndex: 1 }}>
-        <div className="absolute inset-0 bg-cover bg-center opacity-40" style={{ backgroundImage: `url(${HeroImage})` }}></div>
+      {/* Dark Overlay for Contrast */}
+      <div className="absolute inset-0 bg-black bg-opacity-40" />
+
+      <div className="relative max-w-6xl mx-auto flex flex-col-reverse md:flex-row items-center px-6 py-24">
         
-        <div className="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center text-center md:text-left py-24">
-          
-          {/* Contenedor de texto con fondo semitransparente */}
-          <motion.div 
-            className="md:w-1/2 p-6 bg-black/50 rounded-lg backdrop-blur-md"
-            initial={{ opacity: 0, x: -50 }} 
-            animate={{ opacity: 1, x: 0 }} 
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-6xl font-extrabold text-white leading-tight">
-              Learn Spanish <br /> with Confidence
-            </h1>
-            <p className="mt-4 text-lg font-light text-gray-200">
-              Personalized one-on-one lessons that help you achieve fluency naturally.
-            </p>
+        {/* Left Side: Text Content */}
+        <motion.div
+          className="md:w-1/2 flex flex-col items-start mb-8 md:mb-0 md:mr-8"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h1 className="text-5xl font-extrabold leading-tight mb-4 text-left">
+            Learn Spanish with Confidence
+          </h1>
+          <p className="text-lg font-light mb-8 text-left">
+            Personalized one-on-one lessons designed to help you reach fluency naturally.
+          </p>
+
+          {/* Centered Button */}
+          <div className="w-full flex justify-center">
             <Link to="/plans">
-              <motion.button 
-                className="mt-6 bg-white text-primary px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-gray-200 transition"
-                whileHover={{ scale: 1.1 }}
+              <motion.button
+                className="bg-primary text-white text-xl px-8 py-4 rounded-md font-bold shadow-md hover:bg-orange-600 transition"
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 Get Started
               </motion.button>
             </Link>
-          </motion.div>
-
-          {/* Imagen con animación */}
-          <motion.div 
-            className="md:w-1/2 p-6"
-            initial={{ opacity: 0, x: 50 }} 
-            animate={{ opacity: 1, x: 0 }} 
-            transition={{ duration: 0.8 }}
-          >
-            <img 
-              src={HeroImage} 
-              alt="Online Spanish Class" 
-              className="rounded-lg shadow-lg"
-            />
-          </motion.div>
-
-        </div>
-      </header>
-
-      {/* BENEFITS SECTION */}
-      <section className="py-16 bg-secondary">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-800">Why Choose Español con Vic?</h2>
-          <motion.div 
-            className="mt-10 grid gap-6 md:grid-cols-3"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="p-6 bg-white shadow-lg rounded-lg hover:shadow-xl transition">
-              <FontAwesomeIcon icon={faComments} size="2x" className="text-primary" />
-              <h3 className="text-xl font-semibold mt-4">Immersive Conversations</h3>
-              <p className="text-gray-600 mt-2">Practice real-life Spanish with engaging lessons.</p>
-            </div>
-            <div className="p-6 bg-white shadow-lg rounded-lg hover:shadow-xl transition">
-              <FontAwesomeIcon icon={faBook} size="2x" className="text-primary" />
-              <h3 className="text-xl font-semibold mt-4">Grammar & Structure</h3>
-              <p className="text-gray-600 mt-2">Learn Spanish grammar in a clear and structured way.</p>
-            </div>
-            <div className="p-6 bg-white shadow-lg rounded-lg hover:shadow-xl transition">
-              <FontAwesomeIcon icon={faClock} size="2x" className="text-primary" />
-              <h3 className="text-xl font-semibold mt-4">Flexible Scheduling</h3>
-              <p className="text-gray-600 mt-2">Book lessons at a time that fits your lifestyle.</p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* PLANS SECTION */}
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-800">Choose Your Plan</h2>
-          <p className="mt-4 text-gray-700">Find the best plan that fits your learning style.</p>
-          
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {plans.map((plan, index) => (
-              <div key={index} className="bg-white shadow-lg rounded-lg overflow-hidden">
-                <img src={plan.image} alt={plan.title} className="w-full h-40 object-cover" />
-                <div className="p-6">
-                  <h3 className="text-2xl font-semibold text-gray-800">{plan.title}</h3>
-                  <p className="text-lg text-primary font-bold mt-2">{plan.price}</p>
-                  <p className="text-gray-600 mt-2">{plan.description}</p>
-                  <Link to="/plans">
-                    <motion.button 
-                      className="mt-4 bg-primary text-white px-5 py-2 rounded-lg shadow-md hover:bg-orange-500 transition"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      Select Plan
-                    </motion.button>
-                  </Link>
-                </div>
-              </div>
-            ))}
           </div>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS SECTION */}
-      <section className="py-16">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-800">What My Students Say</h2>
-          <div className="mt-10 flex overflow-x-scroll space-x-6 p-4">
-            <div className="min-w-[300px] p-6 bg-white shadow-lg rounded-lg">
-              <p className="text-gray-600">"Vic is an amazing teacher! My Spanish improved so much thanks to his lessons."</p>
-              <h4 className="text-primary font-bold mt-2">- John, USA</h4>
-            </div>
-            <div className="min-w-[300px] p-6 bg-white shadow-lg rounded-lg">
-              <p className="text-gray-600">"I love how interactive and fun the lessons are!"</p>
-              <h4 className="text-primary font-bold mt-2">- Sarah, UK</h4>
-            </div>
-            <div className="min-w-[300px] p-6 bg-white shadow-lg rounded-lg">
-              <p className="text-gray-600">"Learning Spanish has never been this easy. Highly recommend!"</p>
-              <h4 className="text-primary font-bold mt-2">- Emma, Canada</h4>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA SECTION */}
-      <section className="py-16 bg-primary text-white text-center">
-        <motion.h2 
-          className="text-3xl font-bold"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7 }}
+        </motion.div>
+        
+        {/* Right Side: Profile Image with Aura */}
+        <motion.div
+          className="md:w-1/2 flex justify-center mb-8 md:mb-0"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
         >
-          Start Your Spanish Journey Today!
-        </motion.h2>
-        <p className="mt-4 text-lg">Book your first lesson and begin your journey to fluency.</p>
-        <Link to="/plans">
-          <motion.button 
-            className="mt-6 bg-white text-primary px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-gray-100 transition"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Book a Trial Lesson
-          </motion.button>
-        </Link>
+          <motion.img
+            src={ProfileImage}
+            alt="Profile of Vic"
+            className="w-80 h-80 object-cover rounded-full shadow-2xl"
+            style={{ border: "4px solid #D97706" }}  // Force orange border
+            variants={auraVariants}
+            animate="idle"
+            whileHover="hover"
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+          />
+        </motion.div>
+      </div>
+    </header>
+  );
+};
+
+const IndexPage = () => {
+  return (
+    <>
+      <Navbar />
+      <HeroSplitScreen />
+      
+      {/* FEATURED SECTIONS */}
+      <section className="py-16 bg-secondary">
+        <div className="max-w-6xl mx-auto text-center px-4">
+          <h2 className="text-3xl font-bold text-gray-800 mb-6">
+            Explore Our Platform
+          </h2>
+          <div className="grid gap-8 md:grid-cols-3">
+            {/* Report Section */}
+            <motion.div 
+              className="bg-white p-6 shadow-md border rounded-md hover:shadow-lg transition"
+              whileHover={{ scale: 1.03 }}
+            >
+              <img src={Service1Image} alt="Reports" className="w-full h-40 object-cover rounded-md mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Your Progress</h3>
+              <p className="text-gray-600">Track your monthly progress, see detailed reports, and celebrate your achievements.</p>
+              <Link to="/dashboard" className="mt-4 inline-block text-primary font-bold hover:underline">
+                View Dashboard &rarr;
+              </Link>
+            </motion.div>
+            {/* Learning Hub Section */}
+            <motion.div 
+              className="bg-white p-6 shadow-md border rounded-md hover:shadow-lg transition"
+              whileHover={{ scale: 1.03 }}
+            >
+              <img src={Service2Image} alt="Learning Hub" className="w-full h-40 object-cover rounded-md mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Learning Hub</h3>
+              <p className="text-gray-600">Access a wide range of resources, interactive lessons, and quizzes to boost your Spanish skills.</p>
+              <Link to="/learning-hub" className="mt-4 inline-block text-primary font-bold hover:underline">
+                Explore Hub &rarr;
+              </Link>
+            </motion.div>
+            {/* Blog Section */}
+            <motion.div 
+              className="bg-white p-6 shadow-md border rounded-md hover:shadow-lg transition"
+              whileHover={{ scale: 1.03 }}
+            >
+              <img src={Service3Image} alt="Blog" className="w-full h-40 object-cover rounded-md mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Language Tips & Culture</h3>
+              <p className="text-gray-600">Stay updated with the latest language tips, cultural insights, and learning techniques.</p>
+              <Link to="/blog" className="mt-4 inline-block text-primary font-bold hover:underline">
+                Read Our Blog &rarr;
+              </Link>
+            </motion.div>
+          </div>
+        </div>
       </section>
+
+      {/* CTA SECTION with Hero Background */}
+      <section
+        className="py-16 text-white text-center relative"
+        style={{
+          backgroundImage: `url('${HeroBackground}')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center"
+        }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="relative z-10">
+          <motion.h2 
+            className="text-3xl font-bold"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7 }}
+          >
+            Start Your Spanish Journey Today!
+          </motion.h2>
+          <p className="mt-4 text-lg">Book your first lesson and take the first step towards fluency.</p>
+          <Link to="/plans">
+            <motion.button 
+              className="mt-6 bg-white text-primary px-6 py-3 rounded-md font-semibold shadow-md hover:bg-gray-100 transition"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Book a Trial Lesson
+            </motion.button>
+          </Link>
+        </div>
+      </section>
+
+      <Footer />
     </>
   );
 };
