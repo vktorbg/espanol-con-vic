@@ -7,6 +7,7 @@ import Signup from "./Signup";
 const Navbar = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -26,7 +27,6 @@ const Navbar = () => {
         
         {/* Navigation Links */}
         <div className="hidden md:flex space-x-6">
-          {/* Reordered: Learning Hub now first */}
           <Link to="/learning-hub" className="text-gray-700 hover:text-orange-500 transition">
             Learning Hub
           </Link>
@@ -39,6 +39,15 @@ const Navbar = () => {
           <Link to="/about" className="text-gray-700 hover:text-orange-500 transition">
             About Us
           </Link>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <div className="md:hidden">
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="focus:outline-none">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
         </div>
         
         {/* Auth Buttons */}
@@ -78,6 +87,16 @@ const Navbar = () => {
           )}
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden px-4 pt-2 pb-4 space-y-2">
+          <Link to="/learning-hub" className="block text-gray-700 hover:text-orange-500">Learning Hub</Link>
+          <Link to="/plans" className="block text-gray-700 hover:text-orange-500">Plans</Link>
+          <Link to="/services" className="block text-gray-700 hover:text-orange-500">Services</Link>
+          <Link to="/about" className="block text-gray-700 hover:text-orange-500">About Us</Link>
+        </div>
+      )}
 
       {isLoginOpen && <Login onClose={() => setIsLoginOpen(false)} />}
       {isSignupOpen && <Signup onClose={() => setIsSignupOpen(false)} />}

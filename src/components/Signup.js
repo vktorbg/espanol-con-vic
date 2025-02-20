@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { db, doc, setDoc } from "../firebase";
 
 const Signup = ({ onClose }) => {
   const { signup, loginWithGoogle } = useAuth();
@@ -15,7 +16,19 @@ const Signup = ({ onClose }) => {
     setError(null);
     setLoading(true);
     try {
-      await signup(email, password, firstName, lastName);
+      const userCredential = await signup(email, password, firstName, lastName);
+      const user = userCredential.user;
+
+      // Save user data to Firestore
+      await setDoc(doc(db, "students", user.uid), {
+        firstName: firstName || "Unknown",
+        lastName: lastName || "Student",
+        email: user.email,
+        membership: "Basic",
+        folderLink: "https://zoomdocs.com/your-default-folder", // or leave it empty to be updated later
+        createdAt: new Date(),
+      });
+
       alert("Account created successfully!");
       onClose(); // Close modal after successful signup
     } catch (err) {

@@ -6,6 +6,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import Navbar from "../components/Navbar";
 import { motion } from "framer-motion";
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts'; // For charts
+import { Link } from "gatsby"; // Importación de Link
 
 const fetchStudentData = async (userId) => {
   if (!userId) return;
@@ -139,6 +140,20 @@ const Dashboard = () => {
                 >
                   View Progress
                 </button>
+                {studentData && studentData.folderLink ? (
+                  <a
+                    href={studentData.folderLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full md:w-auto bg-gray-900 text-white px-5 py-2 rounded-lg shadow-md hover:bg-gray-700 transition text-center"
+                  >
+                    Go to Your Folder
+                  </a>
+                ) : (
+                  <span className="w-full md:w-auto bg-gray-900 text-white px-5 py-2 rounded-lg shadow-md text-center">
+                    Folder not available
+                  </span>
+                )}
               </div>
             </>
           )}
