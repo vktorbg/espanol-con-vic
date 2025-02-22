@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import { auth, googleProvider, signInWithPopup } from "../firebase";
-import { navigate } from "gatsby";
+
 
 const Login = ({ onClose }) => {
   const [email, setEmail] = useState("");

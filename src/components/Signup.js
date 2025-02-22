@@ -25,7 +25,7 @@ const Signup = ({ onClose }) => {
         lastName: lastName || "Student",
         email: user.email,
         membership: "Basic",
-        folderLink: "https://zoomdocs.com/your-default-folder", // or leave it empty to be updated later
+        folderLink: "https://zoomdocs.com/your-default-folder",
         createdAt: new Date(),
       });
 
@@ -88,7 +88,14 @@ const Signup = ({ onClose }) => {
         </form>
 
         <button
-          onClick={loginWithGoogle}
+          onClick={async () => {
+            try {
+              await loginWithGoogle();
+              onClose();
+            } catch (err) {
+              setError(err.message);
+            }
+          }}
           className="w-full mt-4 flex items-center justify-center bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow-md hover:bg-gray-200 transition"
         >
           <img 
