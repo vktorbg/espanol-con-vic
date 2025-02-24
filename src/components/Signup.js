@@ -27,6 +27,8 @@ const Signup = ({ onClose }) => {
         membership: "Basic",
         folderLink: "https://zoomdocs.com/your-default-folder",
         createdAt: new Date(),
+        totalHours: 0,
+        hoursPerWeek: 0,  // <-- new field: starting total hours
       });
 
       alert("Account created successfully!");

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { db, doc, getDoc, setDoc, collection, getDocs, updateDoc, addDoc } from "../firebase";
+import { db, doc, getDoc, collection, getDocs, updateDoc, addDoc } from "../firebase";
+import { increment } from "firebase/firestore"; // Import increment from firebase/firestore directly
 import { navigate } from "gatsby";
 import Navbar from "../components/Navbar";
 
@@ -14,7 +15,13 @@ const AdminPage = () => {
   const [report, setReport] = useState("");
   const [vocabulary, setVocabulary] = useState("");
   const [saving, setSaving] = useState(false);
-  const [folderEdits, setFolderEdits] = useState({}); // To manage inline folder link editing
+  const [folderEdits, setFolderEdits] = useState({}); // For inline folder link editing
+  
+  // New state for class record: only the number of hours (no date input)
+  const [classHours, setClassHours] = useState(0);
+  
+  // New state for manually setting "Hours Per Week"
+  const [weeklyHoursInput, setWeeklyHoursInput] = useState("");
 
   useEffect(() => {
     const checkAdminAndFetchStudents = async () => {
@@ -114,7 +121,6 @@ const AdminPage = () => {
       const studentRef = doc(db, "students", studentId);
       await updateDoc(studentRef, { folderLink: newFolderLink });
       setStudents(prev => prev.map(s => s.id === studentId ? { ...s, folderLink: newFolderLink } : s));
-      // Turn off editing mode
       setFolderEdits(prev => ({
         ...prev,
         [studentId]: {
@@ -137,7 +143,7 @@ const AdminPage = () => {
       title,
       report,
       vocabulary,
-      date: new Date().toISOString().split("T")[0], // Format: YYYY-MM-DD
+      date: new Date().toISOString().split("T")[0],
     };
     try {
       const studentRef = doc(db, "students", selectedStudent);
@@ -152,6 +158,47 @@ const AdminPage = () => {
       alert("Error saving report. Check console for details.");
     }
     setSaving(false);
+  };
+
+  // New function to add a class record for a student (using current timestamp)
+  const handleAddClassRecord = async () => {
+    if (!selectedStudent) {
+      alert("Please select a student.");
+      return;
+    }
+    try {
+      const studentRef = doc(db, "students", selectedStudent);
+      const classRecordsRef = collection(studentRef, "classRecords");
+      await addDoc(classRecordsRef, {
+        hours: classHours,
+        createdAt: new Date(),
+      });
+      // Update totalHours atomically using Firestore's increment
+      await updateDoc(studentRef, { totalHours: increment(classHours) });
+      alert("✅ Class record added successfully!");
+      setClassHours(0);
+    } catch (error) {
+      console.error("Error adding class record:", error);
+      alert("Error adding class record. Check console for details.");
+    }
+  };
+
+  // New function to update "Hours Per Week" for a student
+  const handleUpdateWeeklyHours = async () => {
+    if (!selectedStudent || weeklyHoursInput === "") {
+      alert("Please select a student and enter the hours per week.");
+      return;
+    }
+    try {
+      const studentRef = doc(db, "students", selectedStudent);
+      await updateDoc(studentRef, { hoursPerWeek: Number(weeklyHoursInput) });
+      alert("✅ Hours per week updated successfully!");
+      setStudents(prev => prev.map(s => s.id === selectedStudent ? { ...s, hoursPerWeek: Number(weeklyHoursInput) } : s));
+      setWeeklyHoursInput("");
+    } catch (error) {
+      console.error("Error updating hours per week:", error);
+      alert("Error updating hours per week. Check console for details.");
+    }
   };
 
   if (!isAdmin) return <p>Loading...</p>;
@@ -244,6 +291,7 @@ const AdminPage = () => {
               </table>
             </div>
 
+            {/* Section for adding monthly reports */}
             <div className="p-6 max-w-2xl mx-auto bg-gray-50 rounded-lg shadow">
               <h2 className="text-xl font-semibold mb-4">Add Monthly Report</h2>
               <label className="block font-medium" htmlFor="student-select">
@@ -302,6 +350,66 @@ const AdminPage = () => {
                 disabled={saving}
               >
                 {saving ? "Saving..." : "Save Report"}
+              </button>
+            </div>
+
+            {/* New Section: Add Class Record (no date field) */}
+            <div className="p-6 max-w-2xl mx-auto bg-gray-50 rounded-lg shadow mt-6">
+              <h2 className="text-xl font-semibold mb-4">Add Class Record</h2>
+              <label className="block font-medium" htmlFor="student-select-class">
+                Select Student:
+              </label>
+              <select
+                id="student-select-class"
+                className="w-full p-2 border rounded mb-3"
+                value={selectedStudent}
+                onChange={(e) => setSelectedStudent(e.target.value)}
+              >
+                <option value="">-- Choose a student --</option>
+                {students.map((student) => (
+                  <option key={student.id} value={student.id}>
+                    {student.firstName} {student.lastName}
+                  </option>
+                ))}
+              </select>
+              <label className="block font-medium" htmlFor="hours">
+                Hours (use negative for canceled class):
+              </label>
+              <input
+                id="hours"
+                type="number"
+                className="w-full p-2 border rounded mb-3"
+                placeholder="e.g., 1 or -1"
+                value={classHours}
+                onChange={(e) => setClassHours(Number(e.target.value))}
+              />
+              <button
+                onClick={handleAddClassRecord}
+                className="w-full bg-primary text-white px-4 py-2 rounded-md hover:bg-orange-600 transition"
+              >
+                Add Class Record
+              </button>
+            </div>
+
+            {/* New Section: Update Hours Per Week */}
+            <div className="p-6 max-w-2xl mx-auto bg-gray-50 rounded-lg shadow mt-6">
+              <h2 className="text-xl font-semibold mb-4">Update Hours Per Week</h2>
+              <label className="block font-medium" htmlFor="weekly-hours">
+                Hours Per Week:
+              </label>
+              <input
+                id="weekly-hours"
+                type="number"
+                className="w-full p-2 border rounded mb-3"
+                placeholder="Enter hours per week"
+                value={weeklyHoursInput}
+                onChange={(e) => setWeeklyHoursInput(e.target.value)}
+              />
+              <button
+                onClick={handleUpdateWeeklyHours}
+                className="w-full bg-primary text-white px-4 py-2 rounded-md hover:bg-orange-600 transition"
+              >
+                Update Hours Per Week
               </button>
             </div>
           </>
