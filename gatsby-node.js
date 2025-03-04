@@ -1,3 +1,8 @@
+const path = require("path");
+
+// Import your plans data
+const plans = require("./src/data/plansData").default || require("./src/data/plansData");
+
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
 
@@ -77,5 +82,32 @@ exports.createPages = async ({ graphql, actions }) => {
       component: quizTemplate,
       context: { id: quiz.id },
     });
+  });
+
+  // Create Plan Detail Pages
+  const planTemplate = path.resolve("src/templates/PlanDetail.js");
+
+  // Iterate over each plan to create a page.
+  plans.forEach((plan) => {
+    // Create a URL-friendly slug. You might use a library like slugify for more robust conversion.
+    const slug = plan.title.toLowerCase().replace(/\s+/g, "-");
+
+    createPage({
+      path: `/plans/${slug}`,
+      component: planTemplate,
+      context: {
+        plan, // pass the plan data as context
+      },
+    });
+  });
+};
+
+
+exports.createPages = async ({ actions }) => {
+  const { createPage } = actions;
+
+  createPage({
+    path: "/final-landing/",
+    component: require.resolve("./src/templates/finalLanding.js"),
   });
 };

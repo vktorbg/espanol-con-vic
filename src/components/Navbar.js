@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "gatsby";
 import { useAuth } from "../context/AuthContext";
 import Login from "./Login";
@@ -8,7 +8,8 @@ const Navbar = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { currentUser } = useAuth();
+  const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
+  const { currentUser, logout } = useAuth();
 
   useEffect(() => {
     if (currentUser) {
@@ -17,14 +18,25 @@ const Navbar = () => {
     }
   }, [currentUser]);
 
+  // Optionally, you can add a useEffect to close the dropdown when clicking outside
+  const dropdownRef = useRef();
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setAccountDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <nav className="bg-white shadow-md py-4">
+    <nav className="bg-white shadow-md py-4 relative">
       <div className="max-w-6xl mx-auto flex justify-between items-center px-4">
         {/* Logo */}
         <Link to="/" className="text-2xl font-bold text-primary">
           Español con Vic
         </Link>
-        
         {/* Desktop Navigation Links */}
         <div className="hidden md:flex space-x-6">
           <Link to="/learning-hub" className="text-gray-700 hover:text-orange-500 transition">
@@ -37,12 +49,11 @@ const Navbar = () => {
             Services
           </Link>
           <Link to="/about" className="text-gray-700 hover:text-orange-500 transition">
-            About Us
+            About me
           </Link>
         </div>
-
         {/* Desktop Auth Buttons */}
-        <div className="hidden md:flex space-x-4">
+        <div className="hidden md:flex space-x-4 items-center">
           {!currentUser ? (
             <>
               <button 
@@ -59,25 +70,45 @@ const Navbar = () => {
               </button>
             </>
           ) : (
-            <>
-              <Link 
-                to="/dashboard"
-                className="px-5 py-2 bg-primary text-white hover:bg-orange-600 transition font-semibold rounded-md shadow-md"
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setAccountDropdownOpen(!accountDropdownOpen)}
+                className="bg-primary text-white px-5 py-2 rounded-md shadow-md hover:bg-orange-600 transition font-semibold"
               >
-                My Dashboard
-              </Link>
-              {currentUser.role === "admin" && (
-                <Link 
-                  to="/admin"
-                  className="px-5 py-2 text-white bg-gray-900 hover:bg-gray-800 transition font-semibold rounded-md shadow-md"
-                >
-                  Admin
-                </Link>
+                My Account
+              </button>
+              {accountDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-20">
+                  <Link 
+                    to="/dashboard"
+                    onClick={() => setAccountDropdownOpen(false)}
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
+                    Dashboard
+                  </Link>
+                  {currentUser.role === "admin" && (
+                    <Link 
+                      to="/admin"
+                      onClick={() => setAccountDropdownOpen(false)}
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    >
+                      Admin
+                    </Link>
+                  )}
+                  <button
+                    onClick={async () => {
+                      await logout();
+                      setAccountDropdownOpen(false);
+                    }}
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
+                    Logout
+                  </button>
+                </div>
               )}
-            </>
+            </div>
           )}
         </div>
-
         {/* Mobile Menu Button */}
         <div className="md:hidden">
           <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="focus:outline-none">
@@ -101,10 +132,8 @@ const Navbar = () => {
             Services
           </Link>
           <Link to="/about" className="block text-gray-700 hover:text-orange-500" onClick={() => setIsMenuOpen(false)}>
-            About Us
+            About me
           </Link>
-
-          {/* Mobile Auth Buttons */}
           {!currentUser ? (
             <>
               <button 
@@ -133,7 +162,7 @@ const Navbar = () => {
                 className="block text-gray-700 hover:text-orange-500"
                 onClick={() => setIsMenuOpen(false)}
               >
-                My Dashboard
+                Dashboard
               </Link>
               {currentUser.role === "admin" && (
                 <Link 
@@ -144,6 +173,15 @@ const Navbar = () => {
                   Admin
                 </Link>
               )}
+              <button
+                onClick={async () => {
+                  await logout();
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full text-left bg-red-500 text-white px-5 py-2 rounded-md shadow-md hover:bg-red-600 transition font-semibold"
+              >
+                Logout
+              </button>
             </>
           )}
         </div>

@@ -10,9 +10,15 @@ const Footer = () => {
           <Link to="/about" className="hover:underline">About Me</Link>
           <Link to="/plans" className="hover:underline">Plans</Link>
           <Link to="/services" className="hover:underline">Services</Link>
-          <Link to="/blog" className="hover:underline">Blog</Link>
-          <Link to="/materials" className="hover:underline">Materials</Link>
-        </div>
+          <a 
+            href="https://www.paypal.com/donate" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="hover:underline"
+          >
+            Support/Donate
+          </a>
+          </div>
       </div>
     </footer>
   );
