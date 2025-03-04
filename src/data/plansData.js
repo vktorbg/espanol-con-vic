@@ -23,4 +23,5 @@ const allPlans = [
   },
 ];
 
-export default allPlans;
+module.exports = allPlans;
+
