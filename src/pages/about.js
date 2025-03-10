@@ -55,16 +55,19 @@ const AboutMe = () => {
               transition={{ duration: 0.8 }}
             >
               <p className="text-lg text-gray-800 mb-4">
-                I'm Vic, and I teach Spanish—but more than that, I guide people in making Spanish their own. Learning a language isn’t just about rules and exercises; it’s about finding your voice in a new language, thinking without translating, and feeling confident in real conversations.
+                I'm Vic —your guide to making Spanish a vibrant part of your life. With over seven years of experience teaching Spanish grammar and fluency, I've helped hundreds of students find their voice in Spanish, transforming classroom rules into real-world conversations.
               </p>
               <p className="text-lg text-gray-800 mb-4">
-                My classes are a space for authentic practice, without pressure or fear of making mistakes. I focus on fluency, understanding the nuances of Spanish, and helping you feel at ease when speaking. If you enjoy learning through interesting conversations, with clear and structured explanations when you need them, you’re in the right place.
+                My journey with Spanish goes beyond textbooks. I’ve lived in Venezuela (my homeland), Perú, and Colombia, absorbing the rich, diverse cultures that make Spanish so dynamic. This multicultural background fuels my teaching, where every conversation is infused with authentic context and genuine passion.
               </p>
               <p className="text-lg text-gray-800 mb-4">
-                Beyond teaching, I’m passionate about diversity, philosophy, writing, and technology. I also crochet—yes, with yarn and a hook—and I love exploring new ways of understanding the world.
+                In my classes, you'll find a welcoming space for true, pressure-free practice. I believe mistakes are stepping stones and every conversation is an opportunity to grow. Whether you enjoy engaging dialogues or need clear, structured explanations, I’m here to tailor our sessions to your unique learning style.
+              </p>
+              <p className="text-lg text-gray-800 mb-4">
+                Outside the classroom, I’m an advocate for LGBTI Human Rights and have collaborated with people from every corner of the globe. My interests in philosophy, writing, technology—and yes, even crocheting with yarn and a hook—help me discover new ways to connect with others and enrich my teaching.
               </p>
               <p className="text-lg text-gray-800">
-                If you want Spanish to be more than just a subject and become a real part of your life, I’m here to help you make that happen.
+                If you’re ready to turn Spanish into a real, lived experience, I’m here to help you every step of the way.
               </p>
             </motion.div>
           </div>
