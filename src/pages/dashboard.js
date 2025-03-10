@@ -1,3 +1,4 @@
+// /src/pages/dashboard.js
 import React, { useEffect, useState } from "react";
 import { navigate } from "@reach/router";
 import { useAuth } from "../context/AuthContext";
@@ -12,7 +13,6 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [reports, setReports] = useState([]);
   const [expandedReport, setExpandedReport] = useState(null);
-  const [lastUpdate, setLastUpdate] = useState(null);
 
   useEffect(() => {
     if (currentUser) {
@@ -64,9 +64,11 @@ const Dashboard = () => {
   return (
     <ProtectedRoute>
       <Navbar />
-      <div className="w-full h-80 mb-0"
+      <div
+        className="w-full h-80 mb-0"
         style={{
-          backgroundImage: "linear-gradient(to right, rgba(217,121,6,0.8), rgba(234,88,12,0.8)), url('/images/dashboard-image.png')",
+          backgroundImage:
+            "linear-gradient(to right, rgba(217,121,6,0.8), rgba(234,88,12,0.8)), url('/images/dashboard-image.png')",
           backgroundBlendMode: "multiply",
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -75,7 +77,6 @@ const Dashboard = () => {
 
       <div className="bg-gray-100 min-h-screen py-10">
         <div className="max-w-4xl mx-auto px-4">
-          
           {/* Dashboard Header */}
           <div className="bg-white p-5 rounded-md shadow-md mb-8 text-center">
             {loading ? (
@@ -84,8 +85,6 @@ const Dashboard = () => {
               <>
                 <h1 className="text-3xl font-extrabold text-gray-800">My Dashboard</h1>
                 <p className="text-xl text-gray-700 mt-2">Hi, {studentData.firstName}!</p>
-
-                {/* Navigation Buttons */}
                 <div className="flex flex-wrap justify-center mt-4 gap-4">
                   {studentData.folderLink && (
                     <a
@@ -127,21 +126,16 @@ const Dashboard = () => {
           {/* Class Details Section */}
           {studentData && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-              {/* Plan */}
               <div className="bg-white p-5 rounded-md shadow-md text-center">
                 <span className="text-primary text-2xl">📜</span>
                 <h2 className="text-lg font-semibold text-gray-800">Plan</h2>
                 <p className="text-xl font-bold">{studentData.plan || "Not Set"}</p>
               </div>
-
-              {/* Weekly Schedule */}
               <div className="bg-white p-5 rounded-md shadow-md text-center">
                 <span className="text-primary text-2xl">📅</span>
                 <h2 className="text-lg font-semibold text-gray-800">Weekly Schedule</h2>
-                <p className="text-xl font-bold">{studentData.weeklySchedule || "Not Set"}</p>
+                <p className="text-xl font-bold">{studentData.schedule ? studentData.schedule.join(", ") : "Not Set"}</p>
               </div>
-
-              {/* Next Class */}
               <div className="bg-white p-5 rounded-md shadow-md text-center">
                 <span className="text-primary text-2xl">🕒</span>
                 <h2 className="text-lg font-semibold text-gray-800">Next Class</h2>
@@ -170,8 +164,12 @@ const Dashboard = () => {
                     </div>
                     {expandedReport === report.id && (
                       <div className="mt-2 text-base text-gray-700">
-                        <p><strong>Report:</strong> {report.report}</p>
-                        <p><strong>Vocabulary:</strong> {report.vocabulary}</p>
+                        <p>
+                          <strong>Report:</strong> {report.report}
+                        </p>
+                        <p>
+                          <strong>Vocabulary:</strong> {report.vocabulary}
+                        </p>
                       </div>
                     )}
                   </li>

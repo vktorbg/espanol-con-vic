@@ -1,4 +1,4 @@
-// /src/pages/signup.js
+// /src/pages/SignupSubscription.js
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation, navigate } from "gatsby";
 import { useLocation as reachUseLocation } from "@reach/router";
@@ -6,15 +6,13 @@ import Navbar from "../components/Navbar";
 import { db, setDoc, doc } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 
-// Usamos reachUseLocation para obtener la ubicación actual
-const SignupPage = () => {
+const SignupSubscription = () => {
   const location = reachUseLocation();
   const queryParams = new URLSearchParams(location.search);
   const initialPlan = queryParams.get("plan") || "";
-  const initialTrial = queryParams.get("trial") === "true";
-
-  // Si se pasa trial=true se fuerza el plan a "Trial"
-  const [selectedPlan, setSelectedPlan] = useState(initialTrial ? "Trial" : initialPlan);
+  
+  // En este flujo se asume que el plan es de suscripción (no Trial)
+  const [selectedPlan] = useState(initialPlan);
 
   // Campos del formulario
   const [firstName, setFirstName] = useState("");
@@ -27,7 +25,6 @@ const SignupPage = () => {
   // Selección de horario
   const [selectedSlots, setSelectedSlots] = useState([]);
   const planSlotsMapping = {
-    Trial: 1,
     Confidence: 2,
     "Fluency Plan": 4,
   };
@@ -100,7 +97,7 @@ const SignupPage = () => {
     </table>
   );
 
-  // Limpiar el contenedor de PayPal si la selección de horarios cambia
+  // Si se modifica la selección de horarios, se limpia el contenedor de PayPal
   useEffect(() => {
     if (selectedSlots.length !== allowedSlots) {
       setIsPayPalLoaded(false);
@@ -110,10 +107,7 @@ const SignupPage = () => {
     }
   }, [selectedSlots, allowedSlots]);
 
-  // Cargar el botón de PayPal cuando se cumplan las condiciones:
-  // - Se han seleccionado los slots requeridos.
-  // - Todos los campos están llenos y las contraseñas coinciden.
-  // - El botón aún no se ha cargado.
+  // Cargar el botón de PayPal cuando se cumplan las condiciones
   useEffect(() => {
     if (selectedSlots.length !== allowedSlots) return;
     if (!firstName || !lastName || !city || !email || !password || !confirmPassword) return;
@@ -124,14 +118,17 @@ const SignupPage = () => {
     let scriptUrl = "";
     let paymentConfig = {};
 
-    if (selectedPlan === "Fluency Plan") {
+    if (selectedPlan === "Fluency Plan" || selectedPlan === "Confidence") {
+      // Usar el SDK de suscripción
       scriptUrl =
-        "https://www.paypal.com/sdk/js?client-id=YOUR_FLUENCY_CLIENT_ID&vault=true&intent=subscription";
+        selectedPlan === "Fluency Plan"
+          ? "https://www.paypal.com/sdk/js?client-id=YOUR_FLUENCY_CLIENT_ID&vault=true&intent=subscription"
+          : "https://www.paypal.com/sdk/js?client-id=YOUR_CONFIDENCE_CLIENT_ID&vault=true&intent=subscription";
       paymentConfig = {
         style: { shape: "pill", color: "blue", layout: "vertical", label: "subscribe" },
         createSubscription: (data, actions) => {
           return actions.subscription.create({
-            plan_id: "FLUENCY_PLAN_ID",
+            plan_id: selectedPlan === "Fluency Plan" ? "FLUENCY_PLAN_ID" : "CONFIDENCE_PLAN_ID",
           });
         },
         onApprove: async (data, actions) => {
@@ -166,103 +163,6 @@ const SignupPage = () => {
             }
             setIsProcessing(false);
           }
-        },
-        onError: (err) => {
-          console.error("Payment error:", err);
-          alert("There was an error processing your payment. Please try again.");
-        },
-      };
-    } else if (selectedPlan === "Confidence") {
-      scriptUrl =
-        "https://www.paypal.com/sdk/js?client-id=YOUR_CONFIDENCE_CLIENT_ID&vault=true&intent=subscription";
-      paymentConfig = {
-        style: { shape: "pill", color: "blue", layout: "vertical", label: "subscribe" },
-        createSubscription: (data, actions) => {
-          return actions.subscription.create({
-            plan_id: "CONFIDENCE_PLAN_ID",
-          });
-        },
-        onApprove: async (data, actions) => {
-          if (isProcessing) return;
-          setIsProcessing(true);
-          if (paypalRef.current) paypalRef.current.innerHTML = "";
-          try {
-            let user = await signup(email, password, firstName, lastName);
-            if (!user || !user.uid) {
-              throw new Error("Signup did not return a valid user.");
-            }
-            await setDoc(doc(db, "students", user.uid), {
-              firstName,
-              lastName,
-              city,
-              email,
-              plan: selectedPlan,
-              schedule: selectedSlots,
-              orderID: data.subscriptionID,
-              createdAt: new Date(),
-            });
-            navigate(`/finalLanding?studentId=${user.uid}`);
-            return;
-          } catch (err) {
-            console.error("Error creating student:", err);
-            if (err.code === "auth/email-already-in-use") {
-              alert("The email address is already in use. Please log in or use a different email.");
-            } else if (err.code === "auth/weak-password") {
-              alert("The password is too weak. Please choose a stronger password (at least 6 characters).");
-            } else {
-              alert("There was an error saving your information. Please try again.");
-            }
-            setIsProcessing(false);
-          }
-        },
-        onError: (err) => {
-          console.error("Payment error:", err);
-          alert("There was an error processing your payment. Please try again.");
-        },
-      };
-    } else if (selectedPlan === "Trial") {
-      scriptUrl =
-        "https://www.paypal.com/sdk/js?client-id=AWDoEeOwk3S58HTojYQezKAg7tPGbXIWJX4nkyA1zoW3uS5XBEbyGPbROlIX7KcEQ19DHkGftDaAgoYx&currency=USD&intent=capture";
-      paymentConfig = {
-        createOrder: (data, actions) => {
-          return actions.order.create({
-            purchase_units: [{ amount: { value: "1.00" } }],
-          });
-        },
-        onApprove: async (data, actions) => {
-          if (isProcessing) return;
-          setIsProcessing(true);
-          if (paypalRef.current) paypalRef.current.innerHTML = "";
-          return actions.order.capture().then(async (details) => {
-            try {
-              let user = await signup(email, password, firstName, lastName);
-              if (!user || !user.uid) {
-                throw new Error("Signup did not return a valid user.");
-              }
-              await setDoc(doc(db, "students", user.uid), {
-                firstName,
-                lastName,
-                city,
-                email,
-                plan: selectedPlan,
-                schedule: selectedSlots,
-                orderID: data.orderID,
-                createdAt: new Date(),
-              });
-              navigate(`/finalLanding?studentId=${user.uid}`);
-              return;
-            } catch (err) {
-              console.error("Error creating student:", err);
-              if (err.code === "auth/email-already-in-use") {
-                alert("The email address is already in use. Please log in or use a different email.");
-              } else if (err.code === "auth/weak-password") {
-                alert("The password is too weak. Please choose a stronger password (at least 6 characters).");
-              } else {
-                alert("There was an error saving your information. Please try again.");
-              }
-              setIsProcessing(false);
-            }
-          });
         },
         onError: (err) => {
           console.error("Payment error:", err);
@@ -302,11 +202,6 @@ const SignupPage = () => {
     login,
     isProcessing,
   ]);
-
-  const handleSwitchToTrial = () => {
-    setSelectedPlan("Trial");
-    setSelectedSlots([]);
-  };
 
   return (
     <>
@@ -370,23 +265,10 @@ const SignupPage = () => {
               />
             </div>
             <div className="mt-4">
-              <p className="text-lg font-semibold">
-                Selected Plan: {selectedPlan}
-              </p>
-              {selectedPlan !== "Trial" && (
-                <button
-                  type="button"
-                  onClick={handleSwitchToTrial}
-                  className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded"
-                >
-                  Not sure? Try a trial class for $1
-                </button>
-              )}
+              <p className="text-lg font-semibold">Selected Plan: {selectedPlan}</p>
             </div>
             <div className="mt-6">
-              <h2 className="text-2xl font-semibold mb-2">
-                Select Your Schedule
-              </h2>
+              <h2 className="text-2xl font-semibold mb-2">Select Your Schedule</h2>
               <p className="mb-2 text-gray-600">
                 Please select {allowedSlots} time slot{allowedSlots > 1 ? "s" : ""}.
               </p>
@@ -405,9 +287,7 @@ const SignupPage = () => {
               )}
             </div>
             <div className="mt-6">
-              <h2 className="text-2xl font-semibold mb-2 text-center">
-                Confirm &amp; Pay
-              </h2>
+              <h2 className="text-2xl font-semibold mb-2 text-center">Confirm &amp; Pay</h2>
               <div id="paypal-button-container" ref={paypalRef}></div>
             </div>
           </form>
@@ -417,4 +297,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default SignupSubscription;

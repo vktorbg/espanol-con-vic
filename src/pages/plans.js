@@ -69,18 +69,10 @@ const PlansPage = () => {
     });
   };
 
-  // Updated handler to navigate to the dedicated booking page per plan
+  // Handler to redirect to the signup page
   const handleSelectPlan = () => {
     const selectedPlan = allPlans[currentIndex];
-    if (selectedPlan.title.toLowerCase() === "confidence") {
-      navigate("/confidenceBooking");
-    } else if (selectedPlan.title.toLowerCase() === "fluency plan") {
-      navigate("/fluencyBooking");
-    } else if (selectedPlan.custom) {
-      navigate("/trialBooking");
-    } else {
-      navigate(`/booking?plan=${encodeURIComponent(selectedPlan.title)}`);
-    }
+    navigate(`/signupTrial?plan=${encodeURIComponent(selectedPlan.title)}&trial=true`);
   };
 
   // Helper to extract preview info (e.g., "2 hours per week") from features array
@@ -144,8 +136,7 @@ const PlansPage = () => {
                       allPlans[currentIndex].newPrice && (
                         <p className="text-sm text-gray-500 mb-2">
                           <span className="line-through">$20</span> → Only $
-                          {getDiscountedPricePerClass(allPlans[currentIndex])} per
-                          class
+                          {getDiscountedPricePerClass(allPlans[currentIndex])} per class
                         </p>
                       )}
                     <p className="text-gray-700 mb-4 max-w-md mx-auto">
@@ -158,9 +149,7 @@ const PlansPage = () => {
                     onClick={handleSelectPlan}
                     className="bg-primary text-white px-8 py-3 rounded-xl font-semibold shadow-xl hover:bg-primary-dark transition mt-4"
                   >
-                    {allPlans[currentIndex].custom
-                      ? "Book a trial class – just for $1"
-                      : "Select Plan & Book Now"}
+                    Book your trial class for only $5
                   </motion.button>
                 </div>
                 {/* Right Column: Extended Marketing Details */}
@@ -171,8 +160,7 @@ const PlansPage = () => {
                         Try It Out!
                       </h3>
                       <p className="text-gray-700 mb-2">
-                        Book a trial class for just $1 to experience personalized
-                        instruction. (Regular class price: $20 per session)
+                        Book a trial class for just $5 to experience personalized instruction. (Regular class price: $20 per session)
                       </p>
                       <ul className="list-disc text-gray-700 ml-6 mb-2">
                         <li>Personalized lesson planning</li>
@@ -189,8 +177,7 @@ const PlansPage = () => {
                         What’s Included
                       </h3>
                       <p className="text-gray-700 mb-2">
-                        Receive personalized sessions, detailed progress reports,
-                        and flexible scheduling.
+                        Receive personalized sessions, detailed progress reports, and flexible scheduling.
                       </p>
                       <ul className="list-disc text-gray-700 ml-6 mb-2">
                         {allPlans[currentIndex].features &&
@@ -255,14 +242,3 @@ const PlansPage = () => {
 };
 
 export default PlansPage;
-
-// Helper function defined outside the component
-const getPreviewInfo = (plan) => {
-  if (plan.features) {
-    const hourFeature = plan.features.find((f) =>
-      f.toLowerCase().includes("hour")
-    );
-    if (hourFeature) return hourFeature;
-  }
-  return plan.custom ? "Flexible scheduling" : "";
-};

@@ -1,5 +1,6 @@
+// /src/components/Navbar.js
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "gatsby";
+import { Link, navigate } from "gatsby";
 import { useAuth } from "../context/AuthContext";
 import Login from "./Login";
 import Signup from "./Signup";
@@ -18,7 +19,7 @@ const Navbar = () => {
     }
   }, [currentUser]);
 
-  // Optionally, you can add a useEffect to close the dropdown when clicking outside
+  // Close dropdown when clicking outside
   const dropdownRef = useRef();
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -85,6 +86,13 @@ const Navbar = () => {
                     className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
                     Dashboard
+                  </Link>
+                  <Link 
+                    to="/account"
+                    onClick={() => setAccountDropdownOpen(false)}
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
+                    Account Settings
                   </Link>
                   {currentUser.role === "admin" && (
                     <Link 
@@ -163,6 +171,13 @@ const Navbar = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Dashboard
+              </Link>
+              <Link 
+                to="/account"
+                className="block text-gray-700 hover:text-orange-500"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Account Settings
               </Link>
               {currentUser.role === "admin" && (
                 <Link 

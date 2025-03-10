@@ -97,7 +97,7 @@ const HeroSplitScreen = () => {
           transition={{ duration: 0.8 }}
         >
           <h1 className="text-5xl font-extrabold leading-tight mb-4 text-left">
-            Learn Spanish with Confidence
+            Español con Vic
           </h1>
           <p className="text-lg font-light mb-8 text-left">
             Personalized one-on-one lessons designed to help you reach fluency naturally.
@@ -105,7 +105,7 @@ const HeroSplitScreen = () => {
 
           {/* Buttons */}
           <div className="w-full flex justify-center space-x-4">
-            <Link to="/#plans">
+            <Link to="#plans">
               <motion.button
                 className="bg-primary text-white text-xl px-8 py-4 rounded-md font-bold shadow-md hover:bg-orange-600 transition"
                 whileHover={{ scale: 1.05 }}
@@ -114,13 +114,13 @@ const HeroSplitScreen = () => {
                 Get Started
               </motion.button>
             </Link>
-            <Link to="/trialBooking">
+            <Link to="/signupTrial">
               <motion.button
                 className="bg-white text-primary border border-primary text-xl px-8 py-4 rounded-md font-bold shadow-md hover:bg-gray-100 transition"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Book a trial class – just for $1
+                Book a trial class – only $5
               </motion.button>
             </Link>
           </div>
