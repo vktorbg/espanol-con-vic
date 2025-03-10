@@ -96,7 +96,7 @@ const SignupTrial = () => {
       setTimeout(() => {
         if (window.paypal && paypalRef.current) {
           window.paypal.Buttons({
-            createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { value: "1.00" } }] }),
+            createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { value: "5.00" } }] }),
             onApprove: async (data, actions) => {
               if (isProcessing) return;
               setIsProcessing(true);
