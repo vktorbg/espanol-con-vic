@@ -24,11 +24,11 @@ const SignupTrial = () => {
 
   const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
   const timeOptions = {
-    Monday: ["2:00 PM - 2:30 PM", "2:30 PM - 3:00 PM", "3:00 PM - 3:30 PM", "3:30 PM - 4:00 PM"],
-    Tuesday: ["9:00 AM - 9:30 AM", "9:30 AM - 10:00 AM", "4:00 PM - 4:30 PM", "4:30 PM - 5:00 PM", "6:00 PM - 6:30 PM", "6:30 PM - 7:00 PM"],
-    Wednesday: ["9:00 AM - 9:30 AM", "9:30 AM - 10:00 AM", "2:00 PM - 2:30 PM", "2:30 PM - 3:00 PM", "3:00 PM - 3:30 PM", "3:30 PM - 4:00 PM", "4:00 PM - 4:30 PM", "4:30 PM - 5:00 PM", "5:00 PM - 5:30 PM", "5:30 PM - 6:00 PM", "6:00 PM - 6:30 PM", "6:30 PM - 7:00 PM"],
-    Thursday: ["9:00 AM - 9:30 AM", "9:30 AM - 10:00 AM"],
-    Friday: ["9:00 AM - 9:30 AM", "9:30 AM - 10:00 AM", "10:00 AM - 10:30 AM", "10:30 AM - 11:00 AM", "2:00 PM - 2:30 PM", "2:30 PM - 3:00 PM", "3:00 PM - 3:30 PM", "3:30 PM - 4:00 PM", "4:00 PM - 4:30 PM", "4:30 PM - 5:00 PM", "5:00 PM - 5:30 PM", "5:30 PM - 6:00 PM"],
+    Monday: ["2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM"],
+    Tuesday: ["9:00 AM", "9:30 AM", "4:00 PM", "4:30 PM", "6:00 PM", "6:30 PM"],
+    Wednesday: ["9:00 AM", "9:30 AM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM", "6:30 PM"],
+    Thursday: ["9:00 AM", "9:30 AM"],
+    Friday: ["9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM"],
   };
 
   const { signup } = useAuth();
@@ -274,29 +274,15 @@ const SignupTrial = () => {
               <p className="text-gray-600 mt-2">
                 In this trial class, you will:
                 <ul className="list-disc ml-6 mt-2">
-                  <li>Get to know your instructor</li>
+                  <li>Get to know me</li>
                   <li>Discuss your learning goals</li>
                   <li>Create a personalized learning plan</li>
                   <li>Experience a sample lesson</li>
                 </ul>
               </p>
-            </div>
-            <div className="mt-4">
-              <label htmlFor="timeZone" className="block text-lg font-semibold text-gray-700">
-                Select Your Time Zone
-              </label>
-              <select
-                id="timeZone"
-                className="mt-1 block w-full p-2 border rounded-md"
-                value={timeZone}
-                onChange={(e) => setTimeZone(e.target.value)}
-              >
-                {moment.tz.names().map((tz) => (
-                  <option key={tz} value={tz}>
-                    {tz}
-                  </option>
-                ))}
-              </select>
+              <p className="text-gray-600 mt-2">
+                Note: All times are in Bogotá's time zone.
+              </p>
             </div>
             <div className="mt-6">
               <h2 className="text-2xl font-semibold mb-2">Select Your Schedule</h2>
@@ -321,6 +307,7 @@ const SignupTrial = () => {
               <h2 className="text-2xl font-semibold mb-2">
                 Confirm & Pay
               </h2>
+              <p className="text-lg font-semibold mb-4">The trial class costs $5</p>
               <div id="paypal-button-container" ref={paypalRef}></div>
             </div>
           </form>
