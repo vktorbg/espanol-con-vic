@@ -128,7 +128,7 @@ const SignupTrial = () => {
 
     let script = document.createElement("script");
     let scriptUrl =
-      "https://www.paypal.com/sdk/js?client-id=AWDoEeOwk3S58HTojYQezKAg7tPGbXIWJX4nkyA1zoW3uS5XBEbyGPbROlIX7KcEQ19DHkGftDaAgoYx&currency=USD&intent=capture";
+      "https://www.paypal.com/sdk/js?client-id=ATImwCTPXzjxzlRWAo5keyG0D-6xE2WfOgQ6a8fSPXCng02Hq1ifA0o4fwV_o7ZO5NUtJrr5QrpuZ49p&currency=USD&intent=capture";
 
     let paymentConfig = {
       createOrder: (data, actions) => {
