@@ -3,6 +3,7 @@ import { Link, navigate } from "gatsby";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { getTextFromLabel } from "../utils/LanguageUtils";
 
 // Images from the static folder
 const ProfileImage = "/images/profile.png";
@@ -13,25 +14,27 @@ const Service3Image = "/images/service3.jpg";
 
 const plans = [
   {
-    title: "Confidence",
+    title: getTextFromLabel('planConfidence'),
     newPrice: 120,
-    frequency: "Every month",
-    description: "Boost your confidence with weekly sessions.",
+    frequency: getTextFromLabel('planFrequencyMonthly'),
+    description: getTextFromLabel('planConfidenceDesc'),
     image: "/images/plan1.jpg",
+    id: "Confidence" // Keep original ID for navigation
   },
   {
-    title: "Fluency Plan",
+    title: getTextFromLabel('planFluency'),
     newPrice: 220,
-    frequency: "Every month (30% off)",
-    description: "Achieve fluency with intensive sessions.",
+    frequency: getTextFromLabel('planFrequencyMonthlyDiscount'),
+    description: getTextFromLabel('planFluencyDesc'),
     image: "/images/plan2.jpg",
+    id: "Fluency Plan" // Keep original ID for navigation
   },
   {
-    title: "Customizable Plan",
-    description:
-      "Experience a personalized trial class for just $1 – discover a tailored plan made just for you!",
+    title: getTextFromLabel('planCustomizable'),
+    description: getTextFromLabel('planCustomDesc'),
     image: "/images/plan3.jpg",
     custom: true,
+    id: "Customizable Plan" // Keep original ID for navigation
   },
 ];
 
@@ -40,8 +43,8 @@ const getDiscountedPricePerClass = (plan) => {
     Confidence: 2,
     "Fluency Plan": 4,
   };
-  if (plan.newPrice && sessionsMapping[plan.title]) {
-    const sessionsPerMonth = sessionsMapping[plan.title] * 4;
+  if (plan.newPrice && sessionsMapping[plan.id]) {
+    const sessionsPerMonth = sessionsMapping[plan.id] * 4;
     return (plan.newPrice / sessionsPerMonth).toFixed(2);
   }
   return "";
@@ -52,10 +55,10 @@ const getSessionsPerWeek = (plan) => {
     Confidence: 2,
     "Fluency Plan": 4,
   };
-  return sessionsMapping[plan.title]
-    ? `${sessionsMapping[plan.title]} sessions per week`
+  return sessionsMapping[plan.id]
+    ? `${sessionsMapping[plan.id]} ${getTextFromLabel('sessionsPerWeek')}`
     : plan.custom
-    ? "Flexible scheduling"
+    ? getTextFromLabel('flexibleScheduling')
     : "";
 };
 
@@ -80,7 +83,7 @@ const HeroSplitScreen = () => {
       <div className="absolute inset-0">
         <img
           src={HeroBackground}
-          alt="Medellín Street Scene"
+          alt={getTextFromLabel('heroImageAlt')}
           className="w-full h-full object-cover"
         />
       </div>
@@ -97,10 +100,10 @@ const HeroSplitScreen = () => {
           transition={{ duration: 0.8 }}
         >
           <h1 className="text-5xl font-extrabold leading-tight mb-4 text-left">
-            Español con Vic
+            {getTextFromLabel('heroTitle')}
           </h1>
           <p className="text-lg font-light mb-8 text-left">
-            Personalized one-on-one lessons designed to help you reach fluency naturally.
+            {getTextFromLabel('heroSubtitle')}
           </p>
 
           {/* Buttons */}
@@ -111,7 +114,7 @@ const HeroSplitScreen = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Get Started
+                {getTextFromLabel('heroGetStarted')}
               </motion.button>
             </Link>
             <Link to="/signupTrial">
@@ -120,7 +123,7 @@ const HeroSplitScreen = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Book a trial class – only $5
+                {getTextFromLabel('heroBookTrial')}
               </motion.button>
             </Link>
           </div>
@@ -135,7 +138,7 @@ const HeroSplitScreen = () => {
         >
           <motion.img
             src={ProfileImage}
-            alt="Profile of Vic"
+            alt={getTextFromLabel('profileImageAlt')}
             className="w-80 h-80 object-cover rounded-full shadow-2xl"
             style={{ border: "4px solid #D97706" }} // Force orange border
             variants={auraVariants}
@@ -159,7 +162,7 @@ const IndexPage = () => {
       {/* Explore Our Platform Section */}
       <section className="py-16 bg-secondary">
         <div className="max-w-6xl mx-auto text-center px-4">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6">Explore Our Platform</h2>
+          <h2 className="text-3xl font-bold text-gray-800 mb-6">{getTextFromLabel('platformTitle')}</h2>
           <div className="grid gap-8 md:grid-cols-3">
             <motion.div
               className="bg-white p-6 shadow-md border rounded-md hover:shadow-lg transition"
@@ -167,12 +170,12 @@ const IndexPage = () => {
             >
               <img
                 src={Service1Image}
-                alt="Classes with Vic"
+                alt={getTextFromLabel('classesWithVic')}
                 className="w-full h-40 object-cover rounded-md mb-4"
               />
-              <h3 className="text-xl font-semibold mb-2">Classes with Vic</h3>
+              <h3 className="text-xl font-semibold mb-2">{getTextFromLabel('classesWithVic')}</h3>
               <p className="text-gray-600">
-                Join personalized one-on-one Spanish lessons with Vic to boost your confidence and achieve fluency.
+                {getTextFromLabel('classesWithVicDesc')}
               </p>
               <button
                 onClick={() =>
@@ -180,7 +183,7 @@ const IndexPage = () => {
                 }
                 className="mt-4 bg-primary text-white px-6 py-2 rounded-md font-bold shadow-md hover:bg-primary-dark transition"
               >
-                View Details
+                {getTextFromLabel('viewDetails')}
               </button>
             </motion.div>
             <motion.div
@@ -189,12 +192,12 @@ const IndexPage = () => {
             >
               <img
                 src={Service2Image}
-                alt="Learning Hub"
+                alt={getTextFromLabel('learningHub')}
                 className="w-full h-40 object-cover rounded-md mb-4"
               />
-              <h3 className="text-xl font-semibold mb-2">Learning Hub</h3>
+              <h3 className="text-xl font-semibold mb-2">{getTextFromLabel('learningHub')}</h3>
               <p className="text-gray-600">
-                Access a wide range of resources, interactive lessons, and quizzes to boost your Spanish skills.
+                {getTextFromLabel('learningHubDesc')}
               </p>
               <button
                 onClick={() =>
@@ -202,7 +205,7 @@ const IndexPage = () => {
                 }
                 className="mt-4 bg-primary text-white px-6 py-2 rounded-md font-bold shadow-md hover:bg-primary-dark transition"
               >
-                View Details
+                {getTextFromLabel('viewDetails')}
               </button>
             </motion.div>
             <motion.div
@@ -211,18 +214,18 @@ const IndexPage = () => {
             >
               <img
                 src={Service3Image}
-                alt="Support Our Project"
+                alt={getTextFromLabel('supportProject')}
                 className="w-full h-40 object-cover rounded-md mb-4"
               />
-              <h3 className="text-xl font-semibold mb-2">Support Our Project</h3>
+              <h3 className="text-xl font-semibold mb-2">{getTextFromLabel('supportProject')}</h3>
               <p className="text-gray-600">
-                Be part of our journey! Your support helps us continue offering personalized Spanish lessons. Join our community by donating or becoming a supporter.
+                {getTextFromLabel('supportProjectDesc')}
               </p>
               <button
                 onClick={() => navigate("/support")}
                 className="mt-4 bg-primary text-white px-6 py-2 rounded-md font-bold shadow-md hover:bg-primary-dark transition"
               >
-                Learn How to Help
+                {getTextFromLabel('learnHowToHelp')}
               </button>
             </motion.div>
           </div>
@@ -233,7 +236,7 @@ const IndexPage = () => {
       <section id="plans" className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-primary mb-6 text-center">
-            Plans Made for You
+            {getTextFromLabel('plansTitle')}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {plans.map((plan, index) => (
@@ -252,20 +255,20 @@ const IndexPage = () => {
                 <h3 className="text-xl font-semibold mb-1">{plan.title}</h3>
                 {plan.newPrice ? (
                   <p className="text-primary font-bold mb-2">
-                    ${plan.newPrice}/month <br />
+                    ${plan.newPrice}{getTextFromLabel('planMonth')} <br />
                     <span className="text-sm">{getSessionsPerWeek(plan)}</span>
                   </p>
                 ) : (
-                  <p className="text-primary font-bold mb-2">Custom Pricing</p>
+                  <p className="text-primary font-bold mb-2">{getTextFromLabel('planCustomPricing')}</p>
                 )}
                 <p className="text-gray-600 text-sm mb-4">{plan.description}</p>
                 <button
                   onClick={() =>
-                    navigate(`/plans?plan=${encodeURIComponent(plan.title)}`)
+                    navigate(`/plans?plan=${encodeURIComponent(plan.id)}`)
                   }
                   className="bg-primary text-white px-6 py-2 rounded-md font-bold shadow-md hover:bg-primary-dark transition"
                 >
-                  View Details
+                  {getTextFromLabel('viewDetails')}
                 </button>
               </div>
             ))}
