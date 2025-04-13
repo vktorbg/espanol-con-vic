@@ -10,7 +10,7 @@ const AboutMe = () => {
       {/* Hero Section with local hero-about image */}
       <section
         className="relative bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/hero-about.jpeg')" }}
+        style={{ backgroundImage: "url('/images/hero-about.webp')" }}
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative max-w-4xl mx-auto px-4 py-24 text-center text-white">

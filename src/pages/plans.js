@@ -1,45 +1,58 @@
 // /src/pages/plans.js
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { navigate } from "gatsby";
 import { useLocation } from "@reach/router";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import allPlans from "../data/plansData";
 
-// Helper: Compute discounted price per class based on plan title
-const getDiscountedPricePerClass = (plan) => {
-  const classesPerWeekMapping = {
-    "Confidence": 2,
-    "Fluency Plan": 4,
-  };
-  if (plan.newPrice && classesPerWeekMapping[plan.title]) {
-    const classesPerMonth = classesPerWeekMapping[plan.title] * 4;
-    return (plan.newPrice / classesPerMonth).toFixed(2);
-  }
-  return "";
-};
-
-// Carousel animation variants
-const carouselVariants = {
-  enter: (direction) => ({
-    x: direction > 0 ? 300 : -300,
-    opacity: 0,
-  }),
-  center: { x: 0, opacity: 1 },
-  exit: (direction) => ({
-    x: direction < 0 ? 300 : -300,
-    opacity: 0,
-  }),
-};
+// Updated plans data
+const allPlans = [
+  {
+    title: "Individual Classes",
+    newPrice: "20",
+    frequency: "class",
+    description: "Pay-as-you-go Spanish lessons with complete flexibility.",
+    features: [
+      "1-hour personalized sessions",
+      "Flexible scheduling",
+      "No long-term commitment",
+      "Tailored to your immediate needs",
+    ],
+  },
+  {
+    title: "Confidence Plan",
+    newPrice: "120",
+    frequency: "month",
+    description: "Boost your confidence with weekly sessions.",
+    features: [
+      "2 classes per week (8/month)",
+      "Focus on speaking and listening",
+      "$15 per class (25% savings)",
+      "Personalized feedback and corrections",
+    ],
+  },
+  {
+    title: "Fluency Plan",
+    newPrice: "220",
+    frequency: "month",
+    description: "Intensive learning for rapid progress.",
+    features: [
+      "4 classes per week (16/month)",
+      "Comprehensive curriculum",
+      "$13.75 per class (45% savings)",
+      "Weekly progress reports",
+      "Additional practice materials",
+    ],
+  },
+];
 
 const PlansPage = () => {
   const location = useLocation();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
+  const [selectedPlanIndex, setSelectedPlanIndex] = useState(1); // Default to Confidence Plan (index 1)
 
-  // Set initial slide based on query parameter "plan"
-  useEffect(() => {
+  // Set initial plan based on query parameter "plan"
+  React.useEffect(() => {
     const params = new URLSearchParams(location.search);
     const planQuery = params.get("plan");
     if (planQuery) {
@@ -47,197 +60,199 @@ const PlansPage = () => {
         (plan) => plan.title.toLowerCase() === planQuery.toLowerCase()
       );
       if (idx !== -1) {
-        setCurrentIndex(idx);
+        setSelectedPlanIndex(idx);
       }
     }
   }, [location.search]);
 
-  // Change active plan via preview row
-  const setPlanByIndex = (idx) => {
-    setDirection(idx - currentIndex);
-    setCurrentIndex(idx);
-  };
-
-  // Pagination for Prev/Next buttons
-  const paginate = (newDirection) => {
-    setDirection(newDirection);
-    setCurrentIndex((prevIndex) => {
-      let newIndex = prevIndex + newDirection;
-      if (newIndex < 0) newIndex = allPlans.length - 1;
-      if (newIndex >= allPlans.length) newIndex = 0;
-      return newIndex;
-    });
-  };
-
-  // Handler to redirect to the signup page
   const handleSelectPlan = () => {
-    const selectedPlan = allPlans[currentIndex];
+    const selectedPlan = allPlans[selectedPlanIndex];
     navigate(`/signupTrial?plan=${encodeURIComponent(selectedPlan.title)}&trial=true`);
   };
 
-  // Helper to extract preview info (e.g., "2 hours per week") from features array
-  const getPreviewInfo = (plan) => {
-    if (plan.features) {
-      const hourFeature = plan.features.find((f) =>
-        f.toLowerCase().includes("hour")
-      );
-      if (hourFeature) return hourFeature;
-    }
-    return plan.custom ? "Flexible scheduling" : "";
-  };
+  const faqs = [
+    {
+      question: "What platform do you use for classes?",
+      answer: "All lessons are online via Zoom.",
+    },
+    {
+      question: "Can I meet you in person?",
+      answer: "If you're in Medellín, sure! Otherwise, all classes are online.",
+    },
+    {
+      question: "What happens after I book a trial class?",
+      answer: "You'll receive a personalized plan and can choose the best subscription to continue.",
+    },
+    {
+      question: "Can I reschedule or cancel a class?",
+      answer: "Yes! Just give 24 hours' notice.",
+    },
+    {
+      question: "Can I get a custom plan?",
+      answer: "Absolutely. We can create a learning path that matches your goals and availability.",
+    },
+  ];
+
+  const reviews = [
+    {
+      text: "Vic is an amazing teacher! In just a few weeks, I started speaking with more confidence.",
+      author: "Sarah, USA",
+    },
+    {
+      text: "The lessons are super practical and personalized. Highly recommended!",
+      author: "Lucas, Germany",
+    },
+    {
+      text: "I've tried many Spanish teachers but Vic's approach really helped me think in Spanish.",
+      author: "Maria, Canada",
+    },
+  ];
 
   return (
-    <>
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
-      <div className="h-screen overflow-hidden bg-gradient-to-b from-gray-100 to-gray-300 p-4 flex flex-col items-center justify-center">
-        <h1 className="text-5xl font-bold text-primary mt-4 mb-4">
-          Our Exclusive Plans
-        </h1>
-        {/* Central Carousel Card */}
-        <div className="relative w-full max-w-4xl">
-          <AnimatePresence initial={false} custom={direction}>
-            <motion.div
-              key={currentIndex}
-              custom={direction}
-              variants={carouselVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                x: { type: "spring", stiffness: 250, damping: 35 },
-                opacity: { duration: 0.25 },
-              }}
-              className="bg-gradient-to-br from-white to-blue-50 p-6 md:p-8 rounded-xl shadow-2xl text-center relative transform hover:scale-105 transition"
-              style={{ height: "60vh", maxHeight: "60vh" }}
+
+      {/* Hero Section */}
+      <section
+              className="relative bg-cover bg-center"
+              style={{ backgroundImage: "url('/images/hero-about.jpeg')" }}
             >
-              <div className="md:flex md:space-x-8 h-full">
-                {/* Left Column: Basic Plan Info & CTA */}
-                <div className="md:w-1/2 flex flex-col justify-between">
-                  {allPlans[currentIndex].icon && (
-                    <img
-                      src={allPlans[currentIndex].icon}
-                      alt={`${allPlans[currentIndex].title} icon`}
-                      className="mx-auto mb-4 h-20 w-20"
-                    />
-                  )}
-                  <div>
-                    <h2 className="text-3xl font-bold text-primary mb-2">
-                      {allPlans[currentIndex].title}
-                    </h2>
-                    {allPlans[currentIndex].newPrice && (
-                      <p className="text-2xl font-extrabold text-primary mb-2">
-                        ${allPlans[currentIndex].newPrice}{" "}
-                        <span className="text-lg font-light">
-                          / {allPlans[currentIndex].frequency}
-                        </span>
-                      </p>
-                    )}
-                    {!allPlans[currentIndex].custom &&
-                      allPlans[currentIndex].newPrice && (
-                        <p className="text-sm text-gray-500 mb-2">
-                          <span className="line-through">$20</span> → Only $
-                          {getDiscountedPricePerClass(allPlans[currentIndex])} per class
-                        </p>
-                      )}
-                    <p className="text-gray-700 mb-4 max-w-md mx-auto">
-                      {allPlans[currentIndex].description}
-                    </p>
-                  </div>
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleSelectPlan}
-                    className="bg-primary text-white px-8 py-3 rounded-xl font-semibold shadow-xl hover:bg-primary-dark transition mt-4"
-                  >
-                    Book your trial class for only $5
-                  </motion.button>
-                </div>
-                {/* Right Column: Extended Marketing Details */}
-                <div className="md:w-1/2 mt-6 md:mt-0 text-left">
-                  {allPlans[currentIndex].custom ? (
-                    <>
-                      <h3 className="text-2xl font-bold text-primary mb-1">
-                        Try It Out!
-                      </h3>
-                      <p className="text-gray-700 mb-2">
-                        Book a trial class for just $5 to experience personalized instruction. (Regular class price: $20 per session)
-                      </p>
-                      <ul className="list-disc text-gray-700 ml-6 mb-2">
-                        <li>Personalized lesson planning</li>
-                        <li>Flexible scheduling</li>
-                        <li>Ongoing support</li>
-                      </ul>
-                      <p className="text-gray-700">
-                        Take the first step toward a plan that’s uniquely yours!
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <h3 className="text-2xl font-bold text-primary mb-1">
-                        What’s Included
-                      </h3>
-                      <p className="text-gray-700 mb-2">
-                        Receive personalized sessions, detailed progress reports, and flexible scheduling.
-                      </p>
-                      <ul className="list-disc text-gray-700 ml-6 mb-2">
-                        {allPlans[currentIndex].features &&
-                          allPlans[currentIndex].features.map((feature, idx) => (
-                            <li key={idx}>{feature}</li>
-                          ))}
-                        <li>Exclusive discounts on supplementary classes</li>
-                      </ul>
-                      <p className="text-gray-700">
-                        Unlock your full potential with a plan that fits your needs.
-                      </p>
-                    </>
-                  )}
-                </div>
+              <div className="absolute inset-0 bg-black opacity-50"></div>
+              <div className="relative max-w-4xl mx-auto px-4 py-20 text-center text-white">
+                <motion.h1
+                  className="text-5xl font-bold"
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
+                >
+                  Our Plans
+                </motion.h1>
+                <motion.p
+                  className="mt-4 text-xl"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3, duration: 0.8 }}
+                >
+                  Learn Spanish online from anywhere — or meet me in Medellín! All plans include customized learning strategies, conversation practice, and flexible scheduling to fit your needs.
+                </motion.p>
+              </div>
+            </section>
+
+      
+
+      {/* Plans Grid */}
+      <section className="max-w-6xl mx-auto px-4 py-8">
+        <div className="grid md:grid-cols-3 gap-8 mb-12">
+          {allPlans.map((plan, index) => (
+            <motion.div
+              key={index}
+              whileHover={{ y: -5 }}
+              className={`bg-white rounded-xl shadow-lg overflow-hidden transition-all ${
+                selectedPlanIndex === index ? "ring-2 ring-primary" : ""
+              }`}
+              onClick={() => setSelectedPlanIndex(index)}
+            >
+              <div className={`p-6 ${selectedPlanIndex === index ? "bg-primary text-white" : "bg-gray-100"}`}>
+                <h3 className="text-2xl font-bold">{plan.title}</h3>
+                {plan.newPrice && (
+                  <p className="text-xl font-semibold mt-2">
+                    ${plan.newPrice} <span className="text-sm font-light">/{plan.frequency}</span>
+                  </p>
+                )}
+              </div>
+              <div className="p-6">
+                <p className="text-gray-700 mb-4">{plan.description}</p>
+                
+                <ul className="space-y-2 mb-6">
+                  {plan.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start">
+                      <svg className="h-5 w-5 text-primary mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </motion.div>
-          </AnimatePresence>
-          {/* Floating Navigation Icons */}
-          <div className="absolute top-1/2 left-4 transform -translate-y-1/2">
-            <button
-              onClick={() => paginate(-1)}
-              className="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full hover:bg-primary-dark transition focus:outline-none shadow-md"
-            >
-              &#x276E;
-            </button>
-          </div>
-          <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
-            <button
-              onClick={() => paginate(1)}
-              className="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full hover:bg-primary-dark transition focus:outline-none shadow-md"
-            >
-              &#x276F;
-            </button>
-          </div>
+          ))}
         </div>
-        {/* Fixed Preview Row at the Bottom */}
-        <div className="bg-white/90 backdrop-blur-sm p-4 mt-4 rounded-lg shadow">
-          <div className="flex justify-center space-x-4">
-            {allPlans.map((plan, idx) => (
-              <div
-                key={idx}
-                onClick={() => setPlanByIndex(idx)}
-                className={`cursor-pointer p-2 rounded-md shadow-md transition transform ${
-                  idx === currentIndex
-                    ? "bg-primary text-white scale-105"
-                    : "bg-white text-primary hover:scale-105"
-                }`}
-                style={{ minWidth: "120px" }}
-              >
-                <h3 className="text-base font-bold">{plan.title}</h3>
-                <p className="text-xs">
-                  {getPreviewInfo(plan) || (plan.custom ? "Flexible scheduling" : "")}
-                </p>
+
+        {/* CTA Section Below Plans */}
+        <div className="text-center bg-white p-8 rounded-xl shadow-lg max-w-3xl mx-auto">
+          <h3 className="text-2xl font-bold text-primary mb-4">
+            Ready to Start Your Spanish Journey?
+          </h3>
+          
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleSelectPlan}
+            className="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-xl transition"
+          >
+            Book Your $5 Trial Class Now
+          </motion.button>
+          <p className="text-sm text-gray-500 mt-4">
+            After your trial, choose any plan that fits your learning needs.
+          </p>
+        </div>
+      </section>
+
+      <section className="max-w-4xl mx-auto py-8 px-4 text-center text-sm text-gray-500">
+        <p>Payments are securely processed via PayPal. Cancellations and rescheduling require 24 hours' notice.</p>
+      </section>
+
+      {/* Keep existing How It Works, FAQ, Reviews, and Payment sections */}
+      <section className="bg-gray-100 py-12 px-4">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-center text-primary mb-8">How It Works</h2>
+          <div className="grid md:grid-cols-4 gap-6">
+            {[
+              "Book a $5 trial class.",
+              "Meet your teacher and discuss your goals.",
+              "Get a personalized learning plan.",
+              "Choose your best-fit subscription and start practicing!",
+            ].map((step, index) => (
+              <div key={index} className="bg-white p-6 rounded-lg shadow text-center">
+                <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl mx-auto mb-4">
+                  {index + 1}
+                </div>
+                <p>{step}</p>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
+
+      <section className="max-w-4xl mx-auto py-12 px-4">
+        <h2 className="text-3xl font-bold text-center text-primary mb-8">Frequently Asked Questions</h2>
+        <div className="space-y-4">
+          {faqs.map((faq, index) => (
+            <div key={index} className="border-b border-gray-200 pb-4">
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">{faq.question}</h3>
+              <p className="text-gray-600">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-primary/10 py-12 px-4">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-center text-primary mb-8">What Students Are Saying</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {reviews.map((review, index) => (
+              <div key={index} className="bg-white p-6 rounded-lg shadow">
+                <p className="text-gray-700 italic mb-4">"{review.text}"</p>
+                <p className="text-gray-600 font-semibold">— {review.author}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      
       <Footer />
-    </>
+    </div>
   );
 };
 

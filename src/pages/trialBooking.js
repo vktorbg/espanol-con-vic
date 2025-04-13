@@ -1,179 +1,134 @@
-import React, { useEffect, useState, useRef } from "react";
-import Navbar from "../components/Navbar";
+import React, { useState } from "react";
 
-const TrialPage = () => {
-  const paypalRef = useRef(null);
-  const [selectedSlots, setSelectedSlots] = useState([]);
-  const allowedSlots = 1;
-  const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-  const timeOptions = ["10:00 AM", "2:00 PM", "4:00 PM"];
+export default function SignupForm() {
+  const [showPwd, setShowPwd] = useState(false);
+  const [pwdStrength, setPwdStrength] = useState(0);
+  const [errors, setErrors] = useState({});
 
-  // Manejo de selección de horario
-  const handleSlotClick = (day, time) => {
-    const slot = `${day} ${time}`;
-    setSelectedSlots((prev) => {
-      if (prev.includes(slot)) {
-        return prev.filter((s) => s !== slot);
-      }
-      if (prev.length < allowedSlots) {
-        return [...prev, slot];
-      } else {
-        alert(`You can only select ${allowedSlots} time slot(s) for a trial class.`);
-        return prev;
-      }
-    });
+  const handlePasswordChange = (e) => {
+    const val = e.target.value;
+    // Ejemplo simple de cálculo de fuerza
+    let strength = 0;
+    if (val.length >= 8) strength += 1;
+    if (/[A-Z]/.test(val)) strength += 1;
+    if (/[0-9]/.test(val)) strength += 1;
+    setPwdStrength(strength);
   };
 
-  const renderCalendar = () => (
-    <table className="w-full table-fixed border-collapse">
-      <thead>
-        <tr>
-          {weekdays.map((day) => (
-            <th key={day} className="border px-2 py-1 text-primary text-lg">
-              {day}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {timeOptions.map((time) => (
-          <tr key={time}>
-            {weekdays.map((day) => {
-              const slot = `${day} ${time}`;
-              const isSelected = selectedSlots.includes(slot);
-              return (
-                <td key={day + time} className="border px-2 py-1">
-                  <button
-                    onClick={() => handleSlotClick(day, time)}
-                    className={`w-full px-2 py-1 rounded transition ${
-                      isSelected
-                        ? "bg-primary text-white"
-                        : "bg-white text-primary border border-primary hover:bg-primary hover:text-white"
-                    }`}
-                  >
-                    {time}
-                  </button>
-                </td>
-              );
-            })}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-
-  // Se limpia el contenedor de PayPal si la selección cambia
-  useEffect(() => {
-    if (selectedSlots.length !== allowedSlots && paypalRef.current) {
-      paypalRef.current.innerHTML = "";
-    }
-  }, [selectedSlots]);
-
-  // Cargar el SDK y renderizar el botón cuando se haya seleccionado el horario.
-  useEffect(() => {
-    if (selectedSlots.length !== allowedSlots) return;
-    if (paypalRef.current && paypalRef.current.innerHTML !== "") return;
-
-    const script = document.createElement("script");
-    // URL del SDK en modo live, con intent capture para pagos únicos.
-    script.src =
-      "https://www.paypal.com/sdk/js?client-id=ATImwCTPXzjxzlRWAo5keyG0D-6xE2WfOgQ6a8fSPXCng02Hq1ifA0o4fwV_o7ZO5NUtJrr5QrpuZ49p&currency=USD&intent=capture";
-    script.async = true;
-    script.onload = () => {
-      setTimeout(() => {
-        if (window.paypal && paypalRef.current) {
-          window.paypal.Buttons({
-            style: {
-              shape: "pill",
-              color: "blue",
-              layout: "vertical",
-              label: "pay",
-            },
-            createOrder: (data, actions) => {
-              return actions.order.create({
-                purchase_units: [{ amount: { value: "10.00" } }],
-              });
-            },
-            onApprove: (data, actions) => {
-              return actions.order.capture().then((details) => {
-                window.location.href = `/final-landing/?orderID=${data.orderID}&plan=Trial&slots=${encodeURIComponent(selectedSlots.join(", "))}`;
-              });
-            },
-            onError: (err) => {
-              console.error("Payment error:", err);
-              alert("There was an error processing your payment. Please try again.");
-            },
-          }).render(paypalRef.current);
-        }
-      }, 100);
-    };
-    document.body.appendChild(script);
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, [selectedSlots]);
-
   return (
-    <>
-      <Navbar />
-      <div className="min-h-screen bg-gray-50 p-6">
-        <div className="max-w-5xl mx-auto">
-          <h1 className="text-4xl font-bold text-primary text-center mb-8">
-            Try It Out!
-          </h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            {/* Columna de imagen promocional */}
-            <div>
-              <img
-                src="/images/trial-class.webp"
-                alt="Trial Class"
-                className="w-full rounded-lg shadow-lg"
-              />
-            </div>
-            {/* Columna de información, horario y botón de PayPal */}
-            <div>
-              <div className="bg-white p-6 rounded-lg shadow mb-6">
-                <p className="text-xl text-gray-700 mb-4">
-                  Book a trial class for just $1 to experience personalized instruction.
-                  (Regular class price: $20 per session)
-                </p>
-                <ul className="list-disc ml-6 mb-4 text-gray-600">
-                  <li>Personalized lesson planning</li>
-                  <li>Flexible scheduling</li>
-                  <li>Ongoing support</li>
-                  <li>Take the first step toward a plan that’s uniquely yours!</li>
-                </ul>
-                <p className="text-lg text-gray-700 mb-4 font-semibold">
-                  Select your trial time slot:
-                </p>
-                {renderCalendar()}
-                {selectedSlots.length > 0 && (
-                  <div className="mt-4">
-                    <h3 className="text-xl font-semibold text-primary">
-                      Selected Slot:
-                    </h3>
-                    <p className="text-gray-700">{selectedSlots.join(", ")}</p>
-                  </div>
-                )}
-              </div>
-              {selectedSlots.length === allowedSlots ? (
-                <div className="max-w-sm mx-auto">
-                  <h2 className="text-2xl font-semibold mb-2 text-center">
-                    Confirm &amp; Pay
-                  </h2>
-                  <div id="paypal-button-container" ref={paypalRef}></div>
-                </div>
-              ) : (
-                <p className="text-center text-gray-600 mt-4">
-                  Please select a time slot to continue.
-                </p>
-              )}
-            </div>
-          </div>
+    <form className="w-full max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg space-y-6">
+      <h2 className="text-3xl font-bold text-center">Create Your Free Account</h2>
+      <p className="text-center text-sm text-gray-600">Join 10,000+ happy students</p>
+
+      {/* First Name */}
+      <div>
+        <label htmlFor="firstName" className="block text-sm font-medium mb-1">
+          First Name
+        </label>
+        <input
+          id="firstName"
+          type="text"
+          className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
+            errors.firstName ? "border-red-500" : "border-gray-300"
+          }`}
+          placeholder="Your first name"
+          onBlur={(e) =>
+            !e.target.value && setErrors((prev) => ({ ...prev, firstName: "First name is required" }))
+          }
+        />
+        {errors.firstName && (
+          <p className="mt-1 text-xs text-red-600">{errors.firstName}</p>
+        )}
+      </div>
+
+      {/* Email */}
+      <div>
+        <label htmlFor="email" className="block text-sm font-medium mb-1">
+          Email Address
+        </label>
+        <input
+          id="email"
+          type="email"
+          className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
+            errors.email ? "border-red-500" : "border-gray-300"
+          }`}
+          placeholder="you@example.com"
+          onBlur={(e) =>
+            !/^\S+@\S+\.\S+$/.test(e.target.value) &&
+            setErrors((prev) => ({ ...prev, email: "Invalid email address" }))
+          }
+        />
+        {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
+      </div>
+
+      {/* Password */}
+      <div className="relative">
+        <label htmlFor="password" className="block text-sm font-medium mb-1">
+          Password
+        </label>
+        <input
+          id="password"
+          type={showPwd ? "text" : "password"}
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          placeholder="Create a password"
+          onChange={handlePasswordChange}
+        />
+        <button
+          type="button"
+          onClick={() => setShowPwd(!showPwd)}
+          className="absolute right-3 top-9 text-gray-500 focus:outline-none"
+          aria-label="Toggle password visibility"
+        >
+          {showPwd ? "Hide" : "Show"}
+        </button>
+        {/* Strength bar */}
+        <div className="mt-2 h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div
+            className={`h-full rounded-full ${
+              pwdStrength === 1
+                ? "bg-red-400"
+                : pwdStrength === 2
+                ? "bg-yellow-400"
+                : pwdStrength === 3
+                ? "bg-green-400"
+                : "bg-transparent"
+            }`}
+            style={{ width: `${(pwdStrength / 3) * 100}%` }}
+          ></div>
+        </div>
+        <p className="mt-1 text-xs text-gray-500">
+          8+ characters, mix of letters and numbers
+        </p>
+      </div>
+
+      {/* Submit */}
+      <button
+        type="submit"
+        className="w-full py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition"
+      >
+        Sign Up
+      </button>
+
+      {/* Social Login */}
+      <div className="text-center text-sm text-gray-600">
+        Or sign up with
+        <div className="flex justify-center space-x-4 mt-3">
+          <button
+            type="button"
+            className="p-2 border rounded-full hover:bg-gray-100 transition"
+            aria-label="Sign up with Google"
+          >
+            
+          </button>
+          <button
+            type="button"
+            className="p-2 border rounded-full hover:bg-gray-100 transition"
+            aria-label="Sign up with Facebook"
+          >
+            
+          </button>
         </div>
       </div>
-    </>
+    </form>
   );
-};
-
-export default TrialPage;
+}

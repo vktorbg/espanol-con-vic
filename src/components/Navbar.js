@@ -40,17 +40,14 @@ const Navbar = () => {
         </Link>
         {/* Desktop Navigation Links */}
         <div className="hidden md:flex space-x-6">
-          <Link to="/learning-hub" className="text-gray-700 hover:text-orange-500 transition">
-            Learning Hub
-          </Link>
-          <Link to="/plans" className="text-gray-700 hover:text-orange-500 transition">
+            <Link to="/plans" className="text-gray-700 hover:text-orange-500 transition">
             Plans
           </Link>
           <Link to="/services" className="text-gray-700 hover:text-orange-500 transition">
             Services
           </Link>
           <Link to="/about" className="text-gray-700 hover:text-orange-500 transition">
-            About me
+            About Us
           </Link>
         </div>
         {/* Desktop Auth Buttons */}
@@ -62,12 +59,6 @@ const Navbar = () => {
                 className="bg-primary text-white px-5 py-2 rounded-md shadow-md hover:bg-primary transition font-semibold"
               >
                 Login
-              </button>
-              <button 
-                onClick={() => setIsSignupOpen(true)}
-                className="border border-primary text-primary px-5 py-2 rounded-md shadow-sm hover:bg-orange-50 transition font-semibold"
-              >
-                Sign Up
               </button>
             </>
           ) : (
@@ -116,6 +107,14 @@ const Navbar = () => {
               )}
             </div>
           )}
+          {/* Language Switch Button */}
+          <button 
+            onClick={() => {} /* Add functionality here */}
+            className="flex items-center space-x-2 border border-gray-300 px-4 py-2 rounded-md shadow-sm hover:bg-gray-100 transition"
+          >
+            <img src="https://img.icons8.com/color/48/spain.png" alt="Español" className="w-5 h-5" />
+            <img src="https://img.icons8.com/color/48/great-britain.png" alt="English" className="w-5 h-5" />
+          </button>
         </div>
         {/* Mobile Menu Button */}
         <div className="md:hidden">
@@ -152,15 +151,6 @@ const Navbar = () => {
                 className="block w-full text-left bg-primary text-white px-5 py-2 rounded-md shadow-md hover:bg-primary transition font-semibold"
               >
                 Login
-              </button>
-              <button 
-                onClick={() => {
-                  setIsSignupOpen(true);
-                  setIsMenuOpen(false);
-                }}
-                className="block w-full text-left border border-primary text-primary px-5 py-2 rounded-md shadow-sm hover:bg-orange-50 transition font-semibold"
-              >
-                Sign Up
               </button>
             </>
           ) : (
@@ -199,6 +189,14 @@ const Navbar = () => {
               </button>
             </>
           )}
+          {/* Language Switch Button for Mobile */}
+          <button 
+            onClick={() => {} /* Add functionality here */}
+            className="flex items-center space-x-2 border border-gray-300 px-4 py-2 rounded-md shadow-sm hover:bg-gray-100 transition"
+          >
+            <img src="/path-to-spanish-flag.png" alt="Español" className="w-5 h-5" />
+            <img src="/path-to-english-flag.png" alt="English" className="w-5 h-5" />
+          </button>
         </div>
       )}
 
