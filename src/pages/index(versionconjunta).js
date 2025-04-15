@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 // Images from the static folder
-const ProfileImage = "/images/profile.png";
+const ProfileImage1 = "/images/profile.png";
 const ProfileImage2 = "/images/profile2.jpg";
 const HeroBackground = "/images/hero-background.jpeg";
 const Student1Image = "/images/student1.jpg";
@@ -52,20 +52,34 @@ const getSessionsPerWeek = (plan) => {
     : "";
 };
 
-const auraVariants = {
-  idle: {
-    boxShadow: [
-      "0 0 0 0 rgba(217,119,6,0.6)",
-      "0 0 40px 10px rgba(217,119,6,0)",
-      "0 0 0 0 rgba(217,119,6,0.6)"
-    ],
-    transition: { duration: 2, repeat: Infinity, ease: "easeInOut" }
-  },
-  hover: { scale: 1.05, transition: { duration: 0.3 } }
-};
-
 const HeroSplitScreen = () => {
-  const [hovered, setHovered] = useState(false);
+  const [hoveredLeft, setHoveredLeft] = useState(false);
+  const [hoveredRight, setHoveredRight] = useState(false);
+
+  // Enhanced aura variants with smoother transitions
+  const auraVariants = {
+    idle: {
+      boxShadow: [
+        "0 0 0 0 rgba(217, 119, 6, 0.4)",
+        "0 0 30px 8px rgba(217, 119, 6, 0.2)",
+        "0 0 0 0 rgba(217, 119, 6, 0.4)"
+      ],
+      transition: { 
+        duration: 3, 
+        repeat: Infinity, 
+        ease: "easeInOut",
+        repeatType: "mirror"
+      }
+    },
+    hover: { 
+      scale: 1.05, 
+      boxShadow: "0 0 40px 15px rgba(217, 119, 6, 0.3)",
+      transition: { duration: 0.5 }
+    }
+  };
+
+  // Card styling for consistent appearance
+  const cardStyle = "w-full h-64 md:h-80 object-cover rounded-2xl shadow-xl border-2 border-orange-500";
 
   return (
     <header className="relative text-white overflow-hidden">
@@ -73,76 +87,103 @@ const HeroSplitScreen = () => {
       <div className="absolute inset-0">
         <img
           src={HeroBackground}
-          alt="Medellín Street Scene"
+          alt="Quiet home study space"
           className="w-full h-full object-cover"
         />
       </div>
 
       {/* Dark Overlay for Contrast */}
-      <div className="absolute inset-0 bg-black bg-opacity-50" />
+      <div className="absolute inset-0 bg-black bg-opacity-40" />
 
-      <div className="relative max-w-6xl mx-auto flex flex-col-reverse md:flex-row items-center px-6 py-24">
-        {/* Left Side: Text Content */}
-        <motion.div
-          className="md:w-1/2 flex flex-col items-start mb-8 md:mb-0 md:mr-8"
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h1 className="text-6xl font-extrabold leading-tight mb-4 text-left">
-            Online Spanish Fluency School
-          </h1>
-          <p className="text-secondary text-lg font-regular mb-8 text-left">
-            Build real speaking skills and the boldness to use them anywhere.
-          </p>
+      <div className="relative max-w-7xl mx-auto px-6 py-20 md:py-32">
+        <div className="flex flex-col lg:flex-row items-center gap-8">
+          {/* Left Side: Text Content */}
+          <motion.div
+            className="lg:w-1/2 flex flex-col items-start"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-4 text-left">
+              Online Spanish Fluency School
+            </h1>
+            <p className="text-lg md:text-xl font-light mb-8 text-left max-w-lg">
+              Build real speaking skills and the boldness to use them anywhere.
+            </p>
 
-          {/* Buttons */}
-          <div className="w-full flex justify-center space-x-4">
-            <Link to="#plans">
-              <motion.button
-                className="bg-primary text-white text-xl px-8 py-3 rounded-md font-bold shadow-md hover:bg-orange-600 transition"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Start Your Fluency Journey
-              </motion.button>
-            </Link>
-            <Link to="/signupTrial">
-              <motion.button
-                className="bg-white text-primary border border-primary text-xl px-8 py-3 rounded-md font-bold shadow-md hover:bg-gray-100 transition"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Get your Trial Class
-              </motion.button>
-            </Link>
-          </div>
-        </motion.div>
+            {/* Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 w-full">
+              <Link to="#plans">
+                <motion.button
+                  className="bg-primary text-white px-6 py-3 md:px-9 md:py-5 rounded-lg font-bold shadow-md"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Start Your Fluency Journey
+                </motion.button>
+              </Link>
+              <Link to="/signupTrial">
+                <motion.button
+                  className="bg-white text-primary border border-primary px-6 py-3 md:px-9 md:py-5 rounded-lg font-bold shadow-md"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Get Your Trial Class
+                </motion.button>
+              </Link>
+            </div>
+          </motion.div>
 
-        {/* Right Side: Profile Image with Aura */}
-        <motion.div
-          className="md:w-1/2 flex justify-center mb-8 md:mb-0"
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <motion.img
-            src={ProfileImage}
-            alt="Profile of Vic"
-            className="w-80 h-80 object-cover rounded-full shadow-2xl"
-            style={{ border: "4px solid #D97706" }}
-            variants={auraVariants}
-            animate="idle"
-            whileHover="hover"
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-          />
-        </motion.div>
+          {/* Right Side: Dual Image Cards */}
+          <motion.div 
+            className="lg:w-1/2 grid grid-cols-1 md:grid-cols-2 gap-6 w-full"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            {/* First Image Card */}
+            <motion.div
+              className="relative"
+              variants={auraVariants}
+              animate="idle"
+              whileHover="hover"
+              onMouseEnter={() => setHoveredLeft(true)}
+              onMouseLeave={() => setHoveredLeft(false)}
+            >
+              <img
+                src={ProfileImage1}  // Your first image
+                alt="Victor Briceño"
+                className={`${cardStyle} ${hoveredLeft ? 'brightness-110' : 'brightness-100'} transition-all`}
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 rounded-b-2xl">
+                <h3 className="font-bold text-lg">Vic</h3>
+              </div>
+            </motion.div>
+
+            {/* Second Image Card */}
+            <motion.div
+              className="relative"
+              variants={auraVariants}
+              animate="idle"
+              whileHover="hover"
+              onMouseEnter={() => setHoveredRight(true)}
+              onMouseLeave={() => setHoveredRight(false)}
+            >
+              <img
+                src={ProfileImage2}  // Your second image
+                alt="Elizabeth Garcia"
+                className={`${cardStyle} ${hoveredRight ? 'brightness-110' : 'brightness-100'} transition-all`}
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 rounded-b-2xl">
+                <h3 className="font-bold text-lg">Eli</h3>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
       </div>
     </header>
   );
 };
-
 
 const IndexPage = () => {
   return (
@@ -197,66 +238,6 @@ const IndexPage = () => {
           </div>
         </div>
       </section>
-
-      {/* Founders Section */}
-    <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-8 md:p-12">
-      <h3 className="text-2xl font-bold text-center mb-12 text-gray-800">Meet Your Guides to Fluency</h3>
-      
-      <div className="grid md:grid-cols-2 gap-8">
-        {/* Vic's Profile */}
-        <motion.div 
-          className="bg-white p-6 rounded-xl shadow-md flex flex-col md:flex-row gap-6"
-          whileHover={{ y: -5 }}
-        >
-          <div className="shrink-0 mx-auto md:mx-0">
-            <div className="relative">
-              <img 
-                src="/images/profile.png" 
-                alt="Victor Briceño" 
-                className="w-32 h-32 object-cover rounded-full border-4 border-primary/20"
-              />
-              <div className="absolute inset-0 rounded-full border-4 border-transparent hover:border-primary/30 transition-all"></div>
-            </div>
-          </div>
-          <div>
-            <h4 className="text-xl font-bold mb-2 text-gray-800">Victor Briceño</h4>
-            <p className="text-gray-600 mb-3 italic">
-              "Making Spanish a vibrant part of your life"
-            </p>
-            <p className="text-gray-600">
-              Multicultural fluency specialist with 7+ years transforming textbook knowledge into authentic conversations across Venezuela, Perú, and Colombia.
-            </p>
-          </div>
-        </motion.div>
-
-        {/* Elizabeth's Profile */}
-        <motion.div 
-          className="bg-white p-6 rounded-xl shadow-md flex flex-col md:flex-row gap-6"
-          whileHover={{ y: -5 }}
-        >
-          <div className="shrink-0 mx-auto md:mx-0">
-            <div className="relative">
-              <img 
-                src="/images/profile2.jpg" 
-                alt="Elizabeth García" 
-                className="w-32 h-32 object-cover rounded-full border-4 border-primary/20"
-              />
-              <div className="absolute inset-0 rounded-full border-4 border-transparent hover:border-primary/30 transition-all"></div>
-            </div>
-          </div>
-          <div>
-            <h4 className="text-xl font-bold mb-2 text-gray-800">Elizabeth García</h4>
-            <p className="text-gray-600 mb-3 italic">
-              "Bridging linguistic theory with practical communication"
-            </p>
-            <p className="text-gray-600">
-              PhD in Education with 25+ years developing language curricula and pioneering educational technologies for effective acquisition.
-            </p>
-          </div>
-        </motion.div>
-      </div>
-    </div>
-
 
       {/* Plans Section */}
       <section id="plans" className="py-16 bg-gray-100">
@@ -397,7 +378,65 @@ const IndexPage = () => {
       </div>
     </div>
 
-    
+    {/* Founders Section */}
+    <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-8 md:p-12">
+      <h3 className="text-2xl font-bold text-center mb-12 text-gray-800">Meet Your Guides to Fluency</h3>
+      
+      <div className="grid md:grid-cols-2 gap-8">
+        {/* Vic's Profile */}
+        <motion.div 
+          className="bg-white p-6 rounded-xl shadow-md flex flex-col md:flex-row gap-6"
+          whileHover={{ y: -5 }}
+        >
+          <div className="shrink-0 mx-auto md:mx-0">
+            <div className="relative">
+              <img 
+                src="/images/profile.png" 
+                alt="Victor Briceño" 
+                className="w-32 h-32 object-cover rounded-full border-4 border-primary/20"
+              />
+              <div className="absolute inset-0 rounded-full border-4 border-transparent hover:border-primary/30 transition-all"></div>
+            </div>
+          </div>
+          <div>
+            <h4 className="text-xl font-bold mb-2 text-gray-800">Victor Briceño</h4>
+            <p className="text-gray-600 mb-3 italic">
+              "Making Spanish a vibrant part of your life"
+            </p>
+            <p className="text-gray-600">
+              Multicultural fluency specialist with 7+ years transforming textbook knowledge into authentic conversations across Venezuela, Perú, and Colombia.
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Elizabeth's Profile */}
+        <motion.div 
+          className="bg-white p-6 rounded-xl shadow-md flex flex-col md:flex-row gap-6"
+          whileHover={{ y: -5 }}
+        >
+          <div className="shrink-0 mx-auto md:mx-0">
+            <div className="relative">
+              <img 
+                src="/images/profile2.jpg" 
+                alt="Elizabeth García" 
+                className="w-32 h-32 object-cover rounded-full border-4 border-primary/20"
+              />
+              <div className="absolute inset-0 rounded-full border-4 border-transparent hover:border-primary/30 transition-all"></div>
+            </div>
+          </div>
+          <div>
+            <h4 className="text-xl font-bold mb-2 text-gray-800">Elizabeth García</h4>
+            <p className="text-gray-600 mb-3 italic">
+              "Bridging linguistic theory with practical communication"
+            </p>
+            <p className="text-gray-600">
+              PhD in Education with 25+ years developing language curricula and pioneering educational technologies for effective acquisition.
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+
     {/* Shared Values */}
     <div className="mt-20 text-center">
       <h3 className="text-2xl font-bold mb-8 text-gray-800">Our Shared Commitment</h3>
