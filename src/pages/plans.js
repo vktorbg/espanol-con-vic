@@ -24,7 +24,7 @@ const allPlans = [
     title: "Confidence Plan",
     newPrice: "120",
     frequency: "month",
-    description: "Boost your confidence with weekly sessions.",
+    description: "Boost your confidence with consistency.",
     features: [
       "2 classes per week (8/month)",
       "Focus on speaking and listening",
@@ -36,13 +36,13 @@ const allPlans = [
     title: "Fluency Plan",
     newPrice: "220",
     frequency: "month",
-    description: "Intensive learning for rapid progress.",
+    description: "Intensive practice for rapid progress.",
     features: [
       "4 classes per week (16/month)",
       "Comprehensive curriculum",
-      "$13.75 per class (45% savings)",
-      "Weekly progress reports",
-      "Additional practice materials",
+      "$13.75 per class (30% savings)",
+      "Monthly progress reports",
+      "Personalized feedback and corrections",
     ],
   },
 ];

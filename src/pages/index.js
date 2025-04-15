@@ -14,26 +14,28 @@ const Student3Image = "/images/student3.jpg";
 
 const plans = [
   {
+    title: "Individual Classes",
+    newPrice: "20",
+    frequency: "class",
+    description: "Pay-as-you-go Spanish lessons.",
+    image: "/images/plan3.jpg",
+    custom: true,
+  },
+  {
     title: "Confidence",
     newPrice: 120,
-    frequency: "Every month",
-    description: "Boost your confidence with weekly sessions.",
+    frequency: "Every month (25% off)",
+    description: "Boost your confidence with consistency.",
     image: "/images/plan1.jpg",
   },
   {
     title: "Fluency Plan",
     newPrice: 220,
     frequency: "Every month (30% off)",
-    description: "Achieve fluency with intensive sessions.",
+    description: "Intensive practice for rapid progress.",
     image: "/images/plan2.jpg",
   },
-  {
-    title: "Customizable Plan",
-    description:
-      "Experience a personalized trial class for just $5 – discover a tailored plan made just for you!",
-    image: "/images/plan3.jpg",
-    custom: true,
-  },
+  
 ];
 
 const getDiscountedPricePerClass = (plan) => {
@@ -95,7 +97,7 @@ const HeroSplitScreen = () => {
       <div className="absolute inset-0">
         <img
           src={HeroBackground}
-          alt="Medellín Street Scene"
+          alt="Quiet home study space"
           className="w-full h-full object-cover"
         />
       </div>
@@ -121,7 +123,7 @@ const HeroSplitScreen = () => {
 
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 w-full">
-              <Link to="#whylearnwithus">
+              <Link to="#plans">
                 <motion.button
                   className="bg-primary text-white px-6 py-3 md:px-9 md:py-5 rounded-lg font-bold shadow-md"
                   whileHover={{ scale: 1.05 }}
@@ -160,11 +162,11 @@ const HeroSplitScreen = () => {
             >
               <img
                 src={ProfileImage1}  // Your first image
-                alt="Spanish teacher"
+                alt="Victor Briceño"
                 className={`${cardStyle} ${hoveredLeft ? 'brightness-110' : 'brightness-100'} transition-all`}
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 rounded-b-2xl">
-                <h3 className="font-bold text-lg">Personalized Lessons</h3>
+                <h3 className="font-bold text-lg">Vic</h3>
               </div>
             </motion.div>
 
@@ -179,11 +181,11 @@ const HeroSplitScreen = () => {
             >
               <img
                 src={ProfileImage2}  // Your second image
-                alt="Student speaking"
+                alt="Elizabeth Garcia"
                 className={`${cardStyle} ${hoveredRight ? 'brightness-110' : 'brightness-100'} transition-all`}
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 rounded-b-2xl">
-                <h3 className="font-bold text-lg">Real Conversations</h3>
+                <h3 className="font-bold text-lg">Eli</h3>
               </div>
             </motion.div>
           </motion.div>
@@ -199,6 +201,7 @@ const IndexPage = () => {
       <Navbar />
       <HeroSplitScreen />
 
+      
       {/* Why Learn With Us Section */}
       <section id="whylearnwithus" className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
@@ -245,6 +248,53 @@ const IndexPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Plans Section */}
+      <section id="plans" className="py-16 bg-gray-100">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-primary mb-6 text-center">
+            Plans Made for You
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {plans.map((plan, index) => (
+              <motion.div
+                key={index}
+                onClick={() =>
+                  navigate(`/plans?plan=${encodeURIComponent(plan.title)}`)
+                }
+                className="bg-white border rounded-md p-6 shadow-md hover:shadow-lg transition cursor-pointer"
+                whileHover={{ y: -5 }}
+              >
+                <img
+                  src={plan.image}
+                  alt={plan.title}
+                  className="w-full h-48 object-cover rounded-md mb-4"
+                />
+                <h3 className="text-xl font-semibold mb-2">{plan.title}</h3>
+                {plan.newPrice ? (
+                  <p className="text-primary font-bold mb-2">
+                    ${plan.newPrice}/month <br />
+                    <span className="text-sm text-gray-600">{getSessionsPerWeek(plan)}</span>
+                  </p>
+                ) : (
+                  <p className="text-primary font-bold mb-2">Custom Pricing</p>
+                )}
+                <p className="text-gray-600 mb-4">{plan.description}</p>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/plans?plan=${encodeURIComponent(plan.title)}`);
+                  }}
+                  className="w-full bg-primary text-white px-6 py-2 rounded-md font-bold shadow-md hover:bg-primary-dark transition"
+                >
+                  View Details
+                </button>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
 
       {/* How It Works Section */}
       <section className="py-16 bg-gray-100">
@@ -302,19 +352,15 @@ const IndexPage = () => {
   <div className="max-w-7xl mx-auto px-6">
     <div className="text-center mb-16">
       <h2 className="text-4xl font-bold text-primary mb-4">Our Fluency Philosophy</h2>
-      <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-        Where academic excellence meets real-world communication in a vibrant, inclusive learning environment
-      </p>
-    </div>
+      </div>
 
     {/* Teaching Approach */}
     <div className="grid md:grid-cols-2 gap-12 mb-20 items-center">
       <div className="space-y-6">
-        <h3 className="text-2xl font-bold text-gray-800 border-l-4 border-primary pl-4">
-          How We Transform Language Learning
-        </h3>
-        <p className="text-lg text-gray-600">
-          At our core, we believe fluency isn't about perfect grammar—it's about <span className="font-semibold text-primary">confident communication</span>. 
+          <p className="text-lg text-gray-700">
+                    Fluency blossoms when you connect language to real life. Our unique methodology isn't about perfection; it's about progress and the courage to communicate.
+                </p>
+                <p className="text-lg font-semibold text-accent-800"> 
           Our unique methodology blends:
         </p>
         <ul className="space-y-3">
@@ -334,7 +380,7 @@ const IndexPage = () => {
       </div>
       <div className="relative group">
         <img 
-          src="/images/class-discussion.jpeg" 
+          src="/images/group-talking-fluently.jpg" 
           alt="Interactive Spanish class"
           className="rounded-xl shadow-xl w-full h-auto group-hover:opacity-90 transition-all"
         />
@@ -607,7 +653,8 @@ const IndexPage = () => {
         </div>
       </section>
 
-      <Footer />
+      
+    <Footer />
     </>
   );
 };

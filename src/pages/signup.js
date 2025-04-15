@@ -1,417 +1,267 @@
 // /src/pages/signup.js
-import React, { useEffect, useState, useRef } from "react";
-import { useLocation, navigate } from "gatsby";
-import { useLocation as reachUseLocation } from "@reach/router";
+import React, { useState } from "react";
+import { navigate } from "gatsby";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer"; // Added Footer for consistency
 import { db, setDoc, doc } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 
-// Usamos reachUseLocation para obtener la ubicación actual
 const SignupPage = () => {
-  const location = reachUseLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const initialPlan = queryParams.get("plan") || "";
-  const initialTrial = queryParams.get("trial") === "true";
-
-  // Si se pasa trial=true se fuerza el plan a "Trial"
-  const [selectedPlan, setSelectedPlan] = useState(initialTrial ? "Trial" : initialPlan);
-
-  // Campos del formulario
+  // Registration state
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [city, setCity] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPwd, setShowPwd] = useState(false);
+  const [pwdStrength, setPwdStrength] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  // Selección de horario
-  const [selectedSlots, setSelectedSlots] = useState([]);
-  const planSlotsMapping = {
-    Trial: 1,
-    Confidence: 2,
-    "Fluency Plan": 4,
-  };
-  const allowedSlots = planSlotsMapping[selectedPlan] || 1;
+  const { signup } = useAuth();
 
-  // Referencia y estado para PayPal
-  const paypalRef = useRef(null);
-  const [isPayPalLoaded, setIsPayPalLoaded] = useState(false);
-
-  // Bandera para evitar ejecuciones duplicadas
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  // Opciones de horario
-  const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-  const timeOptions = ["10:00 AM", "2:00 PM", "4:00 PM"];
-
-  // Obtener las funciones signup y login de AuthContext
-  const { signup, login } = useAuth();
-
-  const handleSlotClick = (day, time) => {
-    const slot = `${day} ${time}`;
-    setSelectedSlots((prev) => {
-      if (prev.includes(slot)) {
-        return prev.filter((s) => s !== slot);
-      }
-      if (prev.length < allowedSlots) {
-        return [...prev, slot];
-      } else {
-        alert(`You can only select ${allowedSlots} time slot(s) for the ${selectedPlan} plan.`);
-        return prev;
-      }
-    });
+  // Calculate password strength (same as before)
+  const handlePasswordChange = (e) => {
+    const val = e.target.value;
+    let strength = 0;
+    if (val.length >= 8) strength += 1;
+    if (/[A-Z]/.test(val)) strength += 1;
+    if (/[0-9]/.test(val)) strength += 1;
+    setPwdStrength(strength);
+    setPassword(val);
   };
 
-  const renderCalendar = () => (
-    <table className="w-full table-fixed border-collapse">
-      <thead>
-        <tr>
-          {weekdays.map((day) => (
-            <th key={day} className="border px-2 py-1 text-primary text-lg">
-              {day}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {timeOptions.map((time) => (
-          <tr key={time}>
-            {weekdays.map((day) => {
-              const slot = `${day} ${time}`;
-              const isSelected = selectedSlots.includes(slot);
-              return (
-                <td key={day + time} className="border px-2 py-1">
-                  <button
-                    onClick={() => handleSlotClick(day, time)}
-                    className={`w-full px-2 py-1 rounded transition ${
-                      isSelected
-                        ? "bg-primary text-white"
-                        : "bg-white text-primary border border-primary hover:bg-primary hover:text-white"
-                    }`}
-                  >
-                    {time}
-                  </button>
-                </td>
-              );
-            })}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(""); // Clear previous errors
+    setIsLoading(true);
 
-  // Limpiar el contenedor de PayPal si la selección de horarios cambia
-  useEffect(() => {
-    if (selectedSlots.length !== allowedSlots) {
-      setIsPayPalLoaded(false);
-      if (paypalRef.current) {
-        paypalRef.current.innerHTML = "";
-      }
-    }
-  }, [selectedSlots, allowedSlots]);
+    // --- Validation ---
+    const tFirst = firstName.trim();
+    const tLast = lastName.trim();
+    const tCity = city.trim();
+    const tEmail = email.trim();
+    const tPwd = password.trim();
+    const tConfirm = confirmPassword.trim();
 
-  // Cargar el botón de PayPal cuando se cumplan las condiciones:
-  // - Se han seleccionado los slots requeridos.
-  // - Todos los campos están llenos y las contraseñas coinciden.
-  // - El botón aún no se ha cargado.
-  useEffect(() => {
-    if (selectedSlots.length !== allowedSlots) return;
-    if (!firstName || !lastName || !city || !email || !password || !confirmPassword) return;
-    if (password !== confirmPassword) return;
-    if (isPayPalLoaded) return;
-
-    let script = document.createElement("script");
-    let scriptUrl = "";
-    let paymentConfig = {};
-
-    if (selectedPlan === "Fluency Plan") {
-      scriptUrl =
-        "https://www.paypal.com/sdk/js?client-id=YOUR_FLUENCY_CLIENT_ID&vault=true&intent=subscription";
-      paymentConfig = {
-        style: { shape: "pill", color: "blue", layout: "vertical", label: "subscribe" },
-        createSubscription: (data, actions) => {
-          return actions.subscription.create({
-            plan_id: "FLUENCY_PLAN_ID",
-          });
-        },
-        onApprove: async (data, actions) => {
-          if (isProcessing) return;
-          setIsProcessing(true);
-          if (paypalRef.current) paypalRef.current.innerHTML = "";
-          try {
-            let user = await signup(email, password, firstName, lastName);
-            if (!user || !user.uid) {
-              throw new Error("Signup did not return a valid user.");
-            }
-            await setDoc(doc(db, "students", user.uid), {
-              firstName,
-              lastName,
-              city,
-              email,
-              plan: selectedPlan,
-              schedule: selectedSlots,
-              orderID: data.subscriptionID,
-              createdAt: new Date(),
-            });
-            navigate(`/finalLanding?studentId=${user.uid}`);
-            return;
-          } catch (err) {
-            console.error("Error creating student:", err);
-            if (err.code === "auth/email-already-in-use") {
-              alert("The email address is already in use. Please log in or use a different email.");
-            } else if (err.code === "auth/weak-password") {
-              alert("The password is too weak. Please choose a stronger password (at least 6 characters).");
-            } else {
-              alert("There was an error saving your information. Please try again.");
-            }
-            setIsProcessing(false);
-          }
-        },
-        onError: (err) => {
-          console.error("Payment error:", err);
-          alert("There was an error processing your payment. Please try again.");
-        },
-      };
-    } else if (selectedPlan === "Confidence") {
-      scriptUrl =
-        "https://www.paypal.com/sdk/js?client-id=YOUR_CONFIDENCE_CLIENT_ID&vault=true&intent=subscription";
-      paymentConfig = {
-        style: { shape: "pill", color: "blue", layout: "vertical", label: "subscribe" },
-        createSubscription: (data, actions) => {
-          return actions.subscription.create({
-            plan_id: "CONFIDENCE_PLAN_ID",
-          });
-        },
-        onApprove: async (data, actions) => {
-          if (isProcessing) return;
-          setIsProcessing(true);
-          if (paypalRef.current) paypalRef.current.innerHTML = "";
-          try {
-            let user = await signup(email, password, firstName, lastName);
-            if (!user || !user.uid) {
-              throw new Error("Signup did not return a valid user.");
-            }
-            await setDoc(doc(db, "students", user.uid), {
-              firstName,
-              lastName,
-              city,
-              email,
-              plan: selectedPlan,
-              schedule: selectedSlots,
-              orderID: data.subscriptionID,
-              createdAt: new Date(),
-            });
-            navigate(`/finalLanding?studentId=${user.uid}`);
-            return;
-          } catch (err) {
-            console.error("Error creating student:", err);
-            if (err.code === "auth/email-already-in-use") {
-              alert("The email address is already in use. Please log in or use a different email.");
-            } else if (err.code === "auth/weak-password") {
-              alert("The password is too weak. Please choose a stronger password (at least 6 characters).");
-            } else {
-              alert("There was an error saving your information. Please try again.");
-            }
-            setIsProcessing(false);
-          }
-        },
-        onError: (err) => {
-          console.error("Payment error:", err);
-          alert("There was an error processing your payment. Please try again.");
-        },
-      };
-    } else if (selectedPlan === "Trial") {
-      scriptUrl =
-        "https://www.paypal.com/sdk/js?client-id=AWDoEeOwk3S58HTojYQezKAg7tPGbXIWJX4nkyA1zoW3uS5XBEbyGPbROlIX7KcEQ19DHkGftDaAgoYx&currency=USD&intent=capture";
-      paymentConfig = {
-        createOrder: (data, actions) => {
-          return actions.order.create({
-            purchase_units: [{ amount: { value: "1.00" } }],
-          });
-        },
-        onApprove: async (data, actions) => {
-          if (isProcessing) return;
-          setIsProcessing(true);
-          if (paypalRef.current) paypalRef.current.innerHTML = "";
-          return actions.order.capture().then(async (details) => {
-            try {
-              let user = await signup(email, password, firstName, lastName);
-              if (!user || !user.uid) {
-                throw new Error("Signup did not return a valid user.");
-              }
-              await setDoc(doc(db, "students", user.uid), {
-                firstName,
-                lastName,
-                city,
-                email,
-                plan: selectedPlan,
-                schedule: selectedSlots,
-                orderID: data.orderID,
-                createdAt: new Date(),
-              });
-              navigate(`/finalLanding?studentId=${user.uid}`);
-              return;
-            } catch (err) {
-              console.error("Error creating student:", err);
-              if (err.code === "auth/email-already-in-use") {
-                alert("The email address is already in use. Please log in or use a different email.");
-              } else if (err.code === "auth/weak-password") {
-                alert("The password is too weak. Please choose a stronger password (at least 6 characters).");
-              } else {
-                alert("There was an error saving your information. Please try again.");
-              }
-              setIsProcessing(false);
-            }
-          });
-        },
-        onError: (err) => {
-          console.error("Payment error:", err);
-          alert("There was an error processing your payment. Please try again.");
-        },
-      };
-    } else {
+    if (!tFirst || !tLast || !tCity || !tEmail || !tPwd || !tConfirm) {
+      setError("Please fill in all fields.");
+      setIsLoading(false);
       return;
     }
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(tEmail)) {
+      setError("Please enter a valid email address.");
+      setIsLoading(false);
+      return;
+    }
+    if (tPwd.length < 8) {
+      setError("Password must be at least 8 characters long.");
+      setIsLoading(false);
+      return;
+    }
+    if (tPwd !== tConfirm) {
+      setError("Passwords do not match.");
+      setIsLoading(false);
+      return;
+    }
+    // --- End Validation ---
 
-    script.src = scriptUrl;
-    script.async = true;
-    script.onload = () => {
-      setTimeout(() => {
-        if (window.paypal && paypalRef.current) {
-          window.paypal.Buttons(paymentConfig).render(paypalRef.current);
-          setIsPayPalLoaded(true);
-        }
-      }, 100);
-    };
-    document.body.appendChild(script);
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, [
-    selectedSlots,
-    allowedSlots,
-    firstName,
-    lastName,
-    city,
-    email,
-    password,
-    confirmPassword,
-    isPayPalLoaded,
-    selectedPlan,
-    signup,
-    login,
-    isProcessing,
-  ]);
+    try {
+      // Attempt to sign up the user via Firebase Auth
+      const user = await signup(tEmail, tPwd, tFirst, tLast); // Assuming signup might take name
 
-  const handleSwitchToTrial = () => {
-    setSelectedPlan("Trial");
-    setSelectedSlots([]);
+      // Save student details to Firestore
+      await setDoc(doc(db, "students", user.uid), {
+        firstName: tFirst,
+        lastName: tLast,
+        city: tCity,
+        email: tEmail,
+        plan: "Registered", // Placeholder plan status for direct signups
+        createdAt: new Date(),
+        // Add any other default fields needed for a student record
+      });
+
+      // Redirect to dashboard on success
+      navigate(`/dashboard`);
+
+    } catch (err) {
+      console.error("Signup Error:", err);
+      // Provide more specific error messages if possible
+      if (err.code === 'auth/email-already-in-use') {
+        setError("This email address is already registered. Please log in or use a different email.");
+      } else {
+        setError("Failed to create account. Please try again.");
+      }
+      setIsLoading(false); // Ensure loading stops on error
+    }
+    // No need to set isLoading to false on success because of navigation
   };
 
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gray-50 p-6">
-        <h1 className="text-4xl font-bold text-primary text-center mb-4">
-          Sign Up & Book Your Session
-        </h1>
-        <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow">
-          <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input
-                type="text"
-                placeholder="First Name"
-                className="p-2 border rounded-md"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Last Name"
-                className="p-2 border rounded-md"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-              />
-              <input
-                type="text"
-                placeholder="City"
-                className="p-2 border rounded-md"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                required
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                className="p-2 border rounded-md"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input
-                type="password"
-                placeholder="Password"
-                className="p-2 border rounded-md"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                className="p-2 border rounded-md"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mt-4">
-              <p className="text-lg font-semibold">
-                Selected Plan: {selectedPlan}
-              </p>
-              {selectedPlan !== "Trial" && (
+      <div className="min-h-screen bg-gray-50 p-6 flex flex-col">
+        <div className="flex-grow flex items-center justify-center">
+          <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg my-12">
+            <h1 className="text-3xl font-bold text-primary text-center mb-6">
+              Create Your Account
+            </h1>
+            <p className="text-center text-gray-600 mb-6">
+                Join the Español con Vic community.
+            </p>
+
+            {error && (
+              <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-center">
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+
+              {/* First Name */}
+              <div>
+                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+                  First Name
+                </label>
+                <input
+                  id="firstName"
+                  type="text"
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  placeholder="Your first name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  disabled={isLoading}
+                />
+              </div>
+
+              {/* Last Name */}
+              <div>
+                <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+                  Last Name
+                </label>
+                <input
+                  id="lastName"
+                  type="text"
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  placeholder="Your last name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  disabled={isLoading}
+                />
+              </div>
+
+              {/* City */}
+              <div>
+                <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
+                  City
+                </label>
+                <input
+                  id="city"
+                  type="text"
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  placeholder="Your city"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  disabled={isLoading}
+                />
+              </div>
+
+              {/* Email */}
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  Email Address
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={isLoading}
+                />
+              </div>
+
+              {/* Password */}
+              <div className="relative">
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                  Password
+                </label>
+                <input
+                  id="password"
+                  type={showPwd ? "text" : "password"}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  placeholder="Create a password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  disabled={isLoading}
+                />
                 <button
                   type="button"
-                  onClick={handleSwitchToTrial}
-                  className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded"
+                  onClick={() => setShowPwd(!showPwd)}
+                  className="absolute right-3 top-[2.3rem] text-gray-500 hover:text-gray-700 focus:outline-none text-sm"
+                  aria-label="Toggle password visibility"
                 >
-                  Not sure? Try a trial class for $1
+                  {showPwd ? "Hide" : "Show"}
                 </button>
-              )}
-            </div>
-            <div className="mt-6">
-              <h2 className="text-2xl font-semibold mb-2">
-                Select Your Schedule
-              </h2>
-              <p className="mb-2 text-gray-600">
-                Please select {allowedSlots} time slot{allowedSlots > 1 ? "s" : ""}.
-              </p>
-              {renderCalendar()}
-              {selectedSlots.length > 0 && (
-                <div className="mt-4">
-                  <h3 className="text-xl font-semibold text-primary">
-                    Selected Slot{allowedSlots > 1 ? "s" : ""}:
-                  </h3>
-                  <ul className="list-disc text-gray-700 mt-2 ml-6">
-                    {selectedSlots.map((slot, idx) => (
-                      <li key={idx}>{slot}</li>
-                    ))}
-                  </ul>
+                {/* Strength bar */}
+                <div className="mt-2 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all duration-300 ${
+                      pwdStrength === 0 ? "bg-transparent" :
+                      pwdStrength === 1 ? "bg-red-400" :
+                      pwdStrength === 2 ? "bg-yellow-400" :
+                      "bg-green-400" // Strength 3
+                    }`}
+                    style={{ width: `${(pwdStrength / 3) * 100}%` }}
+                  ></div>
                 </div>
-              )}
-            </div>
-            <div className="mt-6">
-              <h2 className="text-2xl font-semibold mb-2 text-center">
-                Confirm &amp; Pay
-              </h2>
-              <div id="paypal-button-container" ref={paypalRef}></div>
-            </div>
-          </form>
+                <p className="mt-1 text-xs text-gray-500">
+                  Min. 8 characters, uppercase & number recommended.
+                </p>
+              </div>
+
+              {/* Confirm Password */}
+              <div>
+                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                  Confirm Password
+                </label>
+                <input
+                  id="confirmPassword"
+                  type={showPwd ? "text" : "password"}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  placeholder="Re‑enter your password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  disabled={isLoading}
+                />
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={isLoading}
+                className={`w-full py-3 mt-4 font-semibold rounded-lg transition duration-300 ease-in-out ${
+                  isLoading
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-primary text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                }`}
+              >
+                {isLoading ? "Creating Account..." : "Create Account"}
+              </button>
+            </form>
+          </div>
         </div>
+        <Footer />
       </div>
     </>
   );
