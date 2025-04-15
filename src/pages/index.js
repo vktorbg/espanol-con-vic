@@ -24,31 +24,21 @@ const plans = [
   {
     title: "Confidence",
     newPrice: 120,
-    frequency: "Every month (25% off)",
+    frequency: "month (25% off)",
     description: "Boost your confidence with consistency.",
     image: "/images/plan1.jpg",
   },
   {
     title: "Fluency Plan",
     newPrice: 220,
-    frequency: "Every month (30% off)",
+    frequency: "month (30% off)",
     description: "Intensive practice for rapid progress.",
     image: "/images/plan2.jpg",
   },
   
 ];
 
-const getDiscountedPricePerClass = (plan) => {
-  const sessionsMapping = {
-    Confidence: 2,
-    "Fluency Plan": 4,
-  };
-  if (plan.newPrice && sessionsMapping[plan.title]) {
-    const sessionsPerMonth = sessionsMapping[plan.title] * 4;
-    return (plan.newPrice / sessionsPerMonth).toFixed(2);
-  }
-  return "";
-};
+
 
 const getSessionsPerWeek = (plan) => {
   const sessionsMapping = {
@@ -273,7 +263,7 @@ const IndexPage = () => {
                 <h3 className="text-xl font-semibold mb-2">{plan.title}</h3>
                 {plan.newPrice ? (
                   <p className="text-primary font-bold mb-2">
-                    ${plan.newPrice}/month <br />
+                    ${plan.newPrice} <span className="text-sm">/{plan.frequency}</span> <br />
                     <span className="text-sm text-gray-600">{getSessionsPerWeek(plan)}</span>
                   </p>
                 ) : (
