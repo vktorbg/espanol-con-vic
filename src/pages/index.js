@@ -473,7 +473,7 @@ const IndexPage = () => {
   </div>
 </section>
 
-      {/* Student Success Stories Section */}
+      {/* Student Success Stories Section 
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-primary mb-12 text-center">
@@ -533,7 +533,7 @@ const IndexPage = () => {
             </motion.div>
           </div>
         </div>
-      </section>
+      </section> */}
 
     {/* Full-Width Support Section */}
 <section className="py-16 bg-gradient-to-r from-primary to-secondary">
