@@ -38,7 +38,22 @@ const plans = [
   
 ];
 
-
+const team = [
+  {
+    name: "Victor Briceño",
+    title: "Fluency Specialist",
+    quote: "Making Spanish a vibrant part of your life",
+    bio: "Multicultural fluency specialist with 7+ years transforming textbook knowledge into authentic conversations across Venezuela, Perú, and Colombia.",
+    image: "/images/profile.png",
+  },
+  {
+    name: "Elizabeth García",
+    title: "Linguistics Educator",
+    quote: "Bridging linguistic theory with practical communication",
+    bio: "PhD in Education with 25+ years developing language curricula and pioneering educational technologies for effective acquisition.",
+    image: "/images/profile2.jpg",
+  },
+];
 
 const getSessionsPerWeek = (plan) => {
   const sessionsMapping = {
@@ -198,65 +213,86 @@ const IndexPage = () => {
         </div>
       </section>
 
-      {/* Founders Section */}
-    <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-8 md:p-12">
-      <h3 className="text-2xl font-bold text-center mb-12 text-gray-800">Meet Your Guides to Fluency</h3>
-      
-      <div className="grid md:grid-cols-2 gap-8">
-        {/* Vic's Profile */}
-        <motion.div 
-          className="bg-white p-6 rounded-xl shadow-md flex flex-col md:flex-row gap-6"
-          whileHover={{ y: -5 }}
-        >
-          <div className="shrink-0 mx-auto md:mx-0">
-            <div className="relative">
-              <img 
-                src="/images/profile.png" 
-                alt="Victor Briceño" 
-                className="w-32 h-32 object-cover rounded-full border-4 border-primary/20"
-              />
-              <div className="absolute inset-0 rounded-full border-4 border-transparent hover:border-primary/30 transition-all"></div>
-            </div>
+      {/* Meet the Team Section */}
+      <section className="py-16 lg:py-20 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-12">
+            Meet Your Guides to Fluency
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
+            {team.map((member, index) => (
+              <motion.div
+                key={index}
+                className="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+                whileHover={{ y: -5 }}
+              >
+                <div className="relative mb-4">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-36 h-36 object-cover rounded-full border-4 border-primary/30 mx-auto"
+                  />
+                  <div className="absolute inset-0 rounded-full border-4 border-transparent hover:border-primary/40 transition-all"></div>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-800 mb-1">{member.name}</h3>
+                <p className="text-primary font-semibold mb-3">{member.title}</p>
+                <p className="text-gray-600 mb-4 italic">"{member.quote}"</p>
+                <p className="text-gray-600 text-sm">{member.bio}</p>
+              </motion.div>
+            ))}
           </div>
-          <div>
-            <h4 className="text-xl font-bold mb-2 text-gray-800">Victor Briceño</h4>
-            <p className="text-gray-600 mb-3 italic">
-              "Making Spanish a vibrant part of your life"
-            </p>
-            <p className="text-gray-600">
-              Multicultural fluency specialist with 7+ years transforming textbook knowledge into authentic conversations across Venezuela, Perú, and Colombia.
-            </p>
-          </div>
-        </motion.div>
+        </div>
+      </section>
 
-        {/* Elizabeth's Profile */}
-        <motion.div 
-          className="bg-white p-6 rounded-xl shadow-md flex flex-col md:flex-row gap-6"
-          whileHover={{ y: -5 }}
-        >
-          <div className="shrink-0 mx-auto md:mx-0">
-            <div className="relative">
-              <img 
-                src="/images/profile2.jpg" 
-                alt="Elizabeth García" 
-                className="w-32 h-32 object-cover rounded-full border-4 border-primary/20"
-              />
-              <div className="absolute inset-0 rounded-full border-4 border-transparent hover:border-primary/30 transition-all"></div>
-            </div>
-          </div>
-          <div>
-            <h4 className="text-xl font-bold mb-2 text-gray-800">Elizabeth García</h4>
-            <p className="text-gray-600 mb-3 italic">
-              "Bridging linguistic theory with practical communication"
+      {/* Our Philosophy Section - Adapted */}
+      <section className="py-16 lg:py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+          <motion.div
+            className="relative group"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.7 }}
+          >
+            <img
+              src="/images/group-talking-fluently.jpg"
+              alt="Interactive Spanish learning"
+              className="rounded-xl shadow-xl w-full h-auto group-hover:opacity-95 transition-opacity"
+            />
+            <div className="absolute -inset-3 border-2 border-primary/20 rounded-xl pointer-events-none group-hover:border-primary/40 transition-all duration-300"></div>
+          </motion.div>
+          <motion.div
+            className="space-y-5"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.7 }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">Our Fluency Philosophy</h2>
+            <p className="text-lg text-gray-700">
+              We believe fluency blossoms when you connect language to real life. Our unique methodology isn't about perfection; it's about progress and the courage to communicate.
             </p>
-            <p className="text-gray-600">
-              PhD in Education with 25+ years developing language curricula and pioneering educational technologies for effective acquisition.
-            </p>
-          </div>
-        </motion.div>
-      </div>
-    </div>
-
+            <ul className="space-y-3 text-gray-700">
+              <li className="flex items-start">
+                <span className="text-primary font-bold mr-2">✓</span>
+                <span><span className="font-semibold">Rigorous Foundation:</span> Leveraging Elizabeth's 25+ years in linguistics and education for structured learning.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-primary font-bold mr-2">✓</span>
+                <span><span className="font-semibold">Immersive Practice:</span> Incorporating Vic's real-world experience across Latin America for authentic conversation.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-primary font-bold mr-2">✓</span>
+                <span><span className="font-semibold">Human-Centered Approach:</span> Creating a supportive space where mistakes are celebrated as learning opportunities.</span>
+              </li>
+            </ul>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Plans Section */}
       <section id="plans" className="py-16 bg-gray-100">
@@ -356,147 +392,9 @@ const IndexPage = () => {
         </div>
       </section>
 
-      {/* About Us Section - Fluency School */}
-<section className="py-20 bg-white">
-  <div className="max-w-7xl mx-auto px-6">
-    <div className="text-center mb-16">
-      <h2 className="text-4xl font-bold text-primary mb-4">Our Fluency Philosophy</h2>
-      </div>
+     
 
-    {/* Teaching Approach */}
-    <div className="grid md:grid-cols-2 gap-12 mb-20 items-center">
-      <div className="space-y-6">
-          <p className="text-lg text-gray-700">
-                    Fluency blossoms when you connect language to real life. Our unique methodology isn't about perfection; it's about progress and the courage to communicate.
-                </p>
-                <p className="text-lg font-semibold text-accent-800"> 
-          Our unique methodology blends:
-        </p>
-        <ul className="space-y-3">
-          <li className="flex items-start">
-            <span className="text-primary mr-2">✓</span>
-            <span>Academic rigor from Elizabeth's 25+ years in linguistics education</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-primary mr-2">✓</span>
-            <span>Vic's multicultural immersion techniques from living across Latin America</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-primary mr-2">✓</span>
-            <span>Human-centered pedagogy that values mistakes as progress</span>
-          </li>
-        </ul>
-      </div>
-      <div className="relative group">
-        <img 
-          src="/images/group-talking-fluently.jpg" 
-          alt="Interactive Spanish class"
-          className="rounded-xl shadow-xl w-full h-auto group-hover:opacity-90 transition-all"
-        />
-        <div className="absolute -inset-4 border-2 border-primary/30 rounded-xl pointer-events-none group-hover:border-primary/50 transition-all"></div>
-      </div>
-    </div>
-
-    
-    {/* Shared Values */}
-    <div className="mt-20 text-center">
-      <h3 className="text-2xl font-bold mb-8 text-gray-800">Our Shared Commitment</h3>
-      <div className="grid sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
-        {[
-          {
-            icon: "💬",
-            title: "Authentic Communication",
-            desc: "Prioritizing real interactions over perfect grammar"
-          },
-          {
-            icon: "🌈",
-            title: "Inclusive Spaces",
-            desc: "LGBTQ+ affirming & culturally responsive teaching"
-          },
-          {
-            icon: "🔗",
-            title: "Community Connection",
-            desc: "Linking language learning to human rights advocacy"
-          }
-        ].map((item, i) => (
-          <motion.div 
-            key={i}
-            className="bg-white p-6 rounded-xl shadow-sm border border-gray-100"
-            whileHover={{ scale: 1.03 }}
-          >
-            <div className="text-4xl mb-4">{item.icon}</div>
-            <h4 className="font-bold text-lg mb-2 text-gray-800">{item.title}</h4>
-            <p className="text-gray-600">{item.desc}</p>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  </div>
-</section>
-
-      {/* Student Success Stories Section 
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-primary mb-12 text-center">
-            Student Success Stories
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <motion.div 
-              className="bg-gray-50 p-6 rounded-lg shadow-sm"
-              whileHover={{ y: -5 }}
-            >
-              <div className="flex items-center mb-4">
-                <img 
-                  src={Student1Image} 
-                  alt="Student" 
-                  className="w-12 h-12 rounded-full mr-4 object-cover"
-                />
-                <div>
-                  <h4 className="font-semibold">Sarah K.</h4>
-                  <p className="text-sm text-gray-500">3 months of classes</p>
-                </div>
-              </div>
-              <p className="text-gray-700 italic">"Vic made me feel confident speaking Spanish for the first time. I can now have basic conversations with my Colombian coworkers!"</p>
-            </motion.div>
-            <motion.div 
-              className="bg-gray-50 p-6 rounded-lg shadow-sm"
-              whileHover={{ y: -5 }}
-            >
-              <div className="flex items-center mb-4">
-                <img 
-                  src={Student2Image} 
-                  alt="Student" 
-                  className="w-12 h-12 rounded-full mr-4 object-cover"
-                />
-                <div>
-                  <h4 className="font-semibold">Michael T.</h4>
-                  <p className="text-sm text-gray-500">6 months of classes</p>
-                </div>
-              </div>
-              <p className="text-gray-700 italic">"The personalized approach helped me progress much faster than traditional classes. I'm now comfortable traveling in Spanish-speaking countries."</p>
-            </motion.div>
-            <motion.div 
-              className="bg-gray-50 p-6 rounded-lg shadow-sm"
-              whileHover={{ y: -5 }}
-            >
-              <div className="flex items-center mb-4">
-                <img 
-                  src={Student3Image} 
-                  alt="Student" 
-                  className="w-12 h-12 rounded-full mr-4 object-cover"
-                />
-                <div>
-                  <h4 className="font-semibold">Emma L.</h4>
-                  <p className="text-sm text-gray-500">1 year of classes</p>
-                </div>
-              </div>
-              <p className="text-gray-700 italic">"Vic's cultural insights made learning so much more interesting. I not only learned Spanish but also gained appreciation for Colombian culture."</p>
-            </motion.div>
-          </div>
-        </div>
-      </section> */}
-
-    {/* Full-Width Support Section */}
+      {/* Full-Width Support Section */}
 <section className="py-16 bg-gradient-to-r from-primary to-secondary">
   <div className="max-w-7xl mx-auto px-6">
     <motion.div 
