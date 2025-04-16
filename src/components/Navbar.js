@@ -34,7 +34,7 @@ const Navbar = () => {
         brand: "Español con Vic",
         plans: "Planes",
         services: "Servicios",
-        about: "Sobre mí",
+        about: "Sobre Nosotros",
         login: "Iniciar sesión",
         logout: "Cerrar sesión",
         dashboard: "Panel",
