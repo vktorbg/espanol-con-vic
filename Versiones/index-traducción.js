@@ -1,72 +1,78 @@
-// --- START OF FILE index.js (Spanish Version) ---
+// --- START OF FILE index.js ---
 
-import React from "react"; // Se eliminó useState ya que no se necesita aquí
+import React from "react";
 import { Link, navigate } from "gatsby";
 import { motion } from "framer-motion";
-import Navbar from "../components/Navbar"; // Asumiendo que Navbar también se traducirá o manejará el idioma
-import Footer from "../components/Footer"; // Asumiendo que Footer también se traducirá o manejará el idioma
+import { useTranslation } from "gatsby-plugin-react-i18next"; // Importar hook
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import { graphql } from 'gatsby';
 
-// Imágenes de la carpeta estática (Se eliminaron imágenes de estudiantes no usadas)
-const ProfileImage = "/images/profile.png"; // La ruta de la imagen permanece igual
-const ProfileImage2 = "/images/profile2.jpg"; // La ruta de la imagen permanece igual
-const HeroBackground = "/images/hero-background.jpeg"; // La ruta de la imagen permanece igual
+// Images remain the same
+const ProfileImage = "/images/profile.png";
+const ProfileImage2 = "/images/profile2.jpg";
+const HeroBackground = "/images/hero-background.jpeg";
 
-const planes = [
+// --- Data arrays - Textos extraídos para traducción ---
+// Los datos que no cambian (como precios, nombres únicos, paths de imágenes) permanecen.
+// Los textos (title, description, quote, bio, frequency) se obtendrán con t() usando índices.
+const plansData = [
   {
-    titulo: "Clases Individuales", // title -> titulo
-    nuevoPrecio: "20", // newPrice -> nuevoPrecio
-    frecuencia: "clase", // frequency -> frecuencia
-    descripcion: "Clases de español con pago flexible por sesión.", // description -> descripcion
-    imagen: "/images/plan3.jpg", // image -> imagen
-    personalizado: true, // custom -> personalizado
+    // titleKey: "index.plans.plan0.title", (Ejemplo - usaremos el índice directamente)
+    newPrice: "20",
+    frequencyKey: "index.plans.plan0.frequency",
+    // descriptionKey: "index.plans.plan0.description",
+    image: "/images/plan3.jpg",
+    custom: true,
   },
   {
-    titulo: "Confianza", // title -> titulo
-    nuevoPrecio: 120, // newPrice -> nuevoPrecio
-    frecuencia: "mes (25% desc.)", // frequency -> frecuencia
-    descripcion: "Impulsa tu confianza con constancia.", // description -> descripcion
-    imagen: "/images/plan1.jpg", // image -> imagen
+    newPrice: 120,
+    frequencyKey: "index.plans.plan1.frequency",
+    image: "/images/plan1.jpg",
+    sessionsKey: "index.plans.sessionsPerWeek", // Clave para texto generado
+    sessionsCount: 2, // Dato para generar el texto
   },
   {
-    titulo: "Plan Fluidez", // title -> titulo
-    nuevoPrecio: 220, // newPrice -> nuevoPrecio
-    frecuencia: "mes (30% desc.)", // frequency -> frecuencia
-    descripcion: "Práctica intensiva para un progreso rápido.", // description -> descripcion
-    imagen: "/images/plan2.jpg", // image -> imagen
+    newPrice: 220,
+    frequencyKey: "index.plans.plan2.frequency",
+    image: "/images/plan2.jpg",
+    sessionsKey: "index.plans.sessionsPerWeek", // Clave para texto generado
+    sessionsCount: 4, // Dato para generar el texto
   },
 ];
 
-const equipo = [
+const teamData = [
   {
-    nombre: "Victor Briceño", // name -> nombre
-    cargo: "Especialista en Fluidez", // title -> cargo
-    cita: "Hacemos del español una parte vibrante de tu vida", // quote -> cita
-    bio: "Especialista multicultural en fluidez con más de 7 años transformando conocimiento teórico en conversaciones auténticas a través de Venezuela, Perú y Colombia.",
-    imagen: "/images/profile.png", // image -> imagen
+    name: "Victor Briceño", // Los nombres generalmente no se traducen directamente
+    // titleKey: "index.team.member0.title",
+    // quoteKey: "index.team.member0.quote",
+    // bioKey: "index.team.member0.bio",
+    image: "/images/profile.png",
   },
   {
-    nombre: "Elizabeth García", // name -> nombre
-    cargo: "Educadora Lingüista", // title -> cargo
-    cita: "Conectando la teoría lingüística con la comunicación práctica", // quote -> cita
-    bio: "Doctora en Educación con más de 25 años desarrollando currículos de idiomas y pionera en tecnologías educativas para una adquisición efectiva.",
-    imagen: "/images/profile2.jpg", // image -> imagen
+    name: "Elizabeth García",
+    // titleKey: "index.team.member1.title",
+    // quoteKey: "index.team.member1.quote",
+    // bioKey: "index.team.member1.bio",
+    image: "/images/profile2.jpg",
   },
 ];
+// --- Fin Data arrays ---
 
-// Función auxiliar traducida
-const obtenerSesionesPorSemana = (plan) => { // getSessionsPerWeek -> obtenerSesionesPorSemana
-  const mapeoSesiones = { // sessionsMapping -> mapeoSesiones
-    Confianza: 2,
-    "Plan Fluidez": 4, // Key uses the translated title
-  };
-  return mapeoSesiones[plan.titulo] // Use plan.titulo
-    ? `${mapeoSesiones[plan.titulo]} sesiones por semana`
-    : plan.personalizado // Use plan.personalizado
-    ? "Horario flexible"
-    : "";
+
+// Helper function para obtener el texto de sesiones (devuelve clave o texto)
+const getSessionsPerWeekText = (plan, t) => {
+  if (plan.custom) {
+    return t("index.plans.flexibleScheduling"); // Clave para "Flexible scheduling"
+  }
+  if (plan.sessionsCount && plan.sessionsKey) {
+    // Usa la clave y pasa la cuenta para interpolación
+    return t(plan.sessionsKey, { count: plan.sessionsCount });
+  }
+  return "";
 };
 
-// Las variantes de animación permanecen igual - no necesitan traducción
+// Animation variants remain the same
 const auraVariants = {
   idle: {
     boxShadow: [
@@ -79,39 +85,34 @@ const auraVariants = {
   hover: { scale: 1.05, transition: { duration: 0.3 } }
 };
 
-// Componente HeroSplitScreen traducido
+// HeroSplitScreen Component
 const HeroSplitScreen = () => {
+  const { t } = useTranslation(); // Usar hook aquí también
+
   return (
     <header className="relative text-white overflow-hidden">
-      {/* Imagen de Fondo */}
       <div className="absolute inset-0">
         <img
           src={HeroBackground}
-          alt="Escena Callejera de Medellín" // Translated alt text
+          alt={t("index.hero.backgroundImageAlt")} // Traducir alt
           className="w-full h-full object-cover"
-          loading="eager" // Mantenido eager para rendimiento LCP
+          loading="eager"
         />
       </div>
-
-      {/* Superposición Oscura para Contraste */}
       <div className="absolute inset-0 bg-black bg-opacity-50" />
-
       <div className="relative max-w-6xl mx-auto flex flex-col-reverse md:flex-row items-center px-6 py-24">
-        {/* Lado Izquierdo: Contenido de Texto */}
         <motion.div
           className="md:w-1/2 flex flex-col items-start mb-8 md:mb-0 md:mr-8"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-5xl font-extrabold leading-tight mb-4 text-left">
-            Escuela Online de Fluidez en Español {/* Translated Heading */}
+          <h1 className="text-6xl font-extrabold leading-tight mb-4 text-left">
+            {t("index.hero.title")} {/* Traducir título */}
           </h1>
           <p className="text-secondary text-lg font-regular mb-8 text-left">
-            Desarrolla habilidades de conversación y la confianza para usar tu Español en cualquier lugar. {/* Translated Tagline */}
+            {t("index.hero.subtitle")} {/* Traducir subtítulo */}
           </p>
-
-          {/* Botones */}
           <div className="w-full flex justify-center md:justify-start space-x-4">
             <Link to="#plans">
               <motion.button
@@ -119,7 +120,7 @@ const HeroSplitScreen = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Inicia Tu Viaje Hacia la Fluidez {/* Translated Button */}
+                {t("index.hero.button1")} {/* Traducir botón */}
               </motion.button>
             </Link>
             <Link to="/signupTrial">
@@ -128,13 +129,11 @@ const HeroSplitScreen = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                ¡Obtén tu Clase de Prueba! {/* Translated Button */}
+                {t("index.hero.button2")} {/* Traducir botón */}
               </motion.button>
             </Link>
           </div>
         </motion.div>
-
-        {/* Lado Derecho: Imagen de Perfil con Aura */}
         <motion.div
           className="md:w-1/2 flex justify-center mb-8 md:mb-0"
           initial={{ opacity: 0, x: 50 }}
@@ -143,12 +142,12 @@ const HeroSplitScreen = () => {
         >
           <motion.img
             src={ProfileImage}
-            alt="Perfil de Vic" // Translated alt text
+            alt={t("index.hero.profileImageAlt")} // Traducir alt
             className="w-80 h-80 object-cover rounded-full shadow-2xl border-4 border-primary"
             variants={auraVariants}
             animate="idle"
             whileHover="hover"
-            loading="eager" // Mantenido eager para rendimiento LCP
+            loading="eager"
           />
         </motion.div>
       </div>
@@ -156,74 +155,76 @@ const HeroSplitScreen = () => {
   );
 };
 
-
+// IndexPage Component
 const IndexPage = () => {
+  const { t } = useTranslation(); // Usar hook aquí
+
   return (
     <>
       <Navbar />
       <HeroSplitScreen />
 
-      {/* Sección: ¿Por Qué Aprender Con Nosotros? */}
+      {/* Why Learn With Us Section */}
       <section id="whylearnwithus" className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-primary mb-12 text-center">
-            ¿Por Qué Aprender Español Con Nosotros? {/* Translated Heading */}
+            {t("index.whyLearn.title")} {/* Traducir */}
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Característica 1 */}
+            {/* Feature 1 */}
             <motion.div
               className="text-center p-6 hover:bg-gray-50 rounded-lg transition"
               whileHover={{ y: -5 }}
             >
+              {/* Icon remains */}
               <div className="bg-primary rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                {/* Icono */}
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Enfoque Personalizado</h3> {/* Translated Feature Title */}
-              <p className="text-gray-600">Lecciones adaptadas a tus metas, intereses y estilo de aprendizaje.</p> {/* Translated Feature Description */}
+              <h3 className="text-xl font-semibold mb-2">{t("index.whyLearn.feature1.title")}</h3> {/* Traducir */}
+              <p className="text-gray-600">{t("index.whyLearn.feature1.description")}</p> {/* Traducir */}
             </motion.div>
-            {/* Característica 2 */}
+            {/* Feature 2 */}
             <motion.div
               className="text-center p-6 hover:bg-gray-50 rounded-lg transition"
               whileHover={{ y: -5 }}
             >
+              {/* Icon remains */}
               <div className="bg-primary rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                 {/* Icono */}
-                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Horario Flexible</h3> {/* Translated Feature Title */}
-              <p className="text-gray-600">Reserva clases cuando te funcione: mañanas, tardes o fines de semana.</p> {/* Translated Feature Description */}
+              <h3 className="text-xl font-semibold mb-2">{t("index.whyLearn.feature2.title")}</h3> {/* Traducir */}
+              <p className="text-gray-600">{t("index.whyLearn.feature2.description")}</p> {/* Traducir */}
             </motion.div>
-            {/* Característica 3 */}
+            {/* Feature 3 */}
              <motion.div
               className="text-center p-6 hover:bg-gray-50 rounded-lg transition"
               whileHover={{ y: -5 }}
             >
+              {/* Icon remains */}
               <div className="bg-primary rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                 {/* Icono */}
                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Inmersión Cultural</h3> {/* Translated Feature Title */}
-              <p className="text-gray-600">Aprende español auténtico con perspectivas culturales de Sudamérica.</p> {/* Translated Feature Description */}
+                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                 </svg>
+               </div>
+              <h3 className="text-xl font-semibold mb-2">{t("index.whyLearn.feature3.title")}</h3> {/* Traducir */}
+              <p className="text-gray-600">{t("index.whyLearn.feature3.description")}</p> {/* Traducir */}
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Sección: Conoce al Equipo */}
+      {/* Meet the Team Section */}
       <section className="py-16 lg:py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-12">
-            Conoce a Tus Guías para la Fluidez {/* Translated Heading */}
+            {t("index.team.title")} {/* Traducir */}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
-            {equipo.map((miembro, index) => ( // team -> equipo, member -> miembro
+            {teamData.map((member, index) => (
               <motion.div
                 key={index}
                 className="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center"
@@ -235,24 +236,24 @@ const IndexPage = () => {
               >
                 <div className="relative mb-4">
                   <img
-                    src={miembro.imagen} // member.image -> miembro.imagen
-                    alt={miembro.nombre} // member.name -> miembro.nombre
+                    src={member.image}
+                    alt={t("index.team.memberImageAlt", { name: member.name })} // Traducir alt con interpolación
                     className="w-36 h-36 object-cover rounded-full border-4 border-primary/30 mx-auto"
-                    loading="lazy" // Mantenido lazy loading
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 rounded-full border-4 border-transparent hover:border-primary/40 transition-all"></div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-1">{miembro.nombre}</h3> {/* member.name -> miembro.nombre */}
-                <p className="text-primary font-semibold mb-3">{miembro.cargo}</p> {/* member.title -> miembro.cargo */}
-                <p className="text-gray-600 mb-4 italic">"{miembro.cita}"</p> {/* member.quote -> miembro.cita */}
-                <p className="text-gray-600 text-sm">{miembro.bio}</p> {/* member.bio -> miembro.bio */}
+                <h3 className="text-2xl font-bold text-gray-800 mb-1">{member.name}</h3> {/* Nombre no traducido aquí */}
+                <p className="text-primary font-semibold mb-3">{t(`index.team.member${index}.title`)}</p> {/* Traducir */}
+                <p className="text-gray-600 mb-4 italic">"{t(`index.team.member${index}.quote`)}"</p> {/* Traducir */}
+                <p className="text-gray-600 text-sm">{t(`index.team.member${index}.bio`)}</p> {/* Traducir */}
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Sección: Nuestra Filosofía */}
+      {/* Our Philosophy Section */}
       <section className="py-16 lg:py-20 bg-white">
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
           <motion.div
@@ -264,9 +265,9 @@ const IndexPage = () => {
           >
             <img
               src="/images/group-talking-fluently.jpg"
-              alt="Aprendizaje interactivo de español" // Translated alt text
+              alt={t("index.philosophy.imageAlt")} // Traducir alt
               className="rounded-xl shadow-xl w-full h-auto group-hover:opacity-95 transition-opacity"
-              loading="lazy" // Mantenido lazy loading
+              loading="lazy"
             />
             <div className="absolute -inset-3 border-2 border-primary/20 rounded-xl pointer-events-none group-hover:border-primary/40 transition-all duration-300"></div>
           </motion.div>
@@ -277,86 +278,91 @@ const IndexPage = () => {
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.7 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-primary">Nuestra Filosofía de Fluidez</h2> {/* Translated Heading */}
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">{t("index.philosophy.title")}</h2> {/* Traducir */}
             <p className="text-lg text-gray-700">
-              Creemos que la fluidez florece cuando conectas el idioma con la vida real. Nuestra metodología única no se trata de perfección; se trata de progreso y la valentía para comunicarte. {/* Translated Paragraph */}
+              {t("index.philosophy.description")} {/* Traducir */}
             </p>
             <ul className="space-y-3 text-gray-700">
               <li className="flex items-start">
                 <span className="text-primary font-bold mr-2">✓</span>
-                <span><span className="font-semibold">Base Académica:</span> Aprovechando los más de 25 años de Elizabeth en lingüística y educación para un aprendizaje estructurado.</span> {/* Translated List Item */}
+                <span><span className="font-semibold">{t("index.philosophy.listItem1.title")}</span> {t("index.philosophy.listItem1.description")}</span> {/* Traducir */}
               </li>
               <li className="flex items-start">
                 <span className="text-primary font-bold mr-2">✓</span>
-                <span><span className="font-semibold">Práctica Inmersiva:</span> Incorporando la experiencia real de Vic en Latinoamérica para conversaciones auténticas.</span> {/* Translated List Item */}
+                <span><span className="font-semibold">{t("index.philosophy.listItem2.title")}</span> {t("index.philosophy.listItem2.description")}</span> {/* Traducir */}
               </li>
               <li className="flex items-start">
                 <span className="text-primary font-bold mr-2">✓</span>
-                <span><span className="font-semibold">Enfoque Centrado en la Persona:</span> Creando un espacio de apoyo donde los errores se celebran como oportunidades de aprendizaje.</span> {/* Translated List Item */}
+                <span><span className="font-semibold">{t("index.philosophy.listItem3.title")}</span> {t("index.philosophy.listItem3.description")}</span> {/* Traducir */}
               </li>
             </ul>
           </motion.div>
         </div>
       </section>
 
-      {/* Sección: Planes */}
+      {/* Plans Section */}
       <section id="plans" className="py-16 bg-gray-100">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-primary mb-6 text-center">
-            Planes Pensados Para Ti {/* Translated Heading */}
+            {t("index.plans.title")} {/* Traducir */}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {planes.map((plan, index) => ( // plans -> planes
-              <motion.div
-                key={index}
-                onClick={() =>
-                  navigate(`/plans?plan=${encodeURIComponent(plan.titulo)}`) // Use translated title in URL if the target page expects it
-                }
-                className="bg-white border rounded-md p-6 shadow-md hover:shadow-lg transition cursor-pointer flex flex-col"
-                whileHover={{ y: -5 }}
-              >
-                <img
-                  src={plan.imagen} // plan.image -> plan.imagen
-                  alt={plan.titulo} // plan.title -> plan.titulo
-                  className="w-full h-48 object-cover rounded-md mb-4"
-                  loading="lazy" // Mantenido lazy loading
-                />
-                <div className="flex-grow">
-                    <h3 className="text-xl font-semibold mb-2">{plan.titulo}</h3> {/* plan.title -> plan.titulo */}
-                    {plan.nuevoPrecio ? ( // plan.newPrice -> plan.nuevoPrecio
-                    <p className="text-primary font-bold mb-2">
-                        ${plan.nuevoPrecio} <span className="text-sm">/{plan.frecuencia}</span> <br /> {/* plan.frequency -> plan.frecuencia */}
-                        <span className="text-sm text-gray-600">{obtenerSesionesPorSemana(plan)}</span> {/* Use translated helper function */}
-                    </p>
-                    ) : (
-                    <p className="text-primary font-bold mb-2">Precio Personalizado</p> // Custom Pricing
-                    )}
-                    <p className="text-gray-600 mb-4">{plan.descripcion}</p> {/* plan.description -> plan.descripcion */}
-                </div>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(`/plans?plan=${encodeURIComponent(plan.titulo)}`); // Use translated title in URL
-                  }}
-                  className="w-full mt-auto bg-primary text-white px-6 py-2 rounded-md font-bold shadow-md hover:bg-orange-600 transition"
+            {plansData.map((plan, index) => {
+              const planTitleKey = `index.plans.plan${index}.title`;
+              const planTitle = t(planTitleKey);
+              const planNavigate = () => navigate(`/plans?plan=${encodeURIComponent(planTitle)}`); // Navega con el título traducido actual
+
+              return (
+                <motion.div
+                  key={index}
+                  onClick={planNavigate}
+                  className="bg-white border rounded-md p-6 shadow-md hover:shadow-lg transition cursor-pointer flex flex-col"
+                  whileHover={{ y: -5 }}
                 >
-                  Ver Detalles {/* Translated Button */}
-                </button>
-              </motion.div>
-            ))}
+                  <img
+                    src={plan.image}
+                    alt={t("index.plans.planImageAlt", { title: planTitle })} // Traducir alt con título traducido
+                    className="w-full h-48 object-cover rounded-md mb-4"
+                    loading="lazy"
+                  />
+                  <div className="flex-grow">
+                    <h3 className="text-xl font-semibold mb-2">{planTitle}</h3> {/* Traducir */}
+                    {plan.newPrice ? (
+                      <p className="text-primary font-bold mb-2">
+                        ${plan.newPrice}{" "}
+                        <span className="text-sm">{t(plan.frequencyKey)}</span> {/* Traducir frecuencia */}
+                        <br />
+                        <span className="text-sm text-gray-600">{getSessionsPerWeekText(plan, t)}</span> {/* Obtener texto traducido */}
+                      </p>
+                    ) : (
+                      <p className="text-primary font-bold mb-2">{t("index.plans.customPricing")}</p> /* Traducir */
+                    )}
+                    <p className="text-gray-600 mb-4">{t(`index.plans.plan${index}.description`)}</p> {/* Traducir */}
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      planNavigate();
+                    }}
+                    className="w-full mt-auto bg-primary text-white px-6 py-2 rounded-md font-bold shadow-md hover:bg-orange-600 transition"
+                  >
+                    {t("index.plans.viewDetailsButton")} {/* Traducir */}
+                  </button>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-
-      {/* Sección: Cómo Funciona */}
+      {/* How It Works Section */}
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-primary mb-12 text-center">
-            Cómo Funciona {/* Translated Heading */}
+            {t("index.howItWorks.title")} {/* Traducir */}
           </h2>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-            {/* Paso 1 */}
+            {/* Step 1 */}
             <motion.div
               className="flex-1 flex flex-col items-center text-center p-4 md:p-6"
               whileHover={{ scale: 1.03 }}
@@ -364,22 +370,21 @@ const IndexPage = () => {
               <div className="bg-primary-lightest rounded-full w-16 h-16 flex items-center justify-center mb-4 shadow-md border-2 border-primary/20">
                 <span className="text-primary font-bold text-2xl">1</span>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Reserva Tu Prueba</h3> {/* Translated Step Title */}
-              <p className="text-gray-600">Empieza con una clase de prueba por solo $5: una lección de muestra para que conozcas nuestro estilo.</p> {/* Translated Step Description */}
+              <h3 className="text-xl font-semibold mb-2">{t("index.howItWorks.step1.title")}</h3> {/* Traducir */}
+              <p className="text-gray-600">{t("index.howItWorks.step1.description")}</p> {/* Traducir */}
             </motion.div>
-            {/* Separador Flecha */}
+            {/* Separators remain */}
             <div className="hidden md:block self-center mx-4">
               <svg className="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </div>
-             {/* Separador Flecha para Móvil */}
-            <div className="block md:hidden self-center my-4 transform rotate-90">
+             <div className="block md:hidden self-center my-4 transform rotate-90">
               <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </div>
-            {/* Paso 2 */}
+            {/* Step 2 */}
             <motion.div
               className="flex-1 flex flex-col items-center text-center p-4 md:p-6"
               whileHover={{ scale: 1.03 }}
@@ -387,22 +392,21 @@ const IndexPage = () => {
                <div className="bg-primary-lightest rounded-full w-16 h-16 flex items-center justify-center mb-4 shadow-md border-2 border-primary/20">
                 <span className="text-primary font-bold text-2xl">2</span>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Obtén Tu Plan</h3> {/* Translated Step Title */}
-              <p className="text-gray-600">Define tus metas, crearemos un plan y horario personalizados.</p> {/* Translated Step Description */}
+              <h3 className="text-xl font-semibold mb-2">{t("index.howItWorks.step2.title")}</h3> {/* Traducir */}
+              <p className="text-gray-600">{t("index.howItWorks.step2.description")}</p> {/* Traducir */}
             </motion.div>
-             {/* Separador Flecha */}
+             {/* Separators remain */}
             <div className="hidden md:block self-center mx-4">
                <svg className="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </div>
-            {/* Separador Flecha para Móvil */}
             <div className="block md:hidden self-center my-4 transform rotate-90">
               <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </div>
-            {/* Paso 3 */}
+            {/* Step 3 */}
             <motion.div
               className="flex-1 flex flex-col items-center text-center p-4 md:p-6"
               whileHover={{ scale: 1.03 }}
@@ -410,15 +414,14 @@ const IndexPage = () => {
                <div className="bg-primary-lightest rounded-full w-16 h-16 flex items-center justify-center mb-4 shadow-md border-2 border-primary/20">
                 <span className="text-primary font-bold text-2xl">3</span>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Empieza a Aprender</h3> {/* Translated Step Title */}
-              <p className="text-gray-600">Comienza tu camino hacia la fluidez.</p> {/* Translated Step Description */}
+              <h3 className="text-xl font-semibold mb-2">{t("index.howItWorks.step3.title")}</h3> {/* Traducir */}
+              <p className="text-gray-600">{t("index.howItWorks.step3.description")}</p> {/* Traducir */}
             </motion.div>
           </div>
         </div>
       </section>
 
-
-      {/* Sección de Apoyo */}
+      {/* Full-Width Support Section */}
       <section className="py-16 bg-gradient-to-r from-primary to-orange-500">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
@@ -428,29 +431,25 @@ const IndexPage = () => {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6 }}
           >
-            {/* Elementos decorativos */}
+            {/* Decorative elements remain */}
             <div className="absolute -right-10 -top-10 w-32 h-32 bg-white rounded-full opacity-10"></div>
             <div className="absolute -left-5 -bottom-5 w-40 h-40 bg-white rounded-full opacity-5"></div>
 
-            {/* Contenedor de contenido */}
             <div className="relative bg-white bg-opacity-95 backdrop-blur-sm p-8 md:p-10 border border-white border-opacity-60 rounded-xl shadow-lg">
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                {/* Parte de texto */}
                 <div className="text-center md:text-left">
                   <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-                    ¿Disfrutando Tu Viaje con el Español? {/* Translated Heading */}
+                    {t("index.support.title")} {/* Traducir */}
                   </h3>
                   <p className="text-lg text-gray-600 max-w-2xl">
-                    Apoya nuestra escuela y ayúdanos a continuar brindando educación de idiomas de calidad. {/* Translated Paragraph */}
+                    {t("index.support.description")} {/* Traducir */}
                   </p>
                 </div>
-
-                {/* Botón CTA */}
                 <Link
-                  to="/supportUs" // La ruta probablemente permanece igual
+                  to="/supportUs"
                   className="whitespace-nowrap flex-shrink-0 bg-primary hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5"
                 >
-                  Apoya Nuestro Trabajo {/* Translated Button */}
+                  {t("index.support.button")} {/* Traducir */}
                 </Link>
               </div>
             </div>
@@ -458,86 +457,106 @@ const IndexPage = () => {
         </div>
       </section>
 
-      {/* Sección: Preguntas Frecuentes */}
+      {/* Common Questions Section */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-primary mb-8 text-center">
-            Preguntas Frecuentes {/* Translated Heading */}
+            {t("index.faq.title")} {/* Traducir */}
           </h2>
           <div className="space-y-4">
-            {/* FAQ Items */}
+            {/* Question 1 */}
             <motion.div
               className="bg-white p-6 rounded-lg shadow-sm border border-gray-200"
               whileHover={{ scale: 1.01, boxShadow: "0 4px 10px rgba(0,0,0, 0.08)"}}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              <h3 className="font-semibold text-lg text-gray-800">¿Qué incluye la clase de prueba?</h3> {/* Translated Question */}
-              <p className="text-gray-600 mt-2">La prueba incluye una evaluación de nivel, definición de objetivos y una lección de muestra para experimentar mi estilo de enseñanza. Es una excelente manera de ver si encajamos bien antes de comprometerte con un plan.</p> {/* Translated Answer */}
+              <h3 className="font-semibold text-lg text-gray-800">{t("index.faq.q1.question")}</h3> {/* Traducir */}
+              <p className="text-gray-600 mt-2">{t("index.faq.q1.answer")}</p> {/* Traducir */}
             </motion.div>
+            {/* Question 2 */}
             <motion.div
               className="bg-white p-6 rounded-lg shadow-sm border border-gray-200"
               whileHover={{ scale: 1.01, boxShadow: "0 4px 10px rgba(0,0,0, 0.08)"}}
                transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              <h3 className="font-semibold text-lg text-gray-800">¿Qué materiales necesito?</h3> {/* Translated Question */}
-              <p className="text-gray-600 mt-2">Solo una computadora con Zoom y un cuaderno. Proporciono todos los materiales de aprendizaje digitalmente, incluidos ejercicios, listas de vocabulario y recursos culturales.</p> {/* Translated Answer */}
+              <h3 className="font-semibold text-lg text-gray-800">{t("index.faq.q2.question")}</h3> {/* Traducir */}
+              <p className="text-gray-600 mt-2">{t("index.faq.q2.answer")}</p> {/* Traducir */}
             </motion.div>
+            {/* Question 3 */}
             <motion.div
               className="bg-white p-6 rounded-lg shadow-sm border border-gray-200"
               whileHover={{ scale: 1.01, boxShadow: "0 4px 10px rgba(0,0,0, 0.08)"}}
                transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              <h3 className="font-semibold text-lg text-gray-800">¿Puedo cambiar mi plan más adelante?</h3> {/* Translated Question */}
-              <p className="text-gray-600 mt-2">¡Sí! Los planes se pueden ajustar mensualmente según tu progreso y objetivos cambiantes.</p> {/* Translated Answer */}
+              <h3 className="font-semibold text-lg text-gray-800">{t("index.faq.q3.question")}</h3> {/* Traducir */}
+              <p className="text-gray-600 mt-2">{t("index.faq.q3.answer")}</p> {/* Traducir */}
             </motion.div>
+            {/* Question 4 */}
             <motion.div
               className="bg-white p-6 rounded-lg shadow-sm border border-gray-200"
               whileHover={{ scale: 1.01, boxShadow: "0 4px 10px rgba(0,0,0, 0.08)"}}
                transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              <h3 className="font-semibold text-lg text-gray-800">¿Cómo agendo las clases?</h3> {/* Translated Question */}
-              <p className="text-gray-600 mt-2">Después de inscribirte, tendrás acceso a mi calendario en línea donde puedes reservar clases en los horarios que te funcionen, con la flexibilidad de reprogramar cuando sea necesario.</p> {/* Translated Answer */}
+              <h3 className="font-semibold text-lg text-gray-800">{t("index.faq.q4.question")}</h3> {/* Traducir */}
+              <p className="text-gray-600 mt-2">{t("index.faq.q4.answer")}</p> {/* Traducir */}
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Sección: Inicia Tu Viaje */}
+      {/* Start Your Journey Section */}
       <section className="py-16 bg-primary text-white">
         <div className="max-w-6xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">¿Listo/a para Iniciar Tu Viaje con el Español?</h2> {/* Translated Heading */}
+          <h2 className="text-3xl font-bold mb-6">{t("index.cta.title")}</h2> {/* Traducir */}
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Da el primer paso hacia la fluidez con una clase de prueba personalizada por solo $5. {/* Translated Paragraph */}
+            {t("index.cta.subtitle")} {/* Traducir */}
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link to="/signupTrial"> {/* La ruta probablemente permanece igual */}
+            <Link to="/signupTrial">
               <motion.button
                 className="bg-white text-primary px-8 py-3 rounded-md font-bold shadow-md hover:bg-gray-100 transition"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Reserva Tu Clase de Prueba {/* Translated Button */}
+                {t("index.cta.button1")} {/* Traducir */}
               </motion.button>
             </Link>
-            <Link to="/plans"> {/* La ruta probablemente permanece igual */}
+            <Link to="/plans">
               <motion.button
                 className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-bold shadow-sm hover:bg-white hover:text-primary transition"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Ver Todos los Planes {/* Translated Button */}
+                {t("index.cta.button2")} {/* Traducir */}
               </motion.button>
             </Link>
           </div>
         </div>
       </section>
 
-
-    <Footer /> {/* Asumiendo que Footer se traduce o maneja el idioma */}
+      <Footer />
     </>
   );
 };
 
+
+
 export default IndexPage;
 
-// --- END OF FILE index.js (Spanish Version) ---
+// Añade esta consulta al final del archivo para que el plugin funcione correctamente
+export const query = graphql`
+  query($language: String!) {
+    locales: allLocale(filter: {language: {eq: $language}, ns: {eq: "index"}}) {
+      edges {
+        node {
+          ns
+          data
+          language
+        }
+      }
+    }
+  }
+`;
+
+
+// --- END OF FILE index.js ---

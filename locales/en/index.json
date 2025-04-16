@@ -1,0 +1,131 @@
+{
+    "index": {
+      "minimal": {
+  "title": "Minimal Test Page (EN)",
+  "language": "Current Language: {{lang}}",
+  "switch": "Switch to {{lang}}"
+},
+      "hero": {
+        "title": "Online Spanish Fluency School",
+        "subtitle": "Build real speaking skills and the boldness to use them anywhere.",
+        "button1": "Start Your Fluency Journey",
+        "button2": "Get your Trial Class",
+        "backgroundImageAlt": "Medellín Street Scene",
+        "profileImageAlt": "Profile of Vic"
+      },
+      "whyLearn": {
+        "title": "Why Learn Spanish With Us?",
+        "feature1": {
+          "title": "Personalized Approach",
+          "description": "Lessons tailored to your goals, interests, and learning style."
+        },
+        "feature2": {
+          "title": "Flexible Scheduling",
+          "description": "Book classes when it works for you - mornings, evenings, or weekends."
+        },
+        "feature3": {
+          "title": "Cultural Immersion",
+          "description": "Learn authentic Spanish with cultural insights from South America."
+        }
+      },
+      "team": {
+        "title": "Meet Your Guides to Fluency",
+        "memberImageAlt": "Profile picture of {{name}}",
+        "member0": {
+          "title": "Fluency Specialist",
+          "quote": "Making Spanish a vibrant part of your life",
+          "bio": "Multicultural fluency specialist with 7+ years transforming textbook knowledge into authentic conversations across Venezuela, Perú, and Colombia."
+        },
+        "member1": {
+          "title": "Linguistics Educator",
+          "quote": "Bridging linguistic theory with practical communication",
+          "bio": "PhD in Education with 25+ years developing language curricula and pioneering educational technologies for effective acquisition."
+        }
+      },
+      "philosophy": {
+        "imageAlt": "Interactive Spanish learning",
+        "title": "Our Fluency Philosophy",
+        "description": "We believe fluency blossoms when you connect language to real life. Our unique methodology isn't about perfection; it's about progress and the courage to communicate.",
+        "listItem1": {
+          "title": "Academic Foundation:",
+          "description": "Leveraging Elizabeth's 25+ years in linguistics and education for structured learning."
+        },
+        "listItem2": {
+          "title": "Immersive Practice:",
+          "description": "Incorporating Vic's real-world experience across Latin America for authentic conversation."
+        },
+        "listItem3": {
+          "title": "Human-Centered Approach:",
+          "description": "Creating a supportive space where mistakes are celebrated as learning opportunities."
+        }
+      },
+      "plans": {
+        "title": "Plans Made for You",
+        "planImageAlt": "Image for {{title}} plan",
+        "customPricing": "Custom Pricing",
+        "flexibleScheduling": "Flexible scheduling",
+        "sessionsPerWeek": "{{count}} sessions per week",
+        "viewDetailsButton": "View Details",
+        "plan0": {
+          "title": "Individual Classes",
+          "frequency": "/class",
+          "description": "Pay-as-you-go Spanish lessons."
+        },
+        "plan1": {
+          "title": "Confidence",
+          "frequency": "/month (25% off)",
+          "description": "Boost your confidence with consistency."
+        },
+        "plan2": {
+          "title": "Fluency Plan",
+          "frequency": "/month (30% off)",
+          "description": "Intensive practice for rapid progress."
+        }
+      },
+      "howItWorks": {
+        "title": "How It Works",
+        "step1": {
+          "title": "Book Your Trial",
+          "description": "Start with a $5 trial class - a sample lesson to experience our teaching style."
+        },
+        "step2": {
+          "title": "Get Your Plan",
+          "description": "Set your goals, build a personalized plan and schedule."
+        },
+        "step3": {
+          "title": "Start Learning",
+          "description": "Begin your journey to fluency."
+        }
+      },
+      "support": {
+        "title": "Enjoying Your Spanish Journey?",
+        "description": "Support our school and help us continue providing quality language education.",
+        "button": "Support Our Work"
+      },
+      "faq": {
+        "title": "Common Questions",
+        "q1": {
+          "question": "What's included in the trial class?",
+          "answer": "The trial includes a level assessment, goal setting, and a sample lesson to experience my teaching style. It's a great way to see if we're a good fit before committing to a plan."
+        },
+        "q2": {
+          "question": "What materials do I need?",
+          "answer": "Just a computer with Zoom and a notebook. I provide all learning materials digitally, including exercises, vocabulary lists, and cultural resources."
+        },
+        "q3": {
+          "question": "Can I change my plan later?",
+          "answer": "Yes! Plans can be adjusted monthly based on your progress and changing goals."
+        },
+        "q4": {
+          "question": "How do I schedule classes?",
+          "answer": "After signing up, you'll get access to my online calendar where you can book classes at times that work for you, with the flexibility to reschedule when needed."
+        }
+      },
+      "cta": {
+        "title": "Ready to Start Your Spanish Journey?",
+        "subtitle": "Take the first step towards fluency with a personalized trial class for just $5.",
+        "button1": "Book Your Trial Class",
+        "button2": "View All Plans"
+      }
+    }
+  }

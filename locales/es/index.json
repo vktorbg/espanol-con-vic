@@ -1,0 +1,131 @@
+{
+  "index": {
+    "minimal": {
+  "title": "Minimal Test Page (EN)",
+  "language": "Current Language: {{lang}}",
+  "switch": "Switch to {{lang}}"
+},
+    "hero": {
+      "title": "Escuela Online de Fluidez en Español",
+      "subtitle": "Desarrolla habilidades reales de conversación y la confianza para usarlas en cualquier lugar.",
+      "button1": "Comienza Tu Viaje a la Fluidez",
+      "button2": "Obtén tu Clase de Prueba",
+      "backgroundImageAlt": "Escena callejera de Medellín",
+      "profileImageAlt": "Perfil de Vic"
+    },
+    "whyLearn": {
+      "title": "¿Por Qué Aprender Español Con Nosotros?",
+      "feature1": {
+        "title": "Enfoque Personalizado",
+        "description": "Lecciones adaptadas a tus metas, intereses y estilo de aprendizaje."
+      },
+      "feature2": {
+        "title": "Horarios Flexibles",
+        "description": "Reserva clases cuando te funcione: mañanas, tardes o fines de semana."
+      },
+      "feature3": {
+        "title": "Inmersión Cultural",
+        "description": "Aprende español auténtico con perspectivas culturales de Sudamérica."
+      }
+    },
+    "team": {
+      "title": "Conoce a Tus Guías Hacia la Fluidez",
+      "memberImageAlt": "Foto de perfil de {{name}}",
+      "member0": {
+        "title": "Especialista en Fluidez",
+        "quote": "Haciendo del español una parte vibrante de tu vida",
+        "bio": "Especialista multicultural en fluidez con más de 7 años transformando conocimiento de libros de texto en conversaciones auténticas a través de Venezuela, Perú y Colombia."
+      },
+      "member1": {
+        "title": "Educadora Lingüista",
+        "quote": "Uniendo la teoría lingüística con la comunicación práctica",
+        "bio": "Doctora en Educación con más de 25 años desarrollando currículos de idiomas y siendo pionera en tecnologías educativas para una adquisición efectiva."
+      }
+    },
+    "philosophy": {
+      "imageAlt": "Aprendizaje interactivo de español",
+      "title": "Nuestra Filosofía de Fluidez",
+      "description": "Creemos que la fluidez florece cuando conectas el idioma con la vida real. Nuestra metodología única no se trata de perfección; se trata de progreso y el coraje para comunicar.",
+      "listItem1": {
+        "title": "Fundamento Académico:",
+        "description": "Aprovechando los más de 25 años de Elizabeth en lingüística y educación para un aprendizaje estructurado."
+      },
+      "listItem2": {
+        "title": "Práctica Inmersiva:",
+        "description": "Incorporando la experiencia real de Vic en América Latina para una conversación auténtica."
+      },
+      "listItem3": {
+        "title": "Enfoque Centrado en el Humano:",
+        "description": "Creando un espacio de apoyo donde los errores se celebran como oportunidades de aprendizaje."
+      }
+    },
+    "plans": {
+      "title": "Planes Hechos Para Ti",
+      "planImageAlt": "Imagen para el plan {{title}}",
+      "customPricing": "Precio Personalizado",
+      "flexibleScheduling": "Horario flexible",
+      "sessionsPerWeek": "{{count}} sesiones por semana",
+      "viewDetailsButton": "Ver Detalles",
+      "plan0": {
+        "title": "Clases Individuales",
+        "frequency": "/clase",
+        "description": "Lecciones de español pago por uso."
+      },
+      "plan1": {
+        "title": "Confianza",
+        "frequency": "/mes (25% desc.)",
+        "description": "Impulsa tu confianza con constancia."
+      },
+      "plan2": {
+        "title": "Plan Fluidez",
+        "frequency": "/mes (30% desc.)",
+        "description": "Práctica intensiva para un progreso rápido."
+      }
+    },
+    "howItWorks": {
+      "title": "Cómo Funciona",
+      "step1": {
+        "title": "Reserva tu Prueba",
+        "description": "Comienza con una clase de prueba de $5 - una lección de muestra para experimentar nuestro estilo de enseñanza."
+      },
+      "step2": {
+        "title": "Obtén Tu Plan",
+        "description": "Establece tus metas, crea un plan personalizado y un horario."
+      },
+      "step3": {
+        "title": "Empieza a Aprender",
+        "description": "Comienza tu viaje hacia la fluidez."
+      }
+    },
+    "support": {
+      "title": "¿Disfrutando Tu Viaje con el Español?",
+      "description": "Apoya nuestra escuela y ayúdanos a continuar brindando educación de idiomas de calidad.",
+      "button": "Apoya Nuestro Trabajo"
+    },
+    "faq": {
+      "title": "Preguntas Frecuentes",
+      "q1": {
+        "question": "¿Qué incluye la clase de prueba?",
+        "answer": "La prueba incluye una evaluación de nivel, establecimiento de metas y una lección de muestra para experimentar mi estilo de enseñanza. Es una excelente manera de ver si encajamos bien antes de comprometerte con un plan."
+      },
+      "q2": {
+        "question": "¿Qué materiales necesito?",
+        "answer": "Solo una computadora con Zoom y un cuaderno. Proporciono todos los materiales de aprendizaje digitalmente, incluyendo ejercicios, listas de vocabulario y recursos culturales."
+      },
+      "q3": {
+        "question": "¿Puedo cambiar mi plan después?",
+        "answer": "¡Sí! Los planes se pueden ajustar mensualmente según tu progreso y metas cambiantes."
+      },
+      "q4": {
+        "question": "¿Cómo programo las clases?",
+        "answer": "Después de registrarte, tendrás acceso a mi calendario en línea donde puedes reservar clases en horarios que te funcionen, con la flexibilidad de reprogramar cuando sea necesario."
+      }
+    },
+    "cta": {
+      "title": "¿Listo para Empezar Tu Viaje con el Español?",
+      "subtitle": "Da el primer paso hacia la fluidez con una clase de prueba personalizada por solo $5.",
+      "button1": "Reserva Tu Clase de Prueba",
+      "button2": "Ver Todos los Planes"
+    }
+  }
+}
