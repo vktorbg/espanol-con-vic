@@ -83,7 +83,7 @@ const PaginaServicios = () => { // ServicesPage -> PaginaServicios
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            Desbloquea Conversaciones Fluidas en Español {/* Translated Heading */}
+            Desbloque tu fluidez con conversaciones cotidianas en español. {/* Translated Heading */}
           </motion.h1>
           <motion.p
             className="text-lg md:text-xl font-light mb-8 max-w-2xl mx-auto"

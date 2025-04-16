@@ -9,16 +9,16 @@ import Footer from "../components/Footer"; // Asumiendo traducción o manejo de 
 const equipo = [ // team -> equipo
   {
     nombre: "Victor Briceño", // name -> nombre
-    cargo: "Co-Fundador y Especialista en Fluidez", // title -> cargo
+    cargo: "Especialista en gramática y fluidez", // title -> cargo
     imagen: "/images/profile.png", // image -> imagen
-    bio: "Especialista multicultural en fluidez con más de 7 años transformando conocimiento teórico en conversaciones auténticas a través de Venezuela, Perú y Colombia. Apasionado por hacer del español una parte vibrante de tu vida.", // bio -> bio (traducido)
+    bio: "Profesor de Español y Literatura con un enfoque multicultural de enseñanza, con más de 7 años de práctica enseñando a personas de distintos países. Apasionado por enseñar lo más difícil de forma divertida.", // bio -> bio (traducido)
     cita: "Hacemos del español una parte vibrante de tu vida", // quote -> cita (traducido)
   },
   {
     nombre: "Elizabeth García", // name -> nombre
-    cargo: "Co-Fundadora y Asesora Educativa", // title -> cargo
+    cargo: "Lingüista y programadora educativa", // title -> cargo
     imagen: "/images/profile2.jpg", // image -> imagen
-    bio: "Doctora en Educación con más de 25 años desarrollando currículos de idiomas y pionera en tecnologías educativas para una adquisición efectiva. Experta en conectar la teoría lingüística con la comunicación práctica.", // bio -> bio (traducido)
+    bio: "Doctora en Educación y Magister en Lingüística aplicada a la enseñanza y aprendizaje de la lengua española e inglesa, con más de 25 años de experiencia como docente y programadora educativa", // bio -> bio (traducido)
     cita: "Conectando la teoría lingüística con la comunicación práctica", // quote -> cita (traducido)
   },
 ];
@@ -68,7 +68,7 @@ const PaginaSobreNosotros = () => { // AboutUsPage -> PaginaSobreNosotros
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
           >
-            Conoce a los educadores apasionados detrás de Español con Vic y descubre nuestro enfoque único para construir fluidez real en español. {/* Translated Paragraph */}
+            Conoce a los profesores detrás de Español con Vic y descubre nuestro enfoque único para lograr la fluidez real en español. {/* Translated Paragraph */}
           </motion.p>
         </div>
       </section>
@@ -92,7 +92,7 @@ const PaginaSobreNosotros = () => { // AboutUsPage -> PaginaSobreNosotros
                 viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
              >
-                Bienvenidos a Español con Vic, tu Escuela de Fluidez dedicada. Somos Victor y Elizabeth, un equipo unido por la pasión por el lenguaje y la creencia de que la verdadera fluidez proviene de la <span className="font-semibold text-gray-800">comunicación con confianza</span>, no solo de memorizar reglas. Combinamos décadas de experiencia educativa con vivencias multiculturales reales para crear un ambiente de aprendizaje donde te sientas empoderado/a para hablar español de forma natural y auténtica. {/* Translated Paragraph */}
+                Bienvenidos a Español con Vic, tu Escuela de Fluidez. Somos Victor y Elizabeth, un equipo unido por la pasión por el lenguaje y la creencia de que la verdadera fluidez proviene de la <span className="font-semibold text-gray-800">comunicación con confianza</span>, no solo de memorizar reglas. Combinamos décadas de experiencia educativa con vivencias multiculturales reales para crear un ambiente de aprendizaje donde te sientas empoderado/a para hablar español de forma natural y auténtica. {/* Translated Paragraph */}
              </motion.p>
          </div>
       </section>
@@ -165,15 +165,15 @@ const PaginaSobreNosotros = () => { // AboutUsPage -> PaginaSobreNosotros
                 <ul className="space-y-3 text-gray-700">
                   <li className="flex items-start">
                       <span className="text-primary font-bold mr-2">✓</span>
-                      <span><span className="font-semibold">Base Académica:</span> Aprovechando los más de 25 años de Elizabeth en lingüística y educación para un aprendizaje estructurado.</span> {/* Translated List Item */}
+                      <span><span className="font-semibold">Base académica:</span> Combinamos teorías pedagógicas probadas con conversaciones auténticas y adaptadas a contextos culturales reales para un aprendizaje completo y efectivo..</span> {/* Translated List Item */}
                   </li>
                   <li className="flex items-start">
                       <span className="text-primary font-bold mr-2">✓</span>
-                      <span><span className="font-semibold">Práctica Inmersiva:</span> Incorporando la experiencia real de Vic en Latinoamérica para conversaciones auténticas.</span> {/* Translated List Item */}
+                      <span><span className="font-semibold">Práctica inmersiva:</span> Incorporando la experiencia real de Vic en Latinoamérica para conversaciones auténticas.</span> {/* Translated List Item */}
                   </li>
                   <li className="flex items-start">
                       <span className="text-primary font-bold mr-2">✓</span>
-                      <span><span className="font-semibold">Enfoque Centrado en la Persona:</span> Creando un espacio de apoyo donde los errores se celebran como oportunidades de aprendizaje.</span> {/* Translated List Item */}
+                      <span><span className="font-semibold">Enfoque centrado en la persona:</span> Creando un espacio de apoyo donde los errores se convierten en oportunidades de aprendizaje.</span> {/* Translated List Item */}
                   </li>
                 </ul>
             </motion.div>

@@ -16,40 +16,59 @@ const planes = [
     titulo: "Clases Individuales", // title -> titulo
     nuevoPrecio: "20", // newPrice -> nuevoPrecio
     frecuencia: "clase", // frequency -> frecuencia
-    descripcion: "Clases de español con pago flexible por sesión.", // description -> descripcion
+    descripcion: "Clases de español con pago flexible por sesión y total adaptabilidad.", // Actualizado desde /plans
     imagen: "/images/plan3.jpg", // image -> imagen
     personalizado: true, // custom -> personalizado
+    caracteristicas: [ // Agregado desde /plans
+      "Sesiones personalizadas de 1 hora",
+      "Horario flexible",
+      "Sin compromiso a largo plazo",
+      "Adaptado a tus necesidades inmediatas",
+    ],
   },
   {
-    titulo: "Confianza", // title -> titulo
+    titulo: "Plan Confianza", // title -> titulo
     nuevoPrecio: 120, // newPrice -> nuevoPrecio
     frecuencia: "mes (25% desc.)", // frequency -> frecuencia
-    descripcion: "Impulsa tu confianza con constancia.", // description -> descripcion
+    descripcion: "Impulsa tu confianza con constancia.", // Actualizado desde /plans
     imagen: "/images/plan1.jpg", // image -> imagen
+    caracteristicas: [ // Agregado desde /plans
+      "2 clases por semana (8/mes)",
+      "Enfoque conversacional",
+      "$15 por clase (25% de ahorro)",
+      "Feedback y correcciones personalizadas",
+    ],
   },
   {
     titulo: "Plan Fluidez", // title -> titulo
     nuevoPrecio: 220, // newPrice -> nuevoPrecio
     frecuencia: "mes (30% desc.)", // frequency -> frecuencia
-    descripcion: "Práctica intensiva para un progreso rápido.", // description -> descripcion
+    descripcion: "Práctica intensiva para un progreso rápido.", // Actualizado desde /plans
     imagen: "/images/plan2.jpg", // image -> imagen
+    caracteristicas: [ // Agregado desde /plans
+      "4 clases por semana (16/mes)",
+      "Enfoque inmersivo",
+      "$13.75 por clase (30% de ahorro)",
+      "Reportes de progreso mensuales",
+      "Feedback y correcciones personalizadas",
+    ],
   },
 ];
 
 const equipo = [
   {
     nombre: "Victor Briceño", // name -> nombre
-    cargo: "Especialista en Fluidez", // title -> cargo
-    cita: "Hacemos del español una parte vibrante de tu vida", // quote -> cita
-    bio: "Especialista multicultural en fluidez con más de 7 años transformando conocimiento teórico en conversaciones auténticas a través de Venezuela, Perú y Colombia.",
-    imagen: "/images/profile.png", // image -> imagen
+    cargo: "Especialista en Gramática y Fluidez", // Actualizado desde /about
+    cita: "Hacemos del español una parte vibrante de tu vida", // Sin cambios
+    bio: "Profesor de Español y Literatura con un enfoque multicultural de enseñanza, con más de 7 años de práctica enseñando a personas de distintos países. Apasionado por enseñar lo más difícil de forma divertida.", // Actualizado desde /about
+    imagen: "/images/profile.png", // Sin cambios
   },
   {
     nombre: "Elizabeth García", // name -> nombre
-    cargo: "Educadora Lingüista", // title -> cargo
-    cita: "Conectando la teoría lingüística con la comunicación práctica", // quote -> cita
-    bio: "Doctora en Educación con más de 25 años desarrollando currículos de idiomas y pionera en tecnologías educativas para una adquisición efectiva.",
-    imagen: "/images/profile2.jpg", // image -> imagen
+    cargo: "Lingüista y Programadora Educativa", // Actualizado desde /about
+    cita: "Conectando la teoría lingüística con la comunicación práctica", // Sin cambios
+    bio: "Doctora en Educación y Magister en Lingüística aplicada a la enseñanza y aprendizaje de la lengua española e inglesa, con más de 25 años de experiencia como docente y programadora educativa.", // Actualizado desde /about
+    imagen: "/images/profile2.jpg", // Sin cambios
   },
 ];
 
@@ -264,9 +283,9 @@ const IndexPage = () => {
           >
             <img
               src="/images/group-talking-fluently.jpg"
-              alt="Aprendizaje interactivo de español" // Translated alt text
+              alt="Aprendizaje interactivo de español" // Sin cambios
               className="rounded-xl shadow-xl w-full h-auto group-hover:opacity-95 transition-opacity"
-              loading="lazy" // Mantenido lazy loading
+              loading="lazy" // Sin cambios
             />
             <div className="absolute -inset-3 border-2 border-primary/20 rounded-xl pointer-events-none group-hover:border-primary/40 transition-all duration-300"></div>
           </motion.div>
@@ -277,22 +296,22 @@ const IndexPage = () => {
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.7 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-primary">Nuestra Filosofía de Fluidez</h2> {/* Translated Heading */}
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">Nuestra Filosofía de Fluidez</h2> {/* Sin cambios */}
             <p className="text-lg text-gray-700">
-              Creemos que la fluidez florece cuando conectas el idioma con la vida real. Nuestra metodología única no se trata de perfección; se trata de progreso y la valentía para comunicarte. {/* Translated Paragraph */}
+              Creemos que la fluidez florece cuando conectas el idioma con la vida real. Nuestra metodología única no se trata de perfección; se trata de progreso y la valentía para comunicarte. {/* Sin cambios */}
             </p>
             <ul className="space-y-3 text-gray-700">
               <li className="flex items-start">
                 <span className="text-primary font-bold mr-2">✓</span>
-                <span><span className="font-semibold">Base Académica:</span> Aprovechando los más de 25 años de Elizabeth en lingüística y educación para un aprendizaje estructurado.</span> {/* Translated List Item */}
+                <span><span className="font-semibold">Base académica:</span> Combinamos teorías pedagógicas probadas con conversaciones auténticas y adaptadas a contextos culturales reales para un aprendizaje completo y efectivo.</span> {/* Actualizado desde /about */}
               </li>
               <li className="flex items-start">
                 <span className="text-primary font-bold mr-2">✓</span>
-                <span><span className="font-semibold">Práctica Inmersiva:</span> Incorporando la experiencia real de Vic en Latinoamérica para conversaciones auténticas.</span> {/* Translated List Item */}
+                <span><span className="font-semibold">Práctica inmersiva:</span> Incorporando la experiencia real de Vic en Latinoamérica para conversaciones auténticas.</span> {/* Sin cambios */}
               </li>
               <li className="flex items-start">
                 <span className="text-primary font-bold mr-2">✓</span>
-                <span><span className="font-semibold">Enfoque Centrado en la Persona:</span> Creando un espacio de apoyo donde los errores se celebran como oportunidades de aprendizaje.</span> {/* Translated List Item */}
+                <span><span className="font-semibold">Enfoque centrado en la persona:</span> Creando un espacio de apoyo donde los errores se convierten en oportunidades de aprendizaje.</span> {/* Sin cambios */}
               </li>
             </ul>
           </motion.div>

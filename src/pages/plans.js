@@ -28,7 +28,7 @@ const todosLosPlanes = [ // allPlans -> todosLosPlanes
     descripcion: "Impulsa tu confianza con constancia.", // description -> descripcion
     caracteristicas: [ // features -> caracteristicas
       "2 clases por semana (8/mes)",
-      "Enfoque en hablar y escuchar",
+      "Enfoque conversacional",
       "$15 por clase (25% de ahorro)",
       "Feedback y correcciones personalizadas",
     ],
@@ -40,7 +40,7 @@ const todosLosPlanes = [ // allPlans -> todosLosPlanes
     descripcion: "Práctica intensiva para un progreso rápido.", // description -> descripcion
     caracteristicas: [ // features -> caracteristicas
       "4 clases por semana (16/mes)",
-      "Currículum completo",
+      "Enfoque inmersivo",
       "$13.75 por clase (30% de ahorro)",
       "Reportes de progreso mensuales",
       "Feedback y correcciones personalizadas",
@@ -148,7 +148,7 @@ const PlansPage = () => {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3, duration: 0.8 }}
                 >
-                  Aprende español online desde cualquier lugar — ¡o encuéntrame en Medellín! Todos los planes incluyen estrategias de aprendizaje personalizadas, práctica de conversación y horarios flexibles para adaptarse a tus necesidades. {/* Translated Paragraph */}
+                  Mejora tu español desde cualquier lugar. Todos los planes incluyen estrategias de aprendizaje centradas en la práctica conversacional y horarios flexibles para adaptarse a tus necesidades. {/* Translated Paragraph */}
                 </motion.p>
               </div>
             </section>
@@ -194,7 +194,7 @@ const PlansPage = () => {
         {/* Sección CTA Debajo de los Planes */}
         <div className="text-center bg-white p-8 rounded-xl shadow-lg max-w-3xl mx-auto">
           <h3 className="text-2xl font-bold text-primary mb-4">
-            ¿Listo/a para Empezar Tu Viaje con el Español? {/* Translated Heading */}
+            ¿Listo/a para empezar a hablar sin miedo? {/* Translated Heading */}
           </h3>
 
           <motion.button
