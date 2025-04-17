@@ -60,7 +60,7 @@ const PaginaSobreNosotros = () => { // AboutUsPage -> PaginaSobreNosotros
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            Nuestra Historia: La Escuela de Fluidez {/* Translated Heading */}
+            Sobre nosotros {/* Translated Heading */}
           </motion.h1>
           <motion.p
             className="text-lg md:text-xl font-light mb-8 max-w-2xl mx-auto"
@@ -83,7 +83,7 @@ const PaginaSobreNosotros = () => { // AboutUsPage -> PaginaSobreNosotros
                 viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: 0.6 }}
              >
-                Más Que Solo Clases, Es un Viaje Hacia la Fluidez {/* Translated Heading */}
+                ¿Quiénes somos? {/* Translated Heading */}
              </motion.h2>
              <motion.p
                 className="text-lg text-gray-700 leading-relaxed"
@@ -92,7 +92,7 @@ const PaginaSobreNosotros = () => { // AboutUsPage -> PaginaSobreNosotros
                 viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
              >
-                Bienvenidos a Español con Vic, tu Escuela de Fluidez. Somos Victor y Elizabeth, un equipo unido por la pasión por el lenguaje y la creencia de que la verdadera fluidez proviene de la <span className="font-semibold text-gray-800">comunicación con confianza</span>, no solo de memorizar reglas. Combinamos décadas de experiencia educativa con vivencias multiculturales reales para crear un ambiente de aprendizaje donde te sientas empoderado/a para hablar español de forma natural y auténtica. {/* Translated Paragraph */}
+                Somos Victor y Elizabeth, un equipo unido por la pasión por el lenguaje y la creencia de que la verdadera fluidez proviene de la <span className="font-semibold text-gray-800">comunicación con confianza</span>, no solo de memorizar reglas. Combinamos décadas de experiencia educativa con vivencias multiculturales reales para crear un ambiente de aprendizaje donde te sientas empoderado/a para hablar español de forma natural y auténtica. {/* Translated Paragraph */}
              </motion.p>
          </div>
       </section>
@@ -101,7 +101,7 @@ const PaginaSobreNosotros = () => { // AboutUsPage -> PaginaSobreNosotros
       <section className="py-16 lg:py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-12">
-            Conoce a Tus Guías para la Fluidez {/* Translated Heading (Consistent with index.js) */}
+            Conoce a tus guías hacia la fluidez {/* Translated Heading (Consistent with index.js) */}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
             {equipo.map((miembro, index) => ( // team -> equipo, member -> miembro

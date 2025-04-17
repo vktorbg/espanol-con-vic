@@ -91,10 +91,6 @@ const PlansPage = () => {
       respuesta: "Todas las lecciones son online a través de Zoom.", // answer -> respuesta
     },
     {
-      pregunta: "¿Puedo encontrarme contigo en persona?", // question -> pregunta
-      respuesta: "Si estás en Medellín, ¡claro! De lo contrario, todas las clases son online.", // answer -> respuesta
-    },
-    {
       pregunta: "¿Qué pasa después de reservar una clase de prueba?", // question -> pregunta
       respuesta: "Recibirás un plan personalizado y podrás elegir la mejor suscripción para continuar.", // answer -> respuesta
     },
@@ -108,21 +104,7 @@ const PlansPage = () => {
     },
   ];
 
-  const testimonios = [ // reviews -> testimonios
-    {
-      texto: "¡Vic es un profesor increíble! En solo unas pocas semanas, empecé a hablar con más confianza.", // text -> texto
-      autor: "Sarah, EEUU", // author -> autor
-    },
-    {
-      texto: "Las lecciones son súper prácticas y personalizadas. ¡Altamente recomendado!", // text -> texto
-      autor: "Lucas, Alemania", // author -> autor
-    },
-    {
-      texto: "He probado muchos profesores de español, pero el enfoque de Vic realmente me ayudó a pensar en español.", // text -> texto
-      autor: "Maria, Canadá", // author -> autor
-    },
-  ];
-
+  
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -204,7 +186,7 @@ const PlansPage = () => {
             // Consider adding a specific primary-dark color in tailwind.config.js if needed
             className="bg-primary hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-xl transition" // Adjusted hover color
           >
-            Reserva Tu Clase de Prueba de $5 Ahora {/* Translated Button */}
+            Reserva tu Clase de Prueba de $5 ahora {/* Translated Button */}
           </motion.button>
           <p className="text-sm text-gray-500 mt-4">
             Después de tu prueba, elige el plan que mejor se adapte a tus necesidades de aprendizaje. {/* Translated Paragraph */}
@@ -251,21 +233,7 @@ const PlansPage = () => {
         </div>
       </section>
 
-      <section className="bg-primary/10 py-12 px-4"> {/* bg-primary/10 might need adjustment if primary isn't defined with opacity support */}
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-primary mb-8">Lo Que Dicen Nuestros Estudiantes</h2> {/* Translated Heading */}
-          <div className="grid md:grid-cols-3 gap-6">
-            {testimonios.map((testimonio, index) => ( // reviews -> testimonios, review -> testimonio
-              <div key={index} className="bg-white p-6 rounded-lg shadow">
-                <p className="text-gray-700 italic mb-4">"{testimonio.texto}"</p> {/* Use translated text key */}
-                <p className="text-gray-600 font-semibold">— {testimonio.autor}</p> {/* Use translated author key */}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
+      
       <Footer />
     </div>
   );

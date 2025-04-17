@@ -19,6 +19,7 @@ const planes = [
     descripcion: "Clases de español con pago flexible por sesión y total adaptabilidad.", // Actualizado desde /plans
     imagen: "/images/plan3.jpg", // image -> imagen
     personalizado: true, // custom -> personalizado
+    sesionesPorSemana: "Horario flexible", // Agregado directamente
     caracteristicas: [ // Agregado desde /plans
       "Sesiones personalizadas de 1 hora",
       "Horario flexible",
@@ -32,6 +33,7 @@ const planes = [
     frecuencia: "mes (25% desc.)", // frequency -> frecuencia
     descripcion: "Impulsa tu confianza con constancia.", // Actualizado desde /plans
     imagen: "/images/plan1.jpg", // image -> imagen
+    sesionesPorSemana: "2 sesiones por semana", // Agregado directamente
     caracteristicas: [ // Agregado desde /plans
       "2 clases por semana (8/mes)",
       "Enfoque conversacional",
@@ -45,6 +47,7 @@ const planes = [
     frecuencia: "mes (30% desc.)", // frequency -> frecuencia
     descripcion: "Práctica intensiva para un progreso rápido.", // Actualizado desde /plans
     imagen: "/images/plan2.jpg", // image -> imagen
+    sesionesPorSemana: "4 sesiones por semana", // Agregado directamente
     caracteristicas: [ // Agregado desde /plans
       "4 clases por semana (16/mes)",
       "Enfoque inmersivo",
@@ -138,7 +141,7 @@ const HeroSplitScreen = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Inicia Tu Viaje Hacia la Fluidez {/* Translated Button */}
+                Explora nuestros planes {/* Translated Button */}
               </motion.button>
             </Link>
             <Link to="/signupTrial">
@@ -147,7 +150,7 @@ const HeroSplitScreen = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                ¡Obtén tu Clase de Prueba! {/* Translated Button */}
+                ¡Obtén tu clase de prueba! {/* Translated Button */}
               </motion.button>
             </Link>
           </div>
@@ -186,7 +189,7 @@ const IndexPage = () => {
       <section id="whylearnwithus" className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-primary mb-12 text-center">
-            ¿Por Qué Aprender Español Con Nosotros? {/* Translated Heading */}
+            ¿Por qué aprender español con nosotros? {/* Translated Heading */}
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {/* Característica 1 */}
@@ -239,7 +242,7 @@ const IndexPage = () => {
       <section className="py-16 lg:py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-12">
-            Conoce a Tus Guías para la Fluidez {/* Translated Heading */}
+            Conoce a tus guías para la Fluidez {/* Translated Heading */}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
             {equipo.map((miembro, index) => ( // team -> equipo, member -> miembro
@@ -345,7 +348,7 @@ const IndexPage = () => {
                     {plan.nuevoPrecio ? ( // plan.newPrice -> plan.nuevoPrecio
                     <p className="text-primary font-bold mb-2">
                         ${plan.nuevoPrecio} <span className="text-sm">/{plan.frecuencia}</span> <br /> {/* plan.frequency -> plan.frecuencia */}
-                        <span className="text-sm text-gray-600">{obtenerSesionesPorSemana(plan)}</span> {/* Use translated helper function */}
+                        <span className="text-sm text-gray-600">{plan.sesionesPorSemana}</span> {/* Usamos directamente sesionesPorSemana */}
                     </p>
                     ) : (
                     <p className="text-primary font-bold mb-2">Precio Personalizado</p> // Custom Pricing
@@ -457,7 +460,7 @@ const IndexPage = () => {
                 {/* Parte de texto */}
                 <div className="text-center md:text-left">
                   <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-                    ¿Disfrutando Tu Viaje con el Español? {/* Translated Heading */}
+                    ¿Deseas apoyar este proyecto? {/* Translated Heading */}
                   </h3>
                   <p className="text-lg text-gray-600 max-w-2xl">
                     Apoya nuestra escuela y ayúdanos a continuar brindando educación de idiomas de calidad. {/* Translated Paragraph */}
@@ -469,7 +472,7 @@ const IndexPage = () => {
                   to="/supportUs" // La ruta probablemente permanece igual
                   className="whitespace-nowrap flex-shrink-0 bg-primary hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5"
                 >
-                  Apoya Nuestro Trabajo {/* Translated Button */}
+                  ¿Cómo apoyar? {/* Translated Button */}
                 </Link>
               </div>
             </div>
@@ -524,7 +527,7 @@ const IndexPage = () => {
       {/* Sección: Inicia Tu Viaje */}
       <section className="py-16 bg-primary text-white">
         <div className="max-w-6xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">¿Listo/a para Iniciar Tu Viaje con el Español?</h2> {/* Translated Heading */}
+          <h2 className="text-3xl font-bold mb-6">¿Listo/a para agendar tu primera sesión?</h2> {/* Translated Heading */}
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Da el primer paso hacia la fluidez con una clase de prueba personalizada por solo $5. {/* Translated Paragraph */}
           </p>
@@ -535,7 +538,7 @@ const IndexPage = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Reserva Tu Clase de Prueba {/* Translated Button */}
+                RESERVA TU CLASE DE PRUEBA {/* Translated Button */}
               </motion.button>
             </Link>
             <Link to="/plans"> {/* La ruta probablemente permanece igual */}

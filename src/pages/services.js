@@ -49,21 +49,6 @@ const servicios = [ // services -> servicios
   },
 ];
 
-// Usando los mismos testimonios de plans.js (traducido)
-const testimonios = [ // reviews -> testimonios
-    {
-      texto: "¡Vic es un profesor increíble! En solo unas pocas semanas, empecé a hablar con más confianza.", // text -> texto
-      autor: "Sarah, EEUU", // author -> autor
-    },
-    {
-      texto: "Las lecciones son súper prácticas y personalizadas. ¡Altamente recomendado!", // text -> texto
-      autor: "Lucas, Alemania", // author -> autor
-    },
-    {
-      texto: "He probado muchos profesores de español, pero el enfoque de Vic realmente me ayudó a pensar en español.", // text -> texto
-      autor: "Maria, Canadá", // author -> autor
-    },
-];
 
 // Renombrado componente
 const PaginaServicios = () => { // ServicesPage -> PaginaServicios
@@ -114,7 +99,7 @@ const PaginaServicios = () => { // ServicesPage -> PaginaServicios
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Reserva Tu Clase de Prueba de $5 {/* Translated Button */}
+                Reserva tu Clase de Prueba de $5 {/* Translated Button */}
               </motion.button>
             </Link>
           </motion.div>
@@ -151,27 +136,6 @@ const PaginaServicios = () => { // ServicesPage -> PaginaServicios
         </div>
       </section>
 
-      {/* Sección Testimonios - Estilo Consistente */}
-      <section className="bg-primary/10 py-16 lg:py-20 px-4"> {/* Ajustar bg si es necesario */}
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-12">Lo Que Logran Nuestros Estudiantes</h2> {/* Translated Heading */}
-          <div className="grid md:grid-cols-3 gap-6">
-            {testimonios.map((testimonio, index) => ( // reviews -> testimonios, review -> testimonio
-              <motion.div
-                key={index}
-                className="bg-white p-6 rounded-xl shadow-lg text-center flex flex-col justify-between"
-                 initial={{ opacity: 0, scale: 0.9 }}
-                 whileInView={{ opacity: 1, scale: 1 }}
-                 viewport={{ once: true, amount: 0.5 }}
-                 transition={{ duration: 0.4, delay: index * 0.1 }}
-              >
-                <p className="text-gray-700 italic mb-4">"{testimonio.texto}"</p> {/* review.text -> testimonio.texto */}
-                <p className="text-gray-600 font-semibold">— {testimonio.autor}</p> {/* review.author -> testimonio.autor */}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Llamada a la Acción Final - Estilo Consistente */}
       <section className="py-16 lg:py-20 bg-primary text-white">
@@ -192,11 +156,11 @@ const PaginaServicios = () => { // ServicesPage -> PaginaServicios
             </Link>
             <Link to="/plans"> {/* Ruta probablemente igual */}
               <motion.button
-                className="bg-transparent border border-white text-white px-8 py-3 rounded-lg font-bold shadow-md hover:bg-white hover:text-primary transition w-full sm:w-auto"
+                className="bg-secondary border border-white text-primary px-8 py-3 rounded-lg font-bold shadow-md hover:bg-white hover:text-primary transition w-full sm:w-auto"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Ver Todos los Planes de Aprendizaje {/* Translated Button */}
+                Ver Todos los Planes {/* Translated Button */}
               </motion.button>
             </Link>
           </div>
