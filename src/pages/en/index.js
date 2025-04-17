@@ -10,64 +10,72 @@ import Footer from "../../components/Footer";
 const ProfileImage = "/images/profile.png";
 const ProfileImage2 = "/images/profile2.jpg";
 const HeroBackground = "/images/hero-background.jpeg";
-// const Student1Image = "/images/student1.jpg"; // Removed - Unused
-// const Student2Image = "/images/student2.jpg"; // Removed - Unused
-// const Student3Image = "/images/student3.jpg"; // Removed - Unused
 
 const plans = [
   {
     title: "Individual Classes",
     newPrice: "20",
     frequency: "class",
-    description: "Pay-as-you-go Spanish lessons.",
+    description: "Pay-as-you-go Spanish lessons with full adaptability.", // Updated description
     image: "/images/plan3.jpg",
     custom: true,
+    sessionsPerWeek: "Flexible scheduling", // Added directly
+    features: [ // Added features
+      "Personalized 1-hour sessions",
+      "Flexible scheduling",
+      "No long-term commitment",
+      "Tailored to your immediate needs",
+    ],
   },
   {
-    title: "Confidence",
+    title: "Confidence Plan", // Updated title slightly for consistency
     newPrice: 120,
     frequency: "month (25% off)",
-    description: "Boost your confidence with consistency.",
+    description: "Boost your confidence with consistency.", // Kept description (matches updated Spanish meaning)
     image: "/images/plan1.jpg",
+    sessionsPerWeek: "2 sessions per week", // Added directly
+    features: [ // Added features
+      "2 classes per week (8/month)",
+      "Conversational focus",
+      "$15 per class (25% savings)",
+      "Personalized feedback and corrections",
+    ],
   },
   {
     title: "Fluency Plan",
     newPrice: 220,
     frequency: "month (30% off)",
-    description: "Intensive practice for rapid progress.",
+    description: "Intensive practice for rapid progress.", // Kept description (matches updated Spanish meaning)
     image: "/images/plan2.jpg",
+    sessionsPerWeek: "4 sessions per week", // Added directly
+    features: [ // Added features
+      "4 classes per week (16/month)",
+      "Immersive approach",
+      "$13.75 per class (30% savings)",
+      "Monthly progress reports",
+      "Personalized feedback and corrections",
+    ],
   },
 ];
 
 const team = [
   {
     name: "Victor Briceño",
-    title: "Fluency Specialist",
+    title: "Grammar & Fluency Specialist", // Updated title
     quote: "Making Spanish a vibrant part of your life",
-    bio: "Multicultural fluency specialist with 7+ years transforming textbook knowledge into authentic conversations across Venezuela, Perú, and Colombia.",
-    image: "/images/profile.png", // Path seems correct
+    bio: "Spanish and Literature teacher with a multicultural teaching approach, boasting over 7 years of practice teaching individuals from diverse countries. Passionate about making the most challenging topics fun.", // Updated bio
+    image: "/images/profile.png",
   },
   {
     name: "Elizabeth García",
-    title: "Linguistics Educator",
+    title: "Linguist & Educational Programmer", // Updated title
     quote: "Bridging linguistic theory with practical communication",
-    bio: "PhD in Education with 25+ years developing language curricula and pioneering educational technologies for effective acquisition.",
-    image: "/images/profile2.jpg", // Path seems correct
+    bio: "PhD in Education and Master's in Linguistics applied to Spanish and English language teaching and learning, with over 25 years of experience as an educator and curriculum developer.", // Updated bio
+    image: "/images/profile2.jpg",
   },
 ];
 
-// Helper function remains the same - looks good
-const getSessionsPerWeek = (plan) => {
-  const sessionsMapping = {
-    Confidence: 2,
-    "Fluency Plan": 4,
-  };
-  return sessionsMapping[plan.title]
-    ? `${sessionsMapping[plan.title]} sessions per week`
-    : plan.custom
-    ? "Flexible scheduling"
-    : "";
-};
+// Helper function removed as sessionsPerWeek is now directly in the plan data
 
 // Animation variants remain the same - looks good
 const auraVariants = {
@@ -91,11 +99,11 @@ const HeroSplitScreen = () => {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src={HeroBackground} // Path seems correct
+          src={HeroBackground}
           alt="Medellín Street Scene"
           className="w-full h-full object-cover"
+          loading="eager" // Added loading="eager"
         />
-        {/* Added loading="eager" as this is likely above the fold */}
       </div>
 
       {/* Dark Overlay for Contrast */}
@@ -109,7 +117,8 @@ const HeroSplitScreen = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-6xl font-extrabold leading-tight mb-4 text-left">
+          {/* ***** CHANGED h1 size ***** */}
+          <h1 className="text-5xl font-extrabold leading-tight mb-4 text-left">
             Online Spanish Fluency School
           </h1>
           <p className="text-secondary text-lg font-regular mb-8 text-left">
@@ -117,14 +126,14 @@ const HeroSplitScreen = () => {
           </p>
 
           {/* Buttons */}
-          <div className="w-full flex justify-center md:justify-start space-x-4"> {/* Adjusted alignment for consistency */}
+          <div className="w-full flex justify-center md:justify-start space-x-4">
             <Link to="#plans">
               <motion.button
                 className="bg-primary text-white text-xl px-8 py-3 rounded-md font-bold shadow-md hover:bg-orange-600 transition"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Start Your Fluency Journey
+                Explore Our Plans {/* Updated Button Text */}
               </motion.button>
             </Link>
             <Link to="/signupTrial">
@@ -133,7 +142,7 @@ const HeroSplitScreen = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Get your Trial Class
+                Get Your Trial Class! {/* Updated Button Text */}
               </motion.button>
             </Link>
           </div>
@@ -147,17 +156,13 @@ const HeroSplitScreen = () => {
           transition={{ duration: 0.8 }}
         >
           <motion.img
-            src={ProfileImage} // Path seems correct
+            src={ProfileImage}
             alt="Profile of Vic"
-            // Replaced inline style with Tailwind classes
-            className="w-80 h-80 object-cover rounded-full shadow-2xl border-4 border-primary"
+            className="w-80 h-80 object-cover rounded-full shadow-2xl border-4 border-primary" // Classes instead of inline style
             variants={auraVariants}
             animate="idle"
             whileHover="hover"
-            // Removed: onMouseEnter={() => setHovered(true)}
-            // Removed: onMouseLeave={() => setHovered(false)}
-            // Added loading="eager" as this is likely above the fold
-            loading="eager"
+            loading="eager" // Added loading="eager"
           />
         </motion.div>
       </div>
@@ -222,14 +227,14 @@ const IndexPage = () => {
         </div>
       </section>
 
-      {/* Meet the Team Section - Added loading="lazy" to images */}
+      {/* Meet the Team Section - Uses updated team data */}
       <section className="py-16 lg:py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-12">
             Meet Your Guides to Fluency
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
-            {team.map((member, index) => (
+            {team.map((member, index) => ( // Uses updated 'team' array
               <motion.div
                 key={index}
                 className="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center"
@@ -241,24 +246,24 @@ const IndexPage = () => {
               >
                 <div className="relative mb-4">
                   <img
-                    src={member.image} // Path seems correct
+                    src={member.image}
                     alt={member.name}
                     className="w-36 h-36 object-cover rounded-full border-4 border-primary/30 mx-auto"
-                    loading="lazy" // Added lazy loading
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 rounded-full border-4 border-transparent hover:border-primary/40 transition-all"></div>
                 </div>
                 <h3 className="text-2xl font-bold text-gray-800 mb-1">{member.name}</h3>
-                <p className="text-primary font-semibold mb-3">{member.title}</p>
+                <p className="text-primary font-semibold mb-3">{member.title}</p> {/* Uses updated title */}
                 <p className="text-gray-600 mb-4 italic">"{member.quote}"</p>
-                <p className="text-gray-600 text-sm">{member.bio}</p>
+                <p className="text-gray-600 text-sm">{member.bio}</p> {/* Uses updated bio */}
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Our Philosophy Section - Added loading="lazy" to image */}
+      {/* Our Philosophy Section - Updated list item */}
       <section className="py-16 lg:py-20 bg-white">
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
           <motion.div
@@ -269,10 +274,10 @@ const IndexPage = () => {
             transition={{ duration: 0.7 }}
           >
             <img
-              src="/images/group-talking-fluently.jpg" // Path seems correct
+              src="/images/group-talking-fluently.jpg"
               alt="Interactive Spanish learning"
               className="rounded-xl shadow-xl w-full h-auto group-hover:opacity-95 transition-opacity"
-              loading="lazy" // Added lazy loading
+              loading="lazy"
             />
             <div className="absolute -inset-3 border-2 border-primary/20 rounded-xl pointer-events-none group-hover:border-primary/40 transition-all duration-300"></div>
           </motion.div>
@@ -290,7 +295,8 @@ const IndexPage = () => {
             <ul className="space-y-3 text-gray-700">
               <li className="flex items-start">
                 <span className="text-primary font-bold mr-2">✓</span>
-                <span><span className="font-semibold">Academic Foundation:</span> Leveraging Elizabeth's 25+ years in linguistics and education for structured learning.</span>
+                 {/* ***** UPDATED list item text ***** */}
+                <span><span className="font-semibold">Academic Foundation:</span> We combine proven pedagogical theories with authentic conversations tailored to real cultural contexts for comprehensive and effective learning.</span>
               </li>
               <li className="flex items-start">
                 <span className="text-primary font-bold mr-2">✓</span>
@@ -305,46 +311,54 @@ const IndexPage = () => {
         </div>
       </section>
 
-      {/* Plans Section - Added loading="lazy" to images */}
+      {/* Plans Section - Uses updated plan data and direct sessionsPerWeek */}
       <section id="plans" className="py-16 bg-gray-100">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-primary mb-6 text-center">
             Plans Made for You
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {plans.map((plan, index) => (
+            {plans.map((plan, index) => ( // Uses updated 'plans' array
               <motion.div
                 key={index}
                 onClick={() =>
                   navigate(`/plans?plan=${encodeURIComponent(plan.title)}`)
                 }
-                className="bg-white border rounded-md p-6 shadow-md hover:shadow-lg transition cursor-pointer flex flex-col" // Added flex flex-col
+                className="bg-white border rounded-md p-6 shadow-md hover:shadow-lg transition cursor-pointer flex flex-col"
                 whileHover={{ y: -5 }}
               >
                 <img
-                  src={plan.image} // Path seems correct
+                  src={plan.image}
                   alt={plan.title}
                   className="w-full h-48 object-cover rounded-md mb-4"
-                  loading="lazy" // Added lazy loading
+                  loading="lazy"
                 />
-                <div className="flex-grow"> {/* Added flex-grow to push button down */}
+                <div className="flex-grow">
                     <h3 className="text-xl font-semibold mb-2">{plan.title}</h3>
                     {plan.newPrice ? (
                     <p className="text-primary font-bold mb-2">
                         ${plan.newPrice} <span className="text-sm">/{plan.frequency}</span> <br />
-                        <span className="text-sm text-gray-600">{getSessionsPerWeek(plan)}</span>
+                        {/* ***** CHANGED to use direct property ***** */}
+                        <span className="text-sm text-gray-600">{plan.sessionsPerWeek}</span>
                     </p>
                     ) : (
                     <p className="text-primary font-bold mb-2">Custom Pricing</p>
                     )}
+                     {/* Uses updated description */}
                     <p className="text-gray-600 mb-4">{plan.description}</p>
+                    {/* Optionally display features - Uncomment if desired
+                    <ul className="text-sm text-gray-500 space-y-1 mb-4 list-disc list-inside">
+                      {plan.features.map((feature, fIndex) => (
+                        <li key={fIndex}>{feature}</li>
+                      ))}
+                    </ul>
+                    */}
                 </div>
                 <button
                   onClick={(e) => {
-                    e.stopPropagation(); // Keep stopPropagation to prevent double navigation
+                    e.stopPropagation();
                     navigate(`/plans?plan=${encodeURIComponent(plan.title)}`);
                   }}
-                  // Adjusted hover style slightly for consistency
                   className="w-full mt-auto bg-primary text-white px-6 py-2 rounded-md font-bold shadow-md hover:bg-orange-600 transition"
                 >
                   View Details
@@ -357,25 +371,25 @@ const IndexPage = () => {
 
 
       {/* How It Works Section - No changes needed */}
-      <section className="py-16 bg-white"> {/* Changed background to white for contrast with plans section */}
+      <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-primary mb-12 text-center">
             How It Works
           </h2>
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center"> {/* Align items start on mobile */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
             {/* Step 1 */}
             <motion.div
               className="flex-1 flex flex-col items-center text-center p-4 md:p-6"
-              whileHover={{ scale: 1.03 }} // Slightly reduced hover scale
+              whileHover={{ scale: 1.03 }}
             >
-              <div className="bg-primary-lightest rounded-full w-16 h-16 flex items-center justify-center mb-4 shadow-md border-2 border-primary/20"> {/* Adjusted styling */}
-                <span className="text-primary font-bold text-2xl">1</span> {/* Increased size */}
+              <div className="bg-primary-lightest rounded-full w-16 h-16 flex items-center justify-center mb-4 shadow-md border-2 border-primary/20">
+                <span className="text-primary font-bold text-2xl">1</span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Book Your Trial</h3>
               <p className="text-gray-600">Start with a $5 trial class - a sample lesson to experience our teaching style.</p>
             </motion.div>
             {/* Arrow Separator */}
-            <div className="hidden md:block self-center mx-4"> {/* Centered arrow */}
+            <div className="hidden md:block self-center mx-4">
               <svg className="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
@@ -425,8 +439,8 @@ const IndexPage = () => {
       </section>
 
 
-      {/* Full-Width Support Section - No changes needed, looks good */}
-      <section className="py-16 bg-gradient-to-r from-primary to-orange-500"> {/* Adjusted gradient */}
+      {/* Full-Width Support Section - No changes needed */}
+      <section className="py-16 bg-gradient-to-r from-primary to-orange-500">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
             className="relative overflow-hidden rounded-xl"
@@ -435,17 +449,17 @@ const IndexPage = () => {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6 }}
           >
-            {/* Decorative elements - adjusted opacity/color */}
+            {/* Decorative elements */}
             <div className="absolute -right-10 -top-10 w-32 h-32 bg-white rounded-full opacity-10"></div>
             <div className="absolute -left-5 -bottom-5 w-40 h-40 bg-white rounded-full opacity-5"></div>
 
             {/* Content container */}
-            <div className="relative bg-white bg-opacity-95 backdrop-blur-sm p-8 md:p-10 border border-white border-opacity-60 rounded-xl shadow-lg"> {/* Added shadow */}
+            <div className="relative bg-white bg-opacity-95 backdrop-blur-sm p-8 md:p-10 border border-white border-opacity-60 rounded-xl shadow-lg">
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                 {/* Text portion */}
                 <div className="text-center md:text-left">
                   <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-                    Enjoying Your Spanish Journey?
+                    Want to support this project? {/* Updated Heading */}
                   </h3>
                   <p className="text-lg text-gray-600 max-w-2xl">
                     Support our school and help us continue providing quality language education.
@@ -454,10 +468,10 @@ const IndexPage = () => {
 
                 {/* CTA button */}
                 <Link
-                  to="/supportUs" // Path seems correct
+                  to="/supportUs"
                   className="whitespace-nowrap flex-shrink-0 bg-primary hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5"
                 >
-                  Support Our Work
+                  How to Support? {/* Updated Button Text */}
                 </Link>
               </div>
             </div>
@@ -466,16 +480,16 @@ const IndexPage = () => {
       </section>
 
       {/* Common Questions Section - No changes needed */}
-      <section className="py-16 bg-gray-50"> {/* Changed background */}
+      <section className="py-16 bg-gray-50">
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-primary mb-8 text-center">
             Common Questions
           </h2>
           <div className="space-y-4">
             <motion.div
-              className="bg-white p-6 rounded-lg shadow-sm border border-gray-200" // Added subtle border
-              whileHover={{ scale: 1.01, boxShadow: "0 4px 10px rgba(0,0,0, 0.08)"}} // Enhanced hover
-              transition={{ type: "spring", stiffness: 300, damping: 20 }} // Springy transition
+              className="bg-white p-6 rounded-lg shadow-sm border border-gray-200"
+              whileHover={{ scale: 1.01, boxShadow: "0 4px 10px rgba(0,0,0, 0.08)"}}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               <h3 className="font-semibold text-lg text-gray-800">What's included in the trial class?</h3>
               <p className="text-gray-600 mt-2">The trial includes a level assessment, goal setting, and a sample lesson to experience my teaching style. It's a great way to see if we're a good fit before committing to a plan.</p>
@@ -511,7 +525,7 @@ const IndexPage = () => {
       {/* Start Your Journey Section - No changes needed */}
       <section className="py-16 bg-primary text-white">
         <div className="max-w-6xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">Ready to Start Your Spanish Journey?</h2>
+          <h2 className="text-3xl font-bold mb-6">Ready to Schedule Your First Session?</h2> {/* Updated Heading */}
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Take the first step towards fluency with a personalized trial class for just $5.
           </p>
@@ -522,12 +536,12 @@ const IndexPage = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Book Your Trial Class
+                BOOK YOUR TRIAL CLASS {/* Updated Button Text */}
               </motion.button>
             </Link>
             <Link to="/plans">
               <motion.button
-                className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-bold shadow-sm hover:bg-white hover:text-primary transition" // Added shadow-sm, border-2
+                className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-bold shadow-sm hover:bg-white hover:text-primary transition"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
