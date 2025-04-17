@@ -18,7 +18,7 @@ const Navbar = () => {
 
   const labels = isEnglish
     ? {
-        brand: "Español con Vic",
+        brand: "Spanish Fluency School",
         plans: "Plans",
         services: "Services",
         about: "About Us",
@@ -31,7 +31,7 @@ const Navbar = () => {
         switchLang: "Español",
       }
     : {
-        brand: "Español con Vic",
+        brand: "Spanish Fluency School",
         plans: "Planes",
         services: "Servicios",
         about: "Conócenos",
