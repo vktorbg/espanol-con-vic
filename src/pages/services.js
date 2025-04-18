@@ -2,6 +2,7 @@
 import React from "react";
 import { Link } from "gatsby";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet";
 import Navbar from "../components/Navbar"; // Asumiendo traducción o manejo de idioma
 import Footer from "../components/Footer"; // Asumiendo traducción o manejo de idioma
 
@@ -54,6 +55,10 @@ const servicios = [ // services -> servicios
 const PaginaServicios = () => { // ServicesPage -> PaginaServicios
   return (
     <div className="min-h-screen bg-gray-50">
+      <Helmet>
+        <link rel="icon" href="/images/Logo-libro.png" type="image/png" />
+        <title>Spanish Fluency School</title>
+      </Helmet>
       <Navbar />
       {/* Sección Hero */}
       <section

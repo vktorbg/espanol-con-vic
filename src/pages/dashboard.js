@@ -6,6 +6,7 @@ import { db } from "../firebase";
 import { doc, getDoc, collection, getDocs, orderBy, query } from "firebase/firestore";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Navbar from "../components/Navbar";
+import { Helmet } from "react-helmet";
 
 const Dashboard = () => {
   const { currentUser } = useAuth();
@@ -63,6 +64,10 @@ const Dashboard = () => {
 
   return (
     <ProtectedRoute>
+      <Helmet>
+        <link rel="icon" href="/images/favicon.png" type="image/png" />
+        <title>Spanish Fluency School</title>
+      </Helmet>
       <Navbar />
       <div
         className="w-full h-80 mb-0"

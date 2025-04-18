@@ -3,6 +3,7 @@
 import React from "react"; // Se eliminó useState ya que no se necesita aquí
 import { Link, navigate } from "gatsby";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet";
 import Navbar from "../components/Navbar"; // Asumiendo que Navbar también se traducirá o manejará el idioma
 import Footer from "../components/Footer"; // Asumiendo que Footer también se traducirá o manejará el idioma
 
@@ -182,6 +183,10 @@ const HeroSplitScreen = () => {
 const IndexPage = () => {
   return (
     <>
+      <Helmet>
+        <link rel="icon" href="/images/Logo-libro.png" type="image/png" />
+        <title>Spanish Fluency School</title>
+      </Helmet>
       <Navbar />
       <HeroSplitScreen />
 

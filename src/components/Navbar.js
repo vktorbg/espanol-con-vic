@@ -77,7 +77,12 @@ const Navbar = () => {
   return (
     <nav className="bg-white shadow-md py-4 relative">
       <div className="max-w-6xl mx-auto flex justify-between items-center px-4">
-        <Link to={isEnglish ? "/en" : "/"} className="text-2xl font-bold text-primary">
+        <Link to={isEnglish ? "/en" : "/"} className="flex items-center text-2xl font-bold text-primary">
+          <img
+            src="/images/logo-libro.png"
+            alt="Logo"
+            className="w-8 h-8 mr-2" // Ajusta el tamaño y el espaciado del logo
+          />
           {labels.brand}
         </Link>
 

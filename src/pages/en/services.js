@@ -4,6 +4,7 @@
 import React from "react";
 import { Link } from "gatsby";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet";
 import Navbar from "../../components/Navbar"; // Corrected path
 import Footer from "../../components/Footer"; // Corrected path
 
@@ -52,6 +53,10 @@ const services = [
 const ServicesPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
+      <Helmet>
+        <link rel="icon" href="/images/favicon.png" type="image/png" />
+        <title>Spanish Fluency School</title>
+      </Helmet>
       <Navbar />
       {/* Hero Section - Updated Text */}
       <section

@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { navigate } from "gatsby";
 import Navbar from "../components/Navbar";
+import { Helmet } from "react-helmet";
 import { db, setDoc, doc } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 
@@ -174,6 +175,10 @@ const SignupTrial = () => {
 
   return (
     <>
+      <Helmet>
+        <link rel="icon" href="/images/favicon.png" type="image/png" />
+        <title>Spanish Fluency School</title>
+      </Helmet>
       <Navbar />
       <div className="min-h-screen bg-gray-50 p-6">
         <h1 className="text-4xl font-bold text-primary text-center mb-4">

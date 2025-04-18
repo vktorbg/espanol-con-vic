@@ -3,6 +3,7 @@
 import React from "react"; // Removed useState as it's no longer needed here
 import { Link, navigate } from "gatsby";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
@@ -174,6 +175,10 @@ const HeroSplitScreen = () => {
 const IndexPage = () => {
   return (
     <>
+      <Helmet>
+        <link rel="icon" href="/images/Logo.png" type="image/png" />
+        <title>Spanish Fluency School</title>
+      </Helmet>
       <Navbar />
       <HeroSplitScreen />
 
