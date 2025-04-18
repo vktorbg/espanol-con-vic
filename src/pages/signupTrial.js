@@ -4,6 +4,7 @@ import { navigate } from "gatsby";
 import Navbar from "../components/Navbar";
 import { Helmet } from "react-helmet";
 import { db, setDoc, doc } from "../firebase";
+import { getAuth, fetchSignInMethodsForEmail } from "firebase/auth";
 import { useAuth } from "../context/AuthContext";
 
 // Placeholder icons for Google and Facebook
@@ -32,13 +33,15 @@ const SignupTrial = () => {
   const [pwdStrength, setPwdStrength] = useState(0);
 
   const [scheduledEvent, setScheduledEvent] = useState(null);
+  const [isCheckingEmail, setIsCheckingEmail] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isPayPalLoaded, setIsPayPalLoaded] = useState(false);
 
   const paypalRef = useRef(null);
-  const [isPayPalLoaded, setIsPayPalLoaded] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
-
   const { signup } = useAuth();
   const selectedPlan = "Trial";
+
+  const auth = getAuth(); // Get the auth instance
 
   // Calculate password strength
   const handlePasswordChange = (e) => {
@@ -52,7 +55,7 @@ const SignupTrial = () => {
   };
 
   // Step 1: Validate registration and move to scheduling step
-  const handleRegistrationNext = () => {
+  const handleRegistrationNext = async () => {
     const tFirst = firstName.trim();
     const tLast = lastName.trim();
     const tCity = city.trim();
@@ -60,21 +63,53 @@ const SignupTrial = () => {
     const tPwd = password.trim();
     const tConfirm = confirmPassword.trim();
 
+    // --- Basic Validations ---
     if (!tFirst || !tLast || !tCity || !tEmail || !tPwd || !tConfirm) {
       alert("Please fill in all fields.");
       return;
     }
+
     const emailRegex = /^\S+@\S+\.\S+$/;
     if (!emailRegex.test(tEmail)) {
       alert("Please enter a valid email address.");
       return;
     }
+
+    if (pwdStrength < 3) {
+      alert("Please create a stronger password (8+ chars, uppercase, number).");
+      return;
+    }
+
     if (tPwd !== tConfirm) {
       alert("Passwords do not match.");
       return;
     }
+    // --- End Basic Validations ---
 
-    setCurrentStep(2);
+    // --- Check if email already exists ---
+    setIsCheckingEmail(true); // Indicate checking has started
+    try {
+      console.log(`Checking email: ${tEmail}`); // Debugging log
+      const methods = await fetchSignInMethodsForEmail(auth, tEmail);
+      console.log(`Methods found for ${tEmail}:`, methods); // Debugging log
+
+      if (methods.length > 0) {
+        // Email already exists
+        alert(`The email address ${tEmail} is already in use. Please use a different email or log in.`);
+        return; // Stop the process
+      }
+
+      // Email does NOT exist - Proceed to the next step
+      console.log(`Email ${tEmail} is available. Proceeding to step 2.`);
+      setCurrentStep(2); // Move to the next step
+    } catch (error) {
+      console.error("Error checking email existence:", error);
+      alert("Could not verify email address. Please try again.");
+    } finally {
+      // Always reset the email checking state
+      setIsCheckingEmail(false);
+    }
+    // --- End Email Check ---
   };
 
   // Calendly widget
@@ -131,8 +166,13 @@ const SignupTrial = () => {
                 if (isProcessing) return;
                 setIsProcessing(true);
                 try {
+                  // Capture the PayPal order
                   await actions.order.capture();
+
+                  // Create the user in Firebase Auth
                   const user = await signup(email, password, firstName, lastName);
+
+                  // Save user details in Firestore
                   await setDoc(doc(db, "students", user.uid), {
                     firstName,
                     lastName,
@@ -141,17 +181,30 @@ const SignupTrial = () => {
                     plan: selectedPlan,
                     orderID: data.orderID,
                     createdAt: new Date(),
+                    calendlyEventUri: scheduledEvent?.event?.uri || null, // Store Calendly event URI if available
+                    calendlyInviteeUri: scheduledEvent?.invitee?.uri || null, // Store Calendly invitee URI if available
                   });
+
+                  // Navigate to the final landing page
                   navigate(`/finalLanding?studentId=${user.uid}`);
                 } catch (err) {
-                  console.error("Error creating student:", err);
-                  alert("An error occurred. Please try again.");
+                  console.error("Error during final signup/DB write:", err);
+
+                  // Handle specific Firebase Auth error
+                  if (err.code === 'auth/email-already-in-use') {
+                    alert("This email address is already registered. Please try logging in or use a different email.");
+                  } else {
+                    alert("An error occurred during the final step. Please contact support if payment was processed.");
+                  }
+
+                  // Reset processing state on error
                   setIsProcessing(false);
                 }
               },
               onError: (err) => {
-                console.error("Payment error:", err);
-                alert("Payment error. Please try again.");
+                console.error("PayPal Payment error:", err);
+                alert("Payment error occurred. Please try again.");
+                setIsProcessing(false); // Reset processing state on payment error too
               },
             })
             .render(paypalRef.current);
@@ -171,18 +224,24 @@ const SignupTrial = () => {
     lastName,
     city,
     isProcessing,
+    scheduledEvent,
   ]);
 
   return (
     <>
       <Helmet>
-        <link rel="icon" href="/images/favicon.png" type="image/png" />
+        <link rel="icon" href="/images/Logo-libro.png" type="image/png" />
         <title>Spanish Fluency School</title>
       </Helmet>
       <Navbar />
       <div className="min-h-screen bg-gray-50 p-6">
-        <h1 className="text-4xl font-bold text-primary text-center mb-4">
-          Welcome to <b>Español con Vic</b>
+        <h1 className="text-4xl font-bold text-primary text-center mb-4 flex items-center justify-center">
+          <img
+            src="/images/Logo-libro.png"
+            alt="Logo de la Escuela"
+            className="w-12 h-12 mr-4" // Ajusta el tamaño y el espaciado del logo
+          />
+          Welcome to <b className="ml-2">Spanish Fluency School</b>
         </h1>
         <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow">
           {/* Progress Bar */}
@@ -205,7 +264,7 @@ const SignupTrial = () => {
 
           {/* Step 1: Registration */}
           {currentStep === 1 && (
-            <form className="space-y-6 max-w-md mx-auto">
+            <form className="space-y-6 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
               <h2 className="text-3xl font-bold text-center">
                 Sign Up and Book Your $5 Trial Session
               </h2>
@@ -330,9 +389,12 @@ const SignupTrial = () => {
               <button
                 type="button"
                 onClick={handleRegistrationNext}
-                className="w-full py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition"
+                disabled={isCheckingEmail}
+                className={`w-full py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition ${
+                  isCheckingEmail ? "opacity-50 cursor-wait" : ""
+                }`}
               >
-                Next: Schedule Your Class
+                {isCheckingEmail ? "Checking Email..." : "Next: Schedule Your Class"}
               </button>
             </form>
           )}
@@ -340,34 +402,20 @@ const SignupTrial = () => {
           {/* Step 2: Calendly Scheduling */}
           {currentStep === 2 && (
             <div className="space-y-4">
-              <h2 className="text-2xl font-semibold mb-4">Choose Your Class Schedule</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-center">Choose Your Class Schedule</h2>
+              <p className="text-center text-gray-600 mb-4">
+                Please select a time slot for your $5 trial session. Once scheduled, you'll proceed to payment.
+              </p>
               <CalendlyWidget
                 firstName={firstName}
                 lastName={lastName}
                 email={email}
-                onEventScheduled={(eventData) => setScheduledEvent(eventData)}
+                onEventScheduled={(eventPayload) => {
+                  console.log("Calendly Event Scheduled:", eventPayload); // Log the event data
+                  setScheduledEvent(eventPayload); // Store event details (optional but recommended)
+                  setCurrentStep(3); // Automatically advance to Step 3
+                }}
               />
-              {scheduledEvent && (
-                <div className="mt-4 p-4 bg-green-100 border border-green-400 rounded text-center">
-                  <p className="text-lg font-semibold text-green-700">
-                    🎉 Class scheduled successfully!
-                  </p>
-                </div>
-              )}
-              <div className="mt-6 text-center">
-                <button
-                  type="button"
-                  disabled={!scheduledEvent}
-                  onClick={() => setCurrentStep(3)}
-                  className={`px-6 py-3 rounded-lg font-semibold transition ${
-                    scheduledEvent
-                      ? "bg-primary text-white hover:bg-primary-dark"
-                      : "bg-gray-300 text-gray-700 cursor-not-allowed"
-                  }`}
-                >
-                  Next: Confirm & Pay
-                </button>
-              </div>
             </div>
           )}
 
@@ -381,6 +429,20 @@ const SignupTrial = () => {
                 <p>Name: {firstName} {lastName}</p>
                 <p>City: {city}</p>
                 <p>Email: {email}</p>
+                {scheduledEvent?.event?.start_time && (
+                  <p>
+                    Scheduled Time:{" "}
+                    {new Date(scheduledEvent.event.start_time).toLocaleString(undefined, {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "numeric",
+                      timeZoneName: "short",
+                    })}
+                  </p>
+                )}
               </div>
               <div className="mt-6 text-center">
                 <div id="paypal-button-container" ref={paypalRef}></div>

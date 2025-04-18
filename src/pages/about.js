@@ -73,7 +73,7 @@ const PaginaSobreNosotros = () => { // AboutUsPage -> PaginaSobreNosotros
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
           >
-            Conoce a los profesores detrás de Español con Vic y descubre nuestro enfoque único para lograr la fluidez real en español. {/* Translated Paragraph */}
+            Conoce al equipo detrás de Spanish Fluency School y descubre nuestro enfoque único para lograr la fluidez real en español. {/* Translated Paragraph */}
           </motion.p>
         </div>
       </section>
@@ -230,7 +230,7 @@ const PaginaSobreNosotros = () => { // AboutUsPage -> PaginaSobreNosotros
                   Ayuda a Crecer a Nuestra Escuela de Fluidez {/* Translated Heading */}
                 </h3>
                 <p className="text-lg text-gray-600 max-w-2xl mb-4 md:mb-0">
-                  Español con Vic es un proyecto apasionado y autofinanciado construido por nosotros, Victor y Elizabeth. Tu apoyo nos ayuda directamente a mejorar nuestros recursos, llegar a más estudiantes y continuar ofreciendo educación de español personalizada y de alta calidad. {/* Translated Paragraph */}
+                  Spanish Fluency School es un proyecto apasionado y autofinanciado construido por nosotros, Victor y Elizabeth. Tu apoyo nos ayuda directamente a mejorar nuestros recursos, llegar a más estudiantes y continuar ofreciendo educación de español personalizada y de alta calidad. {/* Translated Paragraph */}
                 </p>
               </div>
               <Link

@@ -49,7 +49,7 @@ const AboutUsPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Helmet>
-        <link rel="icon" href="/images/favicon.png" type="image/png" />
+        <link rel="icon" href="/images/Logo-libro.png" type="image/png" />
         <title>Spanish Fluency School</title>
       </Helmet>
       <Navbar />
@@ -74,7 +74,7 @@ const AboutUsPage = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
           >
-            Meet the educators behind Español con Vic and discover our unique approach to achieving real Spanish fluency. {/* Adjusted slightly */}
+            Meet the team behind Spanish FLuency School and discover our unique approach to achieving real Spanish fluency. {/* Adjusted slightly */}
           </motion.p>
         </div>
       </section>
@@ -233,7 +233,7 @@ const AboutUsPage = () => {
                 </h3>
                 <p className="text-lg text-gray-600 max-w-2xl mb-4 md:mb-0">
                    {/* Updated Paragraph */}
-                  Español con Vic is a passionate, self-funded project built by us, Victor and Elizabeth. Your support directly helps us enhance our resources, reach more students, and continue offering high-quality, personalized Spanish education.
+                  Spanish Fluency School is a passionate, self-funded project built by us, Victor and Elizabeth. Your support directly helps us enhance our resources, reach more students, and continue offering high-quality, personalized Spanish education.
                 </p>
               </div>
               <Link
