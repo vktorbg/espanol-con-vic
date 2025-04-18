@@ -131,20 +131,46 @@ const Dashboard = () => {
           {/* Class Details Section */}
           {studentData && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+              {/* Plan */}
               <div className="bg-white p-5 rounded-md shadow-md text-center">
                 <span className="text-primary text-2xl">📜</span>
                 <h2 className="text-lg font-semibold text-gray-800">Plan</h2>
                 <p className="text-xl font-bold">{studentData.plan || "Not Set"}</p>
               </div>
+
+              {/* Weekly Schedule */}
               <div className="bg-white p-5 rounded-md shadow-md text-center">
                 <span className="text-primary text-2xl">📅</span>
                 <h2 className="text-lg font-semibold text-gray-800">Weekly Schedule</h2>
-                <p className="text-xl font-bold">{studentData.schedule ? studentData.schedule.join(", ") : "Not Set"}</p>
+                <p className="text-xl font-bold">
+                  {studentData.schedule ? studentData.schedule.join(", ") : "Not Set"}
+                </p>
               </div>
+
+              {/* Next Class */}
               <div className="bg-white p-5 rounded-md shadow-md text-center">
                 <span className="text-primary text-2xl">🕒</span>
-                <h2 className="text-lg font-semibold text-gray-800">Next Class</h2>
-                <p className="text-xl font-bold">{studentData.nextClass || "Not Scheduled"}</p>
+                <h2 className="text-lg font-semibold text-gray-800">
+                  {studentData.calendlyEventName
+                    ? `Próxima Clase: ${studentData.calendlyEventName}`
+                    : "Próxima Clase"}
+                </h2>
+                {studentData.calendlyStartTime ? (
+                  <p className="text-xl font-bold">
+                    {new Date(studentData.calendlyStartTime).toLocaleString("es-ES", {
+                      weekday: "short", // Día corto (ej. Lun.)
+                      year: "numeric",
+                      month: "short", // Mes corto (ej. Oct.)
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "numeric",
+                    })}
+                  </p>
+                ) : (
+                  <p className="text-xl font-bold">
+                    {studentData.nextClass || "¡Programada!"}
+                  </p>
+                )}
               </div>
             </div>
           )}

@@ -173,18 +173,28 @@ const SignupTrial = () => {
                   // Create the user in Firebase Auth
                   const user = await signup(email, password, firstName, lastName);
 
-                  // Save user details in Firestore
-                  await setDoc(doc(db, "students", user.uid), {
+                  // --- MODIFICACIÓN AQUÍ ---
+                  // Define los datos a guardar
+                  const studentDataToSave = {
                     firstName,
                     lastName,
                     city,
                     email,
                     plan: selectedPlan,
-                    orderID: data.orderID,
-                    createdAt: new Date(),
-                    calendlyEventUri: scheduledEvent?.event?.uri || null, // Store Calendly event URI if available
-                    calendlyInviteeUri: scheduledEvent?.invitee?.uri || null, // Store Calendly invitee URI if available
-                  });
+                    orderID: data.orderID, // Considera renombrar a paypalOrderID para claridad
+                    createdAt: new Date(), // Firestore convertirá esto a Timestamp
+                    // Guarda URIs de Calendly como antes
+                    calendlyEventUri: scheduledEvent?.event?.uri || null,
+                    calendlyInviteeUri: scheduledEvent?.invitee?.uri || null,
+                    // *** AÑADE LA HORA DE INICIO ***
+                    calendlyStartTime: scheduledEvent?.event?.start_time || null, // Guarda la hora de inicio como string ISO
+                    // *** AÑADE EL NOMBRE DEL EVENTO ***
+                    calendlyEventName: scheduledEvent?.event?.name || null,
+                  };
+                  // --- FIN MODIFICACIÓN ---
+
+                  // Save user details in Firestore
+                  await setDoc(doc(db, "students", user.uid), studentDataToSave);
 
                   // Navigate to the final landing page
                   navigate(`/finalLanding?studentId=${user.uid}`);
