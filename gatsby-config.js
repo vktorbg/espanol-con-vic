@@ -33,7 +33,7 @@ module.exports = {
         background_color: `#ffffff`,
         theme_color: `#ff914d`,
         display: `standalone`,
-        icon: `static/images/logo-libro.png`, // Ruta al ícono
+        icon: `static/images/Logo-libro.png`, // Ruta al ícono
       },
     },
   ]
