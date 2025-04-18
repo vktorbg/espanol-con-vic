@@ -126,6 +126,7 @@ const SignupTrial = () => {
         }
       };
       window.addEventListener("message", handleMessage);
+
       return () => {
         window.removeEventListener("message", handleMessage);
         document.body.removeChild(script);
@@ -134,7 +135,7 @@ const SignupTrial = () => {
 
     const prefillName = encodeURIComponent(`${firstName} ${lastName}`);
     const prefillEmail = encodeURIComponent(email);
-    const calendlyUrl = `https://calendly.com/prof-victorbriceno/espanol-con-vic?name=${prefillName}&email=${prefillEmail}`;
+    const calendlyUrl = `https://calendly.com/spanishfluencyschool/trial-class?hide_gdpr_banner=1&name=${prefillName}&email=${prefillEmail}`;
 
     return (
       <div
@@ -412,7 +413,7 @@ const SignupTrial = () => {
                 email={email}
                 onEventScheduled={(eventPayload) => {
                   console.log("Calendly Event Scheduled:", eventPayload); // Log the event data
-                  setScheduledEvent(eventPayload); // Store event details (optional but recommended)
+                  setScheduledEvent(eventPayload); // Store event details
                   setCurrentStep(3); // Automatically advance to Step 3
                 }}
               />
