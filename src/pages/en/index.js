@@ -64,7 +64,7 @@ const team = [
     name: "Victor Briceño",
     title: "Grammar & Fluency Specialist", // Updated title
     quote: "Making Spanish a vibrant part of your life",
-    bio: "Spanish and Literature teacher with a multicultural teaching approach, boasting over 7 years of practice teaching individuals from diverse countries. Passionate about making the most challenging topics fun.", // Updated bio
+    bio: "Spanish and Literature teacher with a multicultural teaching approach, with over 7 years of practice teaching individuals from many different countries. Passionate about making the most challenging topics fun.", // Updated bio
     image: "/images/profile.png",
   },
   {
