@@ -1,12 +1,16 @@
 const path = require("path");
-
-// Import your plans data
 const plans = require("./src/data/plansData").default || require("./src/data/plansData");
 
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
 
-  // Create Community Blog Pages
+  // Final landing page
+  createPage({
+    path: "/final-landing/",
+    component: require.resolve("./src/templates/finalLanding.js"),
+  });
+
+  // Blog posts
   const blogPostTemplate = require.resolve(`./src/templates/blog-post.js`);
   const blogResult = await graphql(`
     {
@@ -25,7 +29,7 @@ exports.createPages = async ({ graphql, actions }) => {
     });
   });
 
-  // Create Grammar Lesson Pages
+  // Grammar lessons
   const grammarTemplate = require.resolve(`./src/templates/grammar-lesson.js`);
   const grammarResult = await graphql(`
     {
@@ -44,10 +48,8 @@ exports.createPages = async ({ graphql, actions }) => {
     });
   });
 
-  // Create Vocabulary Topic Pages
-  const vocabularyTemplate = require.resolve(
-    `./src/templates/vocabulary-topic.js`
-  );
+  // Vocabulary topics
+  const vocabularyTemplate = require.resolve(`./src/templates/vocabulary-topic.js`);
   const vocabularyResult = await graphql(`
     {
       allContentfulVocabularyTopic(sort: { createdAt: DESC }) {
@@ -65,7 +67,7 @@ exports.createPages = async ({ graphql, actions }) => {
     });
   });
 
-  // Create Quizzes Pages (using the contentful quiz id)
+  // Quizzes
   const quizTemplate = require.resolve(`./src/templates/quiz.js`);
   const quizResult = await graphql(`
     {
@@ -84,30 +86,16 @@ exports.createPages = async ({ graphql, actions }) => {
     });
   });
 
-  // Create Plan Detail Pages
+  // Plans (from local data)
   const planTemplate = path.resolve("src/templates/PlanDetail.js");
-
-  // Iterate over each plan to create a page.
   plans.forEach((plan) => {
-    // Create a URL-friendly slug. You might use a library like slugify for more robust conversion.
     const slug = plan.title.toLowerCase().replace(/\s+/g, "-");
-
     createPage({
       path: `/plans/${slug}`,
       component: planTemplate,
       context: {
-        plan, // pass the plan data as context
+        plan,
       },
     });
-  });
-};
-
-
-exports.createPages = async ({ actions }) => {
-  const { createPage } = actions;
-
-  createPage({
-    path: "/final-landing/",
-    component: require.resolve("./src/templates/finalLanding.js"),
   });
 };
