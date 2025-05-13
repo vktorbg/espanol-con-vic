@@ -1,55 +1,27 @@
 // /src/components/Navbar.js
 import React, { useState, useEffect, useRef } from "react";
-import { Link, navigate } from "gatsby";
-import { useLocation } from "@reach/router";
+import { Link as GatsbyLink } from "gatsby"; // Renombrar Link original
+import { Link, useI18next } from 'gatsby-plugin-react-i18next';
+import { useLocation } from "@reach/router"; // Aún necesario para el pathname actual si se necesita
 import { useAuth } from "../context/AuthContext";
 import Login from "./Login";
 import Signup from "./Signup";
+import { GrLanguage } from "react-icons/gr";
+import SimpleLanguageToggle from './SimpleLanguageToggle'; // Importar el nuevo componente
 
 const Navbar = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
-  const dropdownRef = useRef();
+  const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
+  const accountDropdownRef = useRef();
+  const languageDropdownRef = useRef();
   const { currentUser, logout } = useAuth();
-  const location = useLocation();
-  const isEnglish = location.pathname.startsWith("/en");
+  const location = useLocation(); // Puede ser útil para lógica específica
 
-  const labels = isEnglish
-    ? {
-        brand: "Spanish Fluency School",
-        plans: "Plans",
-        services: "Services",
-        about: "About Us",
-        login: "Login",
-        logout: "Logout",
-        dashboard: "Dashboard",
-        settings: "Account Settings",
-        admin: "Admin",
-        myAccount: "My Account",
-        switchLang: "Español",
-      }
-    : {
-        brand: "Spanish Fluency School",
-        plans: "Planes",
-        services: "Servicios",
-        about: "Conócenos",
-        login: "Iniciar sesión",
-        logout: "Cerrar sesión",
-        dashboard: "Panel",
-        settings: "Mi cuenta",
-        admin: "Admin",
-        myAccount: "Mi cuenta",
-        switchLang: "English",
-      };
-
-  const switchUrl =
-    isEnglish && location.pathname === "/en"
-      ? "/"
-      : isEnglish
-      ? location.pathname.replace(/^\/en/, "") || "/"
-      : `/en${location.pathname}`;
+  const { languages, originalPath, language, t, changeLanguage } = useI18next();
+  const currentLanguageUI = language; // Usar 'language' del hook para la UI
 
   useEffect(() => {
     if (currentUser) {
@@ -60,8 +32,11 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (accountDropdownRef.current && !accountDropdownRef.current.contains(event.target)) {
         setAccountDropdownOpen(false);
+      }
+      if (languageDropdownRef.current && !languageDropdownRef.current.contains(event.target)) {
+        setLanguageDropdownOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -75,104 +50,94 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md py-4 relative">
-      <div className="max-w-6xl mx-auto flex justify-between items-center px-4">
-        <Link to={isEnglish ? "/en" : "/"} className="flex items-center text-2xl font-bold text-primary">
-          <img
-            src="/images/logo-libro.png"
-            alt="Logo"
-            className="w-8 h-8 mr-2" // Ajusta el tamaño y el espaciado del logo
-          />
-          {labels.brand}
-        </Link>
+    <>
+      <nav className="bg-white shadow-md py-4 relative">
+        <div className="max-w-6xl mx-auto flex justify-between items-center px-4">
+          {/* Brand Link - Usa el Link del plugin y 'to="/"' */}
+          <Link to="/" className="flex items-center text-2xl font-bold text-primary">
+            <img
+              src="/images/logo-libro.png"
+              alt={t('navbar.brand')}
+              className="w-8 h-8 mr-2"
+            />
+            {t('navbar.brand')}
+          </Link>
 
-        {/* Desktop */}
-        <div className="hidden md:flex space-x-6">
-          <Link to={isEnglish ? "/en/plans" : "/plans"} className="text-gray-700 hover:text-orange-500 transition">{labels.plans}</Link>
-          <Link to={isEnglish ? "/en/services" : "/services"} className="text-gray-700 hover:text-orange-500 transition">{labels.services}</Link>
-          <Link to={isEnglish ? "/en/about" : "/about"} className="text-gray-700 hover:text-orange-500 transition">{labels.about}</Link>
-        </div>
+          {/* Desktop Navigation Links - Usa el Link del plugin */}
+          <div className="hidden md:flex space-x-6">
+            <Link to="/plans" className="text-gray-700 hover:text-orange-500 transition">
+              {t('navbar.plans')}
+            </Link>
+            <Link to="/services" className="text-gray-700 hover:text-orange-500 transition">{t('navbar.services')}</Link>
+            <Link to="/about" className="text-gray-700 hover:text-orange-500 transition">{t('navbar.about')}</Link>
+          </div>
 
-        <div className="hidden md:flex space-x-4 items-center">
-          {!currentUser ? (
-            <button onClick={() => setIsLoginOpen(true)} className="bg-primary text-white px-5 py-2 rounded-md shadow-md hover:bg-orange-600 transition font-semibold">
-              {labels.login}
-            </button>
-          ) : (
-            <div className="relative" ref={dropdownRef}>
-              <button onClick={() => setAccountDropdownOpen(!accountDropdownOpen)} className="bg-primary text-white px-5 py-2 rounded-md shadow-md hover:bg-orange-600 transition font-semibold">
-                {labels.myAccount}
+          {/* Desktop Auth Buttons & Language Selector */}
+          <div className="hidden md:flex space-x-4 items-center">
+            {!currentUser ? (
+              <>
+                <button onClick={() => setIsLoginOpen(true)} className="bg-primary text-white px-5 py-2 rounded-md shadow-md hover:bg-orange-600 transition font-semibold">
+                  {t('navbar.login')}
+                </button>
+              </>
+            ) : (
+              <div className="relative" ref={accountDropdownRef}>
+                <button onClick={() => setAccountDropdownOpen(!accountDropdownOpen)} className="bg-primary text-white px-5 py-2 rounded-md shadow-md hover:bg-orange-600 transition font-semibold">
+                  {t('navbar.myAccount')}
+                </button>
+                {accountDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-20">
+                    <GatsbyLink to="/dashboard" onClick={() => setAccountDropdownOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">{t('navbar.dashboard')}</GatsbyLink>
+                    <GatsbyLink to="/account" onClick={() => setAccountDropdownOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">{t('navbar.settings')}</GatsbyLink>
+                    {currentUser.role === "admin" && (
+                      <GatsbyLink to="/admin" onClick={() => setAccountDropdownOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">{t('navbar.admin')}</GatsbyLink>
+                    )}
+                    <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">{t('navbar.logout')}</button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Language Selector Dropdown (Comentado) */}
+            {/*
+            <div className="relative" ref={languageDropdownRef}>
+              <button
+                onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}
+                className={`border border-primary transition font-semibold flex items-center space-x-2 px-3 py-2 rounded-md shadow-sm group ${
+                  languageDropdownOpen
+                    ? "bg-primary text-white"
+                    : "text-primary hover:bg-primary hover:text-white"
+                }`}
+                aria-label={t('navbar.changeLanguageLabel') || "Change language"}
+              >
+                <GrLanguage
+                  className={`w-5 h-5 transition-colors duration-200 ${
+                    languageDropdownOpen
+                      ? "text-white"
+                      : "text-primary group-hover:text-white"
+                  }`}
+                />
+                <span className="text-sm font-medium">
+                  {currentLanguageUI === "en" ? "EN" : "ES"}
+                </span>
               </button>
-              {accountDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-20">
-                  <Link to="/dashboard" onClick={() => setAccountDropdownOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">{labels.dashboard}</Link>
-                  <Link to="/account" onClick={() => setAccountDropdownOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">{labels.settings}</Link>
-                  {currentUser.role === "admin" && (
-                    <Link to="/admin" onClick={() => setAccountDropdownOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">{labels.admin}</Link>
-                  )}
-                  <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">{labels.logout}</button>
-                </div>
-              )}
             </div>
-          )}
+            */}
 
-          {/* Language Switcher Button */}
-          <Link to={switchUrl} className="flex items-center space-x-2 border border-gray-300 px-3 py-1.5 rounded-md shadow-sm hover:bg-gray-100 transition">
-            {isEnglish ? (
-              <img src="https://img.icons8.com/color/48/spain.png" alt="Switch to Spanish" className="w-5 h-5" />
-            ) : (
-              <img src="https://img.icons8.com/color/48/great-britain.png" alt="Switch to English" className="w-5 h-5" />
-            )}
-            <span className="text-xs font-medium text-gray-600">{isEnglish ? "Español" : "English"}</span>
-          </Link>
+            {/* Nuevo botón de cambio de idioma */}
+            <SimpleLanguageToggle />
+          </div>
         </div>
+      </nav>
 
-        {/* Mobile */}
-        <div className="md:hidden flex items-center space-x-3">
-          <Link to={switchUrl} className="flex items-center border border-gray-300 p-1.5 rounded-md shadow-sm hover:bg-gray-100 transition">
-            {isEnglish ? (
-              <img src="https://img.icons8.com/color/48/spain.png" alt="Switch to Spanish" className="w-5 h-5" />
-            ) : (
-              <img src="https://img.icons8.com/color/48/great-britain.png" alt="Switch to English" className="w-5 h-5" />
-            )}
-          </Link>
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="focus:outline-none p-1">
-            <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {isMenuOpen && (
-        <div className="md:hidden px-4 pt-2 pb-4 space-y-2 absolute top-full left-0 right-0 bg-white shadow-lg z-10">
-          <Link to={isEnglish ? "/en/plans" : "/plans"} className="block text-gray-700 hover:text-orange-500 py-1" onClick={() => setIsMenuOpen(false)}>{labels.plans}</Link>
-          <Link to={isEnglish ? "/en/services" : "/services"} className="block text-gray-700 hover:text-orange-500 py-1" onClick={() => setIsMenuOpen(false)}>{labels.services}</Link>
-          <Link to={isEnglish ? "/en/about" : "/about"} className="block text-gray-700 hover:text-orange-500 py-1" onClick={() => setIsMenuOpen(false)}>{labels.about}</Link>
-          <hr className="my-2" />
-          {!currentUser ? (
-            <button onClick={() => { setIsLoginOpen(true); setIsMenuOpen(false); }} className="block w-full text-left bg-primary text-white px-4 py-2 rounded-md shadow-md hover:bg-orange-600 transition font-semibold">
-              {labels.login}
-            </button>
-          ) : (
-            <>
-              <Link to="/dashboard" className="block text-gray-700 hover:text-orange-500 py-1" onClick={() => setIsMenuOpen(false)}>{labels.dashboard}</Link>
-              <Link to="/account" className="block text-gray-700 hover:text-orange-500 py-1" onClick={() => setIsMenuOpen(false)}>{labels.settings}</Link>
-              {currentUser.role === "admin" && (
-                <Link to="/admin" className="block text-gray-700 hover:text-orange-500 py-1" onClick={() => setIsMenuOpen(false)}>{labels.admin}</Link>
-              )}
-              <hr className="my-2" />
-              <button onClick={handleLogout} className="block w-full text-left bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition font-semibold">
-                {labels.logout}
-              </button>
-            </>
-          )}
-        </div>
+      {/* Render Login Modal */}
+      {isLoginOpen && (
+        <Login
+          isOpen={isLoginOpen}
+          onClose={() => setIsLoginOpen(false)} // Close Login modal
+        />
       )}
-
-      {isLoginOpen && <Login onClose={() => setIsLoginOpen(false)} />}
-      {isSignupOpen && <Signup onClose={() => setIsSignupOpen(false)} />}
-    </nav>
+    </>
   );
 };
 

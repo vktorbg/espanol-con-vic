@@ -1,6 +1,7 @@
 // /src/pages/account.js
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { graphql } from 'gatsby';
 import { db } from "../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import ProtectedRoute from "../components/ProtectedRoute";
@@ -182,3 +183,17 @@ const AccountManagementPage = () => {
 };
 
 export default AccountManagementPage;
+
+export const query = graphql`
+  query($language: String!) {
+    locales: allLocale(filter: { language: { eq: $language }, ns: { eq: "translation" } }) {
+      edges {
+        node {
+          ns
+          data
+          language
+        }
+      }
+    }
+  }
+`;

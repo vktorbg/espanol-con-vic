@@ -1,6 +1,7 @@
 // /src/pages/finalLanding.js
 import React from "react";
 import { navigate } from "gatsby";
+import { graphql } from 'gatsby';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -32,3 +33,17 @@ const FinalLanding = () => {
 };
 
 export default FinalLanding;
+
+export const query = graphql`
+  query($language: String!) {
+    locales: allLocale(filter: { language: { eq: $language }, ns: { eq: "translation" } }) {
+      edges {
+        node {
+          ns
+          data
+          language
+        }
+      }
+    }
+  }
+`;

@@ -1,6 +1,7 @@
 // /src/pages/login.js
 import React, { useState } from "react";
 import { Link, navigate } from "gatsby";
+import { graphql } from 'gatsby';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useAuth } from "../context/AuthContext"; // Assuming you have context for auth
@@ -219,3 +220,17 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+export const query = graphql`
+  query($language: String!) {
+    locales: allLocale(filter: { language: { eq: $language }, ns: { eq: "translation" } }) {
+      edges {
+        node {
+          ns
+          data
+          language
+        }
+      }
+    }
+  }
+`;

@@ -1,9 +1,10 @@
 // /src/pages/dashboard.js
 import React, { useEffect, useState } from "react";
 import { navigate } from "@reach/router";
+import { graphql } from 'gatsby';
 import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
-import { doc, getDoc, collection, getDocs, orderBy, query } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs, orderBy, query as firestoreQuery } from "firebase/firestore";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Navbar from "../components/Navbar";
 import { Helmet } from "react-helmet";
@@ -217,3 +218,19 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+// Ensure only one query is declared
+export const query = graphql`
+  query($language: String!) {
+    locales: allLocale(filter: { language: { eq: $language }, ns: { eq: "translation" } }) {
+      edges {
+        node {
+          ns
+          data
+          language
+        }
+      }
+    }
+  }
+`;
+

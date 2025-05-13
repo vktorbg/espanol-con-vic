@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { graphql } from 'gatsby';
 import { db, doc, getDoc, collection, getDocs, updateDoc, setDoc } from "../firebase";
 import { navigate } from "gatsby";
 import Navbar from "../components/Navbar";
@@ -154,3 +155,17 @@ const AdminHub = () => {
 };
 
 export default AdminHub;
+
+export const query = graphql`
+  query($language: String!) {
+    locales: allLocale(filter: { language: { eq: $language }, ns: { eq: "translation" } }) {
+      edges {
+        node {
+          ns
+          data
+          language
+        }
+      }
+    }
+  }
+`;

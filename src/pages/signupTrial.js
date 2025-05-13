@@ -1,6 +1,6 @@
 // /src/pages/SignupTrial.js
 import React, { useEffect, useState, useRef } from "react";
-import { navigate } from "gatsby";
+import { navigate, graphql } from "gatsby"; // Import GraphQL
 import Navbar from "../components/Navbar";
 import { Helmet } from "react-helmet";
 import { db, setDoc, doc } from "../firebase";
@@ -534,3 +534,17 @@ const SignupTrial = () => {
 };
 
 export default SignupTrial;
+
+export const query = graphql`
+  query($language: String!) {
+    locales: allLocale(filter: { language: { eq: $language }, ns: { eq: "translation" } }) {
+      edges {
+        node {
+          ns
+          data
+          language
+        }
+      }
+    }
+  }
+`;

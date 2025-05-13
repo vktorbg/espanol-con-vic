@@ -1,243 +1,191 @@
-// /src/pages/plans.js (Spanish Version)
+// /src/pages/plans.js (Unified Version with gatsby-plugin-react-i18next)
 
-import React, { useState, useEffect } from "react"; // Se agregó useEffect
-import { navigate } from "gatsby";
-import { useLocation } from "@reach/router";
+import React, { useState, useEffect } from "react";
+// *** PASO 1: Ajustar importaciones ***
+import { graphql } from 'gatsby'; // Necesario para la consulta de página
+// import { navigate } from "gatsby"; // Usaremos el navigate del plugin
+import { Link, useI18next } from 'gatsby-plugin-react-i18next';
+import { useLocation } from "@reach/router"; // Aún se usa para leer query params
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet";
-import Navbar from "../components/Navbar"; // Asumiendo traducción o manejo de idioma
-import Footer from "../components/Footer"; // Asumiendo traducción o manejo de idioma
+import Navbar from "../components/Navbar"; // Asumimos que ya está refactorizado
+import Footer from "../components/Footer"; // Asumimos que ya está refactorizado
 
-// Datos de planes actualizados y traducidos
-const todosLosPlanes = [ // allPlans -> todosLosPlanes
-  {
-    titulo: "Clases Individuales", // title -> titulo
-    nuevoPrecio: "20", // newPrice -> nuevoPrecio
-    frecuencia: "clase", // frequency -> frecuencia
-    descripcion: "Clases de español con pago flexible por sesión y total adaptabilidad.", // description -> descripcion
-    caracteristicas: [ // features -> caracteristicas
-      "Sesiones personalizadas de 1 hora",
-      "Horario flexible",
-      "Sin compromiso a largo plazo",
-      "Adaptado a tus necesidades inmediatas",
-    ],
-  },
-  {
-    titulo: "Plan Confianza", // title -> titulo
-    nuevoPrecio: "120", // newPrice -> nuevoPrecio
-    frecuencia: "mes", // frequency -> frecuencia
-    descripcion: "Impulsa tu confianza con constancia.", // description -> descripcion
-    caracteristicas: [ // features -> caracteristicas
-      "2 clases por semana (8/mes)",
-      "Enfoque conversacional",
-      "$15 por clase (25% de ahorro)",
-      "Feedback y correcciones personalizadas",
-    ],
-  },
-  {
-    titulo: "Plan Fluidez", // title -> titulo
-    nuevoPrecio: "220", // newPrice -> nuevoPrecio
-    frecuencia: "mes", // frequency -> frecuencia
-    descripcion: "Práctica intensiva para un progreso rápido.", // description -> descripcion
-    caracteristicas: [ // features -> caracteristicas
-      "4 clases por semana (16/mes)",
-      "Enfoque inmersivo",
-      "$13.75 por clase (30% de ahorro)",
-      "Reportes de progreso mensuales",
-      "Feedback y correcciones personalizadas",
-    ],
-  },
-];
+// --- Eliminar datos locales 'todosLosPlanes' y 'preguntasFrecuentes' ---
 
 const PlansPage = () => {
   const location = useLocation();
-  const [indicePlanSeleccionado, setIndicePlanSeleccionado] = useState(1); // Default to "Plan Confianza" (index 1) // selectedPlanIndex -> indicePlanSeleccionado, setSelectedPlanIndex -> setIndicePlanSeleccionado
+  // *** PASO 2: Usar hook del plugin ***
+  const { t, language, navigate: i18nextNavigate } = useI18next();
 
-  // Establecer plan inicial basado en el parámetro "plan"
-  useEffect(() => { // Changed React.useEffect to useEffect
+  // *** PASO 4: Obtener datos de arrays ***
+  // La lista de planes se reutiliza de 'home.plans.list' para consistencia
+  const plansList = t('home.plans.list', { returnObjects: true }) || [];
+  // Las FAQ se reutilizan de 'home.faq.items'
+  const faqItems = t('home.faq.items', { returnObjects: true }) || [];
+  // Los pasos de "How It Works" son específicos de esta página
+  const howItWorksSteps = t('plans.howItWorks.steps', { returnObjects: true }) || [];
+
+
+  // *** PASO 3: Mantener estado, useEffect usa datos de t() ***
+  const [selectedPlanIndex, setSelectedPlanIndex] = useState(1);
+
+  useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const planParametro = params.get("plan"); // planQuery -> planParametro
-    if (planParametro) {
-      // Buscar por título traducido (case-insensitive)
-      const idx = todosLosPlanes.findIndex(
-        (plan) => plan.titulo.toLowerCase() === planParametro.toLowerCase()
+    const planQuery = params.get("plan");
+    if (planQuery && Array.isArray(plansList)) {
+      const idx = plansList.findIndex(
+        (plan) => plan.title && plan.title.toLowerCase() === planQuery.toLowerCase()
       );
       if (idx !== -1) {
-        setIndicePlanSeleccionado(idx);
-      } else {
-        // Opcional: intentar buscar por el título original si la URL viene de una versión no traducida
-        const originalIdx = todosLosPlanes.findIndex(
-            (plan) => {
-                // Mapeo inverso simple si es necesario (esto es un ejemplo, ajustar según los títulos originales)
-                const originalTitles = ["Individual Classes", "Confidence Plan", "Fluency Plan"];
-                return originalTitles[idx]?.toLowerCase() === planParametro.toLowerCase();
-            }
-        );
-         if (originalIdx !== -1) {
-            setIndicePlanSeleccionado(originalIdx);
-         }
+        setSelectedPlanIndex(idx);
       }
     }
-  }, [location.search, setIndicePlanSeleccionado]); // Added dependency
+  }, [location.search, language, plansList]); // plansList depende de language
 
-  const manejarSeleccionPlan = () => { // handleSelectPlan -> manejarSeleccionPlan
-    const planSeleccionado = todosLosPlanes[indicePlanSeleccionado]; // selectedPlan -> planSeleccionado
-    // Navegar usando el título traducido en la URL
-    navigate(`/signupTrial?plan=${encodeURIComponent(planSeleccionado.titulo)}&trial=true`);
+
+  // *** PASO 5: Handler usa i18nextNavigate ***
+  const handleSelectPlan = () => {
+    if (Array.isArray(plansList) && selectedPlanIndex >= 0 && selectedPlanIndex < plansList.length) {
+        const selectedPlan = plansList[selectedPlanIndex];
+        // El plugin maneja el prefijo '/es/'
+        i18nextNavigate(`/signupTrial?plan=${encodeURIComponent(selectedPlan.title)}&trial=true`);
+    } else {
+        i18nextNavigate(`/signupTrial?trial=true`);
+        console.error("Invalid selected plan index or plans list on PlansPage.");
+    }
   };
 
-  const preguntasFrecuentes = [ // faqs -> preguntasFrecuentes
-    {
-      pregunta: "¿Qué plataforma usan para las clases?", // question -> pregunta
-      respuesta: "Todas las lecciones son online a través de Zoom.", // answer -> respuesta
-    },
-    {
-      pregunta: "¿Qué pasa después de reservar una clase de prueba?", // question -> pregunta
-      respuesta: "Recibirás un plan personalizado y podrás elegir la mejor suscripción para continuar.", // answer -> respuesta
-    },
-    {
-      pregunta: "¿Puedo reprogramar o cancelar una clase?", // question -> pregunta
-      respuesta: "¡Sí! Solo avisa con 24 horas de anticipación.", // answer -> respuesta
-    },
-    {
-      pregunta: "¿Puedo obtener un plan personalizado?", // question -> pregunta
-      respuesta: "Absolutamente. Podemos crear una ruta de aprendizaje que se ajuste a tus metas y disponibilidad.", // answer -> respuesta
-    },
-  ];
 
-  
   return (
     <div className="min-h-screen bg-gray-50">
-      <Helmet>
+      <Helmet htmlAttributes={{ lang: language }}>
+        <title>{`${t('navbar.plans')} - ${t('navbar.brand')}`}</title> {/* *** PASO 6: Usar t() *** */}
         <link rel="icon" href="/images/Logo-libro.png" type="image/png" />
-        <title>Spanish Fluency School</title>
       </Helmet>
       <Navbar />
 
-      {/* Sección Hero */}
+      {/* Hero Section */}
       <section
-              className="relative bg-cover bg-center"
-              style={{ backgroundImage: "url('/images/hero-about.jpeg')" }} // Mantener ruta de imagen
-            >
-              <div className="absolute inset-0 bg-black opacity-50"></div>
-              <div className="relative max-w-4xl mx-auto px-4 py-20 text-center text-white">
-                <motion.h1
-                  className="text-5xl font-bold"
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8 }}
-                >
-                  Nuestros Planes {/* Translated Heading */}
-                </motion.h1>
-                <motion.p
-                  className="mt-4 text-xl"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3, duration: 0.8 }}
-                >
-                  Mejora tu español desde cualquier lugar. Todos los planes incluyen estrategias de aprendizaje centradas en la práctica conversacional y horarios flexibles para adaptarse a tus necesidades. {/* Translated Paragraph */}
-                </motion.p>
-              </div>
-            </section>
+        className="relative bg-cover bg-center"
+        style={{ backgroundImage: "url('/images/hero-about.jpeg')" }}
+      >
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="relative max-w-4xl mx-auto px-4 py-20 text-center text-white">
+          <motion.h1
+            className="text-5xl font-bold"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            {t('plans.hero.title')} {/* Translated Heading */}
+          </motion.h1>
+          <motion.p
+            className="mt-4 text-xl"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+          >
+            {t('plans.hero.paragraph')} {/* Translated Paragraph */}
+          </motion.p>
+        </div>
+      </section>
 
       {/* Cuadrícula de Planes */}
       <section className="max-w-6xl mx-auto px-4 py-8">
         <div className="grid md:grid-cols-3 gap-8 mb-12">
-          {todosLosPlanes.map((plan, index) => (
+          {Array.isArray(plansList) && plansList.map((plan, index) => (
             <motion.div
-              key={index}
+              key={plan.title || index}
               whileHover={{ y: -5 }}
-              className={`bg-white rounded-xl shadow-lg overflow-hidden transition-all cursor-pointer ${ // Added cursor-pointer
-                indicePlanSeleccionado === index ? "ring-2 ring-primary" : ""
+              className={`bg-white rounded-xl shadow-lg overflow-hidden transition-all cursor-pointer ${
+                selectedPlanIndex === index ? "ring-2 ring-primary" : "ring-1 ring-gray-200 hover:ring-primary/50"
               }`}
-              onClick={() => setIndicePlanSeleccionado(index)} // Allow clicking the card to select
+              onClick={() => setSelectedPlanIndex(index)}
             >
-              <div className={`p-6 ${indicePlanSeleccionado === index ? "bg-primary text-white" : "bg-gray-100"}`}>
-                <h3 className="text-2xl font-bold">{plan.titulo}</h3> {/* Use translated title */}
-                {plan.nuevoPrecio && ( // Use translated price key
+              <div className={`p-6 transition-colors ${selectedPlanIndex === index ? "bg-primary text-white" : "bg-gray-100 text-gray-800"}`}>
+                <h3 className="text-2xl font-bold">{plan.title}</h3>
+                {plan.newPrice && (
                   <p className="text-xl font-semibold mt-2">
-                    ${plan.nuevoPrecio} <span className="text-sm font-light">/{plan.frecuencia}</span> {/* Use translated frequency */}
+                    ${plan.newPrice} <span className="text-sm font-light">/{plan.frequency}</span>
                   </p>
                 )}
+                <p className={`text-sm mt-1 ${selectedPlanIndex === index ? "text-white/80" : "text-gray-500"}`}>
+                     {plan.sessionsPerWeek}
+                 </p>
               </div>
               <div className="p-6">
-                <p className="text-gray-700 mb-4">{plan.descripcion}</p> {/* Use translated description */}
-
-                <ul className="space-y-2 mb-6">
-                  {plan.caracteristicas.map((caracteristica, idx) => ( // Use translated features key and variable
-                    <li key={idx} className="flex items-start">
-                      <svg className="h-5 w-5 text-primary mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"> {/* Added flex-shrink-0 */}
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span>{caracteristica}</span> {/* Wrap text in span for better control if needed */}
-                    </li>
-                  ))}
-                </ul>
+                <p className="text-gray-700 mb-4 min-h-[4em]">{plan.description}</p>
+                {Array.isArray(plan.features) && (
+                    <ul className="space-y-2 mb-6">
+                    {plan.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-start text-sm">
+                        <svg className="h-4 w-4 text-primary mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span>{feature}</span>
+                        </li>
+                    ))}
+                    </ul>
+                )}
               </div>
             </motion.div>
           ))}
         </div>
 
         {/* Sección CTA Debajo de los Planes */}
-        <div className="text-center bg-white p-8 rounded-xl shadow-lg max-w-3xl mx-auto">
+        <div className="text-center bg-white p-8 rounded-xl shadow-lg max-w-3xl mx-auto border border-gray-100">
           <h3 className="text-2xl font-bold text-primary mb-4">
-            ¿Listo/a para empezar a hablar sin miedo? {/* Translated Heading */}
+            {t('plans.planGrid.ctaTitle')}
           </h3>
-
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={manejarSeleccionPlan} // Use translated handler name
-            // Consider adding a specific primary-dark color in tailwind.config.js if needed
-            className="bg-primary hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-xl transition" // Adjusted hover color
+            onClick={handleSelectPlan}
+            className="bg-primary hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all"
           >
-            Reserva tu Clase de Prueba de $5 ahora {/* Translated Button */}
+            {t('plans.planGrid.ctaButton')}
           </motion.button>
           <p className="text-sm text-gray-500 mt-4">
-            Después de tu prueba, elige el plan que mejor se adapte a tus necesidades de aprendizaje. {/* Translated Paragraph */}
+            {t('plans.planGrid.ctaSubtext')}
           </p>
         </div>
       </section>
 
       {/* Info de Pago */}
       <section className="max-w-4xl mx-auto py-8 px-4 text-center text-sm text-gray-500">
-        <p>Los pagos se procesan de forma segura a través de PayPal. Cancelaciones y reprogramaciones requieren 24 horas de aviso.</p> {/* Translated Text */}
+        <p>{t('plans.paymentInfo.note')}</p>
       </section>
 
-      {/* Mantener secciones existentes traducidas */}
+      {/* Cómo Funciona */}
       <section className="bg-gray-100 py-12 px-4">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-primary mb-8">Cómo Funciona</h2> {/* Translated Heading */}
+          <h2 className="text-3xl font-bold text-center text-primary mb-8">{t('plans.howItWorks.sectionTitle')}</h2>
           <div className="grid md:grid-cols-4 gap-6">
-            {[
-              "Reserva una clase de prueba de $5.",
-              "Conoce a tu profesor/a y discute tus metas.",
-              "Obtén un plan de aprendizaje personalizado.",
-              "¡Elige tu suscripción ideal y empieza a practicar!",
-            ].map((paso, index) => ( // step -> paso
-              <div key={index} className="bg-white p-6 rounded-lg shadow text-center">
+            {Array.isArray(howItWorksSteps) && howItWorksSteps.map((step, index) => (
+              <div key={index} className="bg-white p-6 rounded-lg shadow text-center border border-gray-100">
                 <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl mx-auto mb-4">
                   {index + 1}
                 </div>
-                <p>{paso}</p>
+                <p className="text-sm text-gray-700">{step}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Preguntas Frecuentes */}
       <section className="max-w-4xl mx-auto py-12 px-4">
-        <h2 className="text-3xl font-bold text-center text-primary mb-8">Preguntas Frecuentes</h2> {/* Translated Heading */}
+        <h2 className="text-3xl font-bold text-center text-primary mb-8">{t('plans.faq.sectionTitle')}</h2>
         <div className="space-y-4">
-          {preguntasFrecuentes.map((faq, index) => ( // faqs -> preguntasFrecuentes
-            <div key={index} className="border-b border-gray-200 pb-4">
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">{faq.pregunta}</h3> {/* Use translated question key */}
-              <p className="text-gray-600">{faq.respuesta}</p> {/* Use translated answer key */}
+          {Array.isArray(faqItems) && faqItems.map((faq, index) => (
+            <div key={faq.question || index} className="border-b border-gray-200 pb-4">
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">{faq.question}</h3>
+              <p className="text-gray-600 text-sm">{faq.answer}</p>
             </div>
           ))}
         </div>
       </section>
-
       
       <Footer />
     </div>
@@ -245,3 +193,18 @@ const PlansPage = () => {
 };
 
 export default PlansPage;
+
+// *** PASO 7: AÑADE ESTA CONSULTA GraphQL AL FINAL DEL ARCHIVO ***
+export const query = graphql`
+  query($language: String!) {
+    locales: allLocale(filter: {language: {eq: $language}, ns: {eq: "translation"}}) {
+      edges {
+        node {
+          ns
+          data
+          language
+        }
+      }
+    }
+  }
+`;

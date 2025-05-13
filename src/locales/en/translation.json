@@ -1,0 +1,273 @@
+{
+  "navbar": {
+    "brand": "Spanish Fluency School",
+    "plans": "Plans",
+    "services": "Services",
+    "about": "About Us",
+    "login": "Login",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "settings": "Account Settings",
+    "admin": "Admin",
+    "myAccount": "My Account",
+    "switchLang": "Español",
+    "language": "Language",
+    "changeLanguageLabel": "Change language", 
+    "flagAlt": "Switch to Spanish",
+    "flagIcon": "https://img.icons8.com/color/48/spain.png",
+    "mobileMenuIconAlt": "Menu"
+  },
+  "home": {
+    "hero": {
+      "title": "Online Spanish Fluency School",
+      "tagline": "Build real speaking skills and the boldness to use them anywhere.",
+      "explorePlansButton": "Explore Our Plans",
+      "trialClassButton": "Get Your Trial Class!",
+      "profileAlt": "Profile of Vic",
+      "backgroundAlt": "Background scene for homepage hero"
+    },
+    "whyLearn": {
+      "sectionTitle": "Why Learn Spanish With Us?",
+      "feature1Title": "Personalized Approach",
+      "feature1Desc": "Lessons tailored to your goals, interests, and learning style.",
+      "feature2Title": "Flexible Scheduling",
+      "feature2Desc": "Book classes when it works for you - mornings, evenings, or weekends.",
+      "feature3Title": "Cultural Immersion",
+      "feature3Desc": "Learn authentic Spanish with cultural insights from South America."
+    },
+    "team": {
+      "sectionTitle": "Meet Your Guides to Fluency",
+      "members": [
+        {
+          "name": "Victor Briceño",
+          "title": "Grammar & Fluency Specialist",
+          "quote": "Making Spanish a vibrant part of your life",
+          "bio": "Spanish and Literature teacher with a multicultural teaching approach, with over 7 years of practice teaching individuals from many different countries. Passionate about making the most challenging topics fun.",
+          "image": "/images/profile.png",
+          "alt": "Victor Briceño"
+        },
+        {
+          "name": "Elizabeth García",
+          "title": "Linguist & Educational Programmer",
+          "quote": "Bridging linguistic theory with practical communication",
+          "bio": "PhD in Education and Master's in Linguistics applied to Spanish and English language teaching and learning, with over 25 years of experience as an educator and curriculum developer.",
+          "image": "/images/profile2.jpg",
+          "alt": "Elizabeth García"
+        }
+      ]
+    },
+    "philosophy": {
+      "sectionTitle": "Our Fluency Philosophy",
+      "paragraph": "We believe fluency blossoms when you connect language to real life. Our unique methodology isn't about perfection; it's about progress and the courage to communicate.",
+      "listItem1": "Academic Foundation:",
+      "listItem1Desc": "We combine proven pedagogical theories with authentic conversations tailored to real cultural contexts for comprehensive and effective learning.",
+      "listItem2": "Immersive Practice:",
+      "listItem2Desc": "Incorporating Vic's real-world experience across Latin America for authentic conversation.",
+      "listItem3": "Human-Centered Approach:",
+      "listItem3Desc": "Creating a supportive space where mistakes are celebrated as learning opportunities.",
+      "imageAlt": "Interactive Spanish learning"
+    },
+    "plans": {
+      "sectionTitle": "Plans Made for You",
+      "viewDetailsButton": "View Details",
+      "customPrice": "Custom Pricing",
+      "list": [
+        {
+          "title": "Individual Classes",
+          "newPrice": "20",
+          "frequency": "class",
+          "description": "Pay-as-you-go Spanish lessons with full adaptability.",
+          "image": "/images/plan3.jpg",
+          "alt": "Individual Classes Plan",
+          "sessionsPerWeek": "Flexible scheduling",
+          "features": [
+            "Personalized 1-hour sessions",
+            "Flexible scheduling",
+            "No long-term commitment",
+            "Tailored to your immediate needs"
+          ]
+        },
+        {
+          "title": "Confidence Plan",
+          "newPrice": "120",
+          "frequency": "month (25% off)",
+          "description": "Boost your confidence with consistency.",
+          "image": "/images/plan1.jpg",
+          "alt": "Confidence Plan",
+          "sessionsPerWeek": "2 sessions per week",
+          "features": [
+            "2 classes per week (8/month)",
+            "Conversational focus",
+            "$15 per class (25% savings)",
+            "Personalized feedback and corrections"
+          ]
+        },
+        {
+          "title": "Fluency Plan",
+          "newPrice": "220",
+          "frequency": "month (30% off)",
+          "description": "Intensive practice for rapid progress.",
+          "image": "/images/plan2.jpg",
+          "alt": "Fluency Plan",
+          "sessionsPerWeek": "4 sessions per week",
+          "features": [
+            "4 classes per week (16/month)",
+            "Immersive approach",
+            "$13.75 per class (30% savings)",
+            "Monthly progress reports",
+            "Personalized feedback and corrections"
+          ]
+        }
+      ]
+    },
+    "howItWorks": {
+      "sectionTitle": "How It Works",
+      "step1Title": "Book Your Trial",
+      "step1Desc": "Start with a $5 trial class - a sample lesson to experience our teaching style.",
+      "step2Title": "Get Your Plan",
+      "step2Desc": "Set your goals, build a personalized plan and schedule.",
+      "step3Title": "Start Learning",
+      "step3Desc": "Begin your journey to fluency."
+    },
+    "support": {
+      "sectionTitle": "Want to support this project?",
+      "paragraph": "Support our school and help us continue providing quality language education.",
+      "supportButton": "How to Support?"
+    },
+    "faq": {
+      "sectionTitle": "Common Questions",
+      "items": [
+        {
+          "question": "What's included in the trial class?",
+          "answer": "The trial includes a level assessment, goal setting, and a sample lesson to experience my teaching style. It's a great way to see if we're a good fit before committing to a plan."
+        },
+        {
+          "question": "What materials do I need?",
+          "answer": "Just a computer with Zoom and a notebook. I provide all learning materials digitally, including exercises, vocabulary lists, and cultural resources."
+        },
+        {
+          "question": "Can I change my plan later?",
+          "answer": "Yes! Plans can be adjusted monthly based on your progress and changing goals."
+        },
+        {
+          "question": "How do I schedule classes?",
+          "answer": "After signing up, you'll get access to my online calendar where you can book classes at times that work for you, with the flexibility to reschedule when needed."
+        }
+      ]
+    },
+    "cta": {
+      "sectionTitle": "Ready to Schedule Your First Session?",
+      "paragraph": "Take the first step towards fluency with a personalized trial class for just $5.",
+      "trialButton": "BOOK YOUR TRIAL CLASS",
+      "viewPlansButton": "View All Plans"
+    }
+  },
+  "about": {
+    "hero": {
+      "title": "About Us",
+      "paragraph": "Meet the team behind Spanish Fluency School and discover our unique approach to achieving real Spanish fluency.",
+      "imageAlt": "Hero background for About Us page"
+    },
+    "whoWeAre": {
+      "sectionTitle": "Who We Are?",
+      "fullParagraph": "We are Victor and Elizabeth, a team united by a passion for language and the belief that true fluency comes from <1>confident communication</1>, not just memorizing rules. We combine decades of educational expertise with real-world multicultural experiences to create a learning environment where you feel empowered to speak Spanish naturally and authentically."
+    },
+    "philosophy": {
+      "sectionTitle": "Our Fluency Philosophy",
+      "paragraph": "We believe fluency blossoms when you connect language to real life. Our unique methodology isn't about perfection; it's about progress and the courage to communicate.",
+      "listItem1": "Academic Foundation:",
+      "listItem1Desc": "We combine proven pedagogical theories with authentic conversations adapted to real cultural contexts for comprehensive and effective learning.",
+      "listItem2": "Immersive Practice:",
+      "listItem2Desc": "Incorporating Vic's real-world experience across Latin America for authentic conversation.",
+      "listItem3": "Human-Centered Approach:",
+      "listItem3Desc": "Creating a supportive space where mistakes are celebrated as learning opportunities.",
+      "imageAlt": "Interactive Spanish learning"
+    },
+    "values": {
+      "sectionTitle": "Our Shared Commitment",
+      "items": [
+        { "icon": "💬", "title": "Authentic Communication", "desc": "Prioritizing real interactions over perfect grammar." },
+        { "icon": "🌈", "title": "Inclusive Spaces", "desc": "LGBTQ+ affirming & culturally responsive teaching." },
+        { "icon": "🔗", "title": "Community Connection", "desc": "Linking language learning to human rights advocacy." }
+      ]
+    },
+    "support": {
+      "sectionTitle": "Help Our Fluency School Grow",
+      "paragraph": "Spanish Fluency School is a passionate, self-funded project built by us, Victor and Elizabeth. Your support directly helps us enhance our resources, reach more students, and continue offering high-quality, personalized Spanish education.",
+      "supportButton": "Support Our Vision"
+    }
+  },
+  "services": {
+    "hero": {
+      "title": "Unlock your fluency with everyday Spanish conversations.",
+      "paragraph": "Our personalized approach focuses on real-world speaking skills and the cultural insights you need to connect authentically. Learn online, whenever you want.",
+      "explorePlansButton": "Explore Our Plans",
+      "trialClassButton": "Book Your $5 Trial Class",
+      "imageAlt": "Hero background for Services page"
+    },
+    "serviceList": {
+      "sectionTitle": "Your Path to Fluency",
+      "items": [
+        {
+          "title": "Speak Spanish Confidently",
+          "description": "Go beyond textbook Spanish. We focus on real conversation practice, tailored to your needs, so you chat naturally about travel, work, or whatever you're passionate about.",
+          "icon": "conversation"
+        },
+        {
+          "title": "Understand Grammar Intuitively",
+          "description": "Forget confusing rules. We break down Spanish grammar into simple, practical steps, directly linked to how you'll actually use it in conversations.",
+          "icon": "grammar"
+        },
+        {
+          "title": "Personalized Feedback & Path",
+          "description": "Receive specific, useful feedback with monthly reports. We track your progress and adjust your personalized learning plan to ensure you're always advancing effectively.",
+          "icon": "feedback"
+        },
+        {
+          "title": "Flexible Learning That Fits You",
+          "description": "Your life is busy. Learn at your own pace with flexible scheduling for online lessons. We adapt to your availability and learning style.",
+          "icon": "flexible"
+        }
+      ]
+    },
+    "cta": {
+      "sectionTitle": "Ready to Start Speaking Spanish?",
+      "paragraph": "Take the first step with a personalized $5 trial class. Discover your potential and see how our approach works for you.",
+      "trialButton": "Get Your $5 Trial",
+      "viewPlansButton": "See All Learning Plans"
+    }
+  },
+  "plans": {
+    "hero": {
+      "title": "Our Plans",
+      "paragraph": "Improve your Spanish from anywhere. All plans include learning strategies focused on conversational practice and flexible schedules to fit your needs.",
+      "imageAlt": "Hero background for Plans page"
+    },
+    "planGrid": {
+      "ctaTitle": "Ready to Start Speaking Fearlessly?",
+      "ctaButton": "Book Your $5 Trial Class Now",
+      "ctaSubtext": "After your trial, choose the plan that best suits your learning needs."
+    },
+    "paymentInfo": {
+        "note": "Payments are securely processed via PayPal. Cancellations and rescheduling require 24 hours' notice."
+    },
+    "howItWorks": {
+        "sectionTitle": "How It Works",
+        "steps": [
+            "Book a $5 trial class.",
+            "Meet your teacher and discuss your goals.",
+            "Get a personalized learning plan.",
+            "Choose your ideal subscription and start practicing!"
+        ]
+    },
+    "faq": {
+        "sectionTitle": "Frequently Asked Questions"
+    }
+  },
+  "footer": {
+    "contact": "Contact Us",
+    "socialMedia": "Follow Us",
+    "copyrightBase": "© {{year}} Spanish Fluency School. All rights reserved."
+  }
+  
+}

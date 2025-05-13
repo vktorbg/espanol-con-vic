@@ -1,0 +1,327 @@
+{
+  "navbar": {
+    "brand": "Spanish Fluency School",
+    "plans": "Planes",
+    "services": "Servicios",
+    "about": "Conócenos",
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "dashboard": "Panel",
+    "settings": "Mi cuenta",
+    "admin": "Admin",
+    "myAccount": "Mi cuenta",
+    "switchLang": "English",
+    "language": "Idioma",
+    "changeLanguageLabel": "Cambiar idioma",
+    "flagAlt": "Cambiar a Inglés",
+    "flagIcon": "https://img.icons8.com/color/48/great-britain.png",
+    "mobileMenuIconAlt": "Menú"
+  },
+  "home": {
+    "hero": {
+      "title": "Escuela Online de Fluidez en Español",
+      "tagline": "Desarrolla habilidades de conversación y la confianza para usar tu Español en cualquier lugar.",
+      "explorePlansButton": "Explora nuestros planes",
+      "trialClassButton": "¡Obtén tu clase de prueba!",
+      "profileAlt": "Perfil de Vic",
+      "backgroundAlt": "Escena de fondo para el hero de inicio"
+    },
+    "whyLearn": {
+      "sectionTitle": "¿Por qué aprender español con nosotros?",
+      "feature1Title": "Enfoque Personalizado",
+      "feature1Desc": "Lecciones adaptadas a tus metas, intereses y estilo de aprendizaje.",
+      "feature2Title": "Horario Flexible",
+      "feature2Desc": "Reserva clases cuando te funcione: mañanas, tardes o fines de semana.",
+      "feature3Title": "Inmersión Cultural",
+      "feature3Desc": "Aprende español auténtico con perspectivas culturales de Sudamérica."
+    },
+    "team": {
+      "sectionTitle": "Conoce a tus guías para la Fluidez",
+      "members": [
+        {
+          "name": "Victor Briceño",
+          "title": "Especialista en Gramática y Fluidez",
+          "quote": "Hacemos del español una parte vibrante de tu vida",
+          "bio": "Profesor de Español y Literatura con un enfoque multicultural de enseñanza, con más de 7 años de práctica enseñando a personas de distintos países. Apasionado por enseñar lo más difícil de forma divertida.",
+          "image": "/images/profile.png",
+          "alt": "Victor Briceño"
+        },
+        {
+          "name": "Elizabeth García",
+          "title": "Lingüista y Programadora Educativa",
+          "quote": "Conectando la teoría lingüística con la comunicación práctica",
+          "bio": "Doctora en Educación y Magister en Lingüística aplicada a la enseñanza y aprendizaje de la lengua española e inglesa, con más de 25 años de experiencia como docente y programadora educativa.",
+          "image": "/images/profile2.jpg",
+          "alt": "Elizabeth García"
+        }
+      ]
+    },
+    "philosophy": {
+      "sectionTitle": "Nuestra Filosofía de Fluidez",
+      "paragraph": "Creemos que la fluidez florece cuando conectas el idioma con la vida real. Nuestra metodología única no se trata de perfección; se trata de progreso y la valentía para comunicarte.",
+      "listItem1": "Base académica:",
+      "listItem1Desc": "Combinamos teorías pedagógicas probadas con conversaciones auténticas y adaptadas a contextos culturales reales para un aprendizaje completo y efectivo.",
+      "listItem2": "Práctica inmersiva:",
+      "listItem2Desc": "Incorporando la experiencia real de Vic en Latinoamérica para conversaciones auténticas.",
+      "listItem3": "Enfoque centrado en la persona:",
+      "listItem3Desc": "Creando un espacio de apoyo donde los errores se convierten en oportunidades de aprendizaje.",
+      "imageAlt": "Aprendizaje interactivo de español"
+    },
+    "plans": {
+      "sectionTitle": "Planes Pensados Para Ti",
+      "viewDetailsButton": "Ver Detalles",
+      "customPrice": "Precio Personalizado",
+      "list": [
+        {
+          "title": "Clases Individuales",
+          "newPrice": "20",
+          "frequency": "clase",
+          "description": "Clases de español con pago flexible por sesión y total adaptabilidad.",
+          "image": "/images/plan3.jpg",
+          "alt": "Plan Clases Individuales",
+          "sessionsPerWeek": "Horario flexible",
+          "features": [
+            "Sesiones personalizadas de 1 hora",
+            "Horario flexible",
+            "Sin compromiso a largo plazo",
+            "Adaptado a tus necesidades inmediatas"
+          ]
+        },
+        {
+          "title": "Plan Confianza",
+          "newPrice": "120",
+          "frequency": "mes (25% desc.)",
+          "description": "Impulsa tu confianza con constancia.",
+          "image": "/images/plan1.jpg",
+          "alt": "Plan Confianza",
+          "sessionsPerWeek": "2 sesiones por semana",
+          "features": [
+            "2 clases por semana (8/mes)",
+            "Enfoque conversacional",
+            "$15 por clase (25% de ahorro)",
+            "Feedback y correcciones personalizadas"
+          ]
+        },
+        {
+          "title": "Plan Fluidez",
+          "newPrice": "220",
+          "frequency": "mes (30% desc.)",
+          "description": "Práctica intensiva para un progreso rápido.",
+          "image": "/images/plan2.jpg",
+          "alt": "Plan Fluidez",
+          "sessionsPerWeek": "4 sesiones por semana",
+          "features": [
+            "4 clases por semana (16/mes)",
+            "Enfoque inmersivo",
+            "$13.75 por clase (30% de ahorro)",
+            "Reportes de progreso mensuales",
+            "Feedback y correcciones personalizadas"
+          ]
+        }
+      ]
+    },
+    "howItWorks": {
+      "sectionTitle": "Cómo Funciona",
+      "step1Title": "Reserva Tu Prueba",
+      "step1Desc": "Empieza con una clase de prueba por solo $5: una lección de muestra para que conozcas nuestro estilo.",
+      "step2Title": "Obtén Tu Plan",
+      "step2Desc": "Define tus metas, crearemos un plan y horario personalizados.",
+      "step3Title": "Empieza a Aprender",
+      "step3Desc": "Comienza tu camino hacia la fluidez."
+    },
+    "support": {
+      "sectionTitle": "¿Deseas apoyar este proyecto?",
+      "paragraph": "Apoya nuestra escuela y ayúdanos a continuar brindando educación de idiomas de calidad.",
+      "supportButton": "¿Cómo apoyar?"
+    },
+    "faq": {
+      "sectionTitle": "Preguntas Frecuentes",
+      "items": [
+        {
+          "question": "¿Qué incluye la clase de prueba?",
+          "answer": "La prueba incluye una evaluación de nivel, definición de objetivos y una lección de muestra para experimentar mi estilo de enseñanza. Es una excelente manera de ver si encajamos bien antes de comprometerte con un plan."
+        },
+        {
+          "question": "¿Qué materiales necesito?",
+          "answer": "Solo una computadora con Zoom y un cuaderno. Proporciono todos los materiales de aprendizaje digitalmente, incluidos ejercicios, listas de vocabulario y recursos culturales."
+        },
+        {
+          "question": "¿Puedo cambiar mi plan más adelante?",
+          "answer": "¡Sí! Los planes se pueden ajustar mensualmente según tu progreso y objetivos cambiantes."
+        },
+        {
+          "question": "¿Cómo agendo las clases?",
+          "answer": "Después de inscribirte, tendrás acceso a mi calendario en línea donde puedes reservar clases en los horarios que te funcionen, con la flexibilidad de reprogramar cuando sea necesario."
+        }
+      ]
+    },
+    "cta": {
+      "sectionTitle": "¿Listo/a para agendar tu primera sesión?",
+      "paragraph": "Da el primer paso hacia la fluidez con una clase de prueba personalizada por solo $5.",
+      "trialButton": "RESERVA TU CLASE DE PRUEBA",
+      "viewPlansButton": "Ver Todos los Planes"
+    }
+  },
+  "about": {
+    "hero": {
+      "title": "Sobre nosotros",
+      "paragraph": "Conoce al equipo detrás de Spanish Fluency School y descubre nuestro enfoque único para lograr la fluidez real en español.",
+      "imageAlt": "Fondo hero para página Sobre nosotros"
+    },
+    "whoWeAre": {
+      "sectionTitle": "¿Quiénes somos?",
+      "fullParagraph": "Somos Victor y Elizabeth, un equipo unido por la pasión por el lenguaje y la creencia de que la verdadera fluidez proviene de la <1>comunicación con confianza</1>, no solo de memorizar reglas. Combinamos décadas de experiencia educativa con vivencias multiculturales reales para crear un ambiente de aprendizaje donde te sientas empoderado/a para hablar español de forma natural y auténtica."
+    },
+    "philosophy": {
+      "sectionTitle": "Nuestra Filosofía de Fluidez",
+      "paragraph": "Creemos que la fluidez florece cuando conectas el idioma con la vida real. Nuestra metodología única no se trata de perfección; se trata de progreso y la valentía para comunicarte.",
+      "listItem1": "Base académica:",
+      "listItem1Desc": "Combinamos teorías pedagógicas probadas con conversaciones auténticas y adaptadas a contextos culturales reales para un aprendizaje completo y efectivo.",
+      "listItem2": "Práctica inmersiva:",
+      "listItem2Desc": "Incorporando la experiencia real de Vic en Latinoamérica para conversaciones auténticas.",
+      "listItem3": "Enfoque centrado en la persona:",
+      "listItem3Desc": "Creando un espacio de apoyo donde los errores se convierten en oportunidades de aprendizaje.",
+      "imageAlt": "Aprendizaje interactivo de español"
+    },
+    "values": {
+      "sectionTitle": "Nuestro Compromiso Compartido",
+      "items": [
+        { "icon": "💬", "title": "Comunicación Auténtica", "desc": "Priorizamos interacciones reales sobre la gramática perfecta." },
+        { "icon": "🌈", "title": "Espacios Inclusivos", "desc": "Enseñanza culturalmente sensible y que afirma a la comunidad LGBTQ+." },
+        { "icon": "🔗", "title": "Conexión Comunitaria", "desc": "Vinculamos el aprendizaje de idiomas con la defensa de los derechos humanos." }
+      ]
+    },
+    "support": {
+      "sectionTitle": "Ayuda a Crecer a Nuestra Escuela de Fluidez",
+      "paragraph": "Spanish Fluency School es un proyecto apasionado y autofinanciado construido por nosotros, Victor y Elizabeth. Tu apoyo nos ayuda directamente a mejorar nuestros recursos, llegar a más estudiantes y continuar ofreciendo educación de español personalizada y de alta calidad.",
+      "supportButton": "Apoya Nuestra Visión"
+    }
+  },
+  "services": {
+    "hero": {
+      "title": "Desbloquea tu fluidez con conversaciones cotidianas en español.",
+      "paragraph": "Nuestro enfoque personalizado se centra en habilidades de habla del mundo real y las perspectivas culturales que necesitas para conectar auténticamente. Aprende online, cuando quieras.",
+      "explorePlansButton": "Explora Nuestros Planes",
+      "trialClassButton": "Reserva tu Clase de Prueba de $5",
+      "imageAlt": "Fondo hero para página Servicios"
+    },
+    "serviceList": {
+      "sectionTitle": "Tu Camino Hacia la Fluidez",
+      "items": [
+        {
+          "title": "Habla Español con Confianza",
+          "description": "Ve más allá del español de libro. Nos enfocamos en práctica de conversación real, adaptada a tus necesidades, para que chatees naturalmente sobre viajes, trabajo o lo que te apasione.",
+          "icon": "conversation"
+        },
+        {
+          "title": "Entiende la Gramática Intuitivamente",
+          "description": "Olvida reglas confusas. Desglosamos la gramática española en pasos simples y prácticos, directamente vinculados a cómo la usarás realmente en conversaciones.",
+          "icon": "grammar"
+        },
+        {
+          "title": "Feedback y Ruta Personalizada",
+          "description": "Recibe feedback específico y útil con informes mensuales. Seguimos tu progreso y ajustamos tu plan de aprendizaje personalizado para asegurar que siempre avances eficazmente.",
+          "icon": "feedback"
+        },
+        {
+          "title": "Aprendizaje Flexible a Tu Medida",
+          "description": "Tu vida está ocupada. Aprende a tu propio ritmo con horarios flexibles para lecciones online. Nos adaptamos a tu disponibilidad y estilo de aprendizaje.",
+          "icon": "flexible"
+        }
+      ]
+    },
+    "cta": {
+      "sectionTitle": "¿Listo/a para Empezar a Hablar Español?",
+      "paragraph": "Da el primer paso con una clase de prueba personalizada de $5. Descubre tu potencial y ve cómo nuestro enfoque funciona para ti.",
+      "trialButton": "Obtén Tu Prueba de $5",
+      "viewPlansButton": "Ver Todos los Planes"
+    }
+  },
+  "plans": {
+    "hero": {
+      "title": "Nuestros Planes",
+      "paragraph": "Mejora tu español desde cualquier lugar. Todos los planes incluyen estrategias de aprendizaje centradas en la práctica conversacional y horarios flexibles para adaptarse a tus necesidades.",
+      "imageAlt": "Fondo hero para página Planes"
+    },
+    "planGrid": {
+      "ctaTitle": "¿Listo/a para empezar a hablar sin miedo?",
+      "ctaButton": "Reserva tu Clase de Prueba de $5 ahora",
+      "ctaSubtext": "Después de tu prueba, elige el plan que mejor se adapte a tus necesidades de aprendizaje."
+    },
+    "paymentInfo": {
+      "note": "Los pagos se procesan de forma segura a través de PayPal. Cancelaciones y reprogramaciones requieren 24 horas de aviso."
+    },
+    "howItWorks": {
+      "sectionTitle": "Cómo Funciona",
+      "steps": [
+        "Reserva una clase de prueba de $5.",
+        "Conoce a tu profesor/a y discute tus metas.",
+        "Obtén un plan de aprendizaje personalizado.",
+        "¡Elige tu suscripción ideal y empieza a practicar!"
+      ]
+    },
+    "faq": {
+      "sectionTitle": "Preguntas Frecuentes"
+    }
+  },
+  "footer": {
+    "contact": "Contáctanos",
+    "socialMedia": "Síguenos",
+    "copyrightBase": "© {{year}} Spanish Fluency School. Todos los derechos reservados."
+  },
+  "signupTrial": {
+    "welcomeMessage": "Bienvenido/a a <1>Spanish Fluency School</1>",
+    "logoAlt": "Logo de la Escuela",
+    "progressBar": "Paso {{currentStep}} de 3",
+    "step1": {
+      "title": "Regístrate y Reserva Tu Sesión de Prueba de $5",
+      "firstNameLabel": "Nombre",
+      "firstNamePlaceholder": "Tu nombre",
+      "lastNameLabel": "Apellido",
+      "lastNamePlaceholder": "Tu apellido",
+      "cityLabel": "Ciudad",
+      "cityPlaceholder": "Tu ciudad",
+      "emailLabel": "Correo Electrónico",
+      "emailPlaceholder": "tu@ejemplo.com",
+      "passwordLabel": "Contraseña",
+      "passwordPlaceholder": "Crea una contraseña",
+      "togglePasswordVisibility": "Alternar visibilidad de contraseña",
+      "hidePassword": "Ocultar",
+      "showPassword": "Mostrar",
+      "passwordHint": "Más de 8 caracteres, mayúscula, número recomendado",
+      "confirmPasswordLabel": "Confirmar Contraseña",
+      "confirmPasswordPlaceholder": "Vuelve a escribir tu contraseña",
+      "nextButton": "Siguiente: Agenda Tu Clase",
+      "checkingEmailButton": "Verificando Correo...",
+      "alerts": {
+        "fillAllFields": "Por favor, completa todos los campos.",
+        "invalidEmail": "Por favor, ingresa una dirección de correo válida.",
+        "weakPassword": "Por favor, crea una contraseña más segura (más de 8 caracteres, mayúscula, número).",
+        "passwordsMismatch": "Las contraseñas no coinciden.",
+        "emailInUse": "La dirección de correo {{email}} ya está en uso. Por favor, usa un correo diferente o inicia sesión.",
+        "emailVerificationError": "No se pudo verificar la dirección de correo. Por favor, inténtalo de nuevo."
+      }
+    },
+    "step2": {
+      "title": "Elige el Horario de Tu Clase",
+      "instruction": "Por favor, selecciona un horario para tu sesión de prueba de $5. Una vez agendada, procederás al pago."
+    },
+    "step3": {
+      "title": "Confirmar y Pagar",
+      "costInfo": "La clase de prueba cuesta $5",
+      "registrationDetailsTitle": "Detalles de Registro",
+      "nameLabel": "Nombre:",
+      "cityLabel": "Ciudad:",
+      "emailLabel": "Correo:",
+      "scheduledLabel": "Agendado:",
+      "loadingPaymentOptions": "Cargando opciones de pago...",
+      "processingPayment": "Procesando Pago y Creando Cuenta...",
+      "alerts": {
+        "emailAlreadyRegistered": "Esta dirección de correo ya está registrada. Por favor, intenta iniciar sesión o usa un correo diferente.",
+        "finalStepError": "Ocurrió un error durante el paso final. Por favor, contacta a soporte si el pago fue procesado.",
+        "paymentError": "Ocurrió un error en el pago. Por favor, inténtalo de nuevo.",
+        "paymentOptionsLoadError": "No se pudieron cargar las opciones de pago. Por favor, revisa tu conexión e inténtalo de nuevo."
+      }
+    }
+  }
+}
