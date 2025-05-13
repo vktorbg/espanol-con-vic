@@ -53,7 +53,7 @@ const Navbar = () => {
     <>
       <nav className="bg-white shadow-md py-4 relative">
         <div className="max-w-6xl mx-auto flex justify-between items-center px-4">
-          {/* Brand Link - Usa el Link del plugin y 'to="/"' */}
+          {/* Brand Link */}
           <Link to="/" className="flex items-center text-2xl font-bold text-primary">
             <img
               src="/images/logo-libro.png"
@@ -63,7 +63,7 @@ const Navbar = () => {
             {t('navbar.brand')}
           </Link>
 
-          {/* Desktop Navigation Links - Usa el Link del plugin */}
+          {/* Desktop Navigation Links */}
           <div className="hidden md:flex space-x-6">
             <Link to="/plans" className="text-gray-700 hover:text-orange-500 transition">
               {t('navbar.plans')}
@@ -75,11 +75,9 @@ const Navbar = () => {
           {/* Desktop Auth Buttons & Language Selector */}
           <div className="hidden md:flex space-x-4 items-center">
             {!currentUser ? (
-              <>
-                <button onClick={() => setIsLoginOpen(true)} className="bg-primary text-white px-5 py-2 rounded-md shadow-md hover:bg-orange-600 transition font-semibold">
-                  {t('navbar.login')}
-                </button>
-              </>
+              <button onClick={() => setIsLoginOpen(true)} className="bg-primary text-white px-5 py-2 rounded-md shadow-md hover:bg-orange-600 transition font-semibold">
+                {t('navbar.login')}
+              </button>
             ) : (
               <div className="relative" ref={accountDropdownRef}>
                 <button onClick={() => setAccountDropdownOpen(!accountDropdownOpen)} className="bg-primary text-white px-5 py-2 rounded-md shadow-md hover:bg-orange-600 transition font-semibold">
@@ -127,14 +125,50 @@ const Navbar = () => {
             {/* Nuevo botón de cambio de idioma */}
             <SimpleLanguageToggle />
           </div>
+
+          {/* Mobile Menu Button and Language Selector */}
+          <div className="flex items-center space-x-4 md:hidden">
+            <SimpleLanguageToggle />
+            <button
+              className="text-primary focus:outline-none flex items-center justify-center w-8 h-8"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+              </svg>
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white shadow-md">
+            <div className="flex flex-col space-y-4 px-4 py-6">
+              <Link to="/plans" className="text-gray-700 hover:text-orange-500 transition">
+                {t('navbar.plans')}
+              </Link>
+              <Link to="/services" className="text-gray-700 hover:text-orange-500 transition">{t('navbar.services')}</Link>
+              <Link to="/about" className="text-gray-700 hover:text-orange-500 transition">{t('navbar.about')}</Link>
+
+              {!currentUser ? (
+                <button onClick={() => setIsLoginOpen(true)} className="bg-primary text-white px-5 py-2 rounded-md shadow-md hover:bg-orange-600 transition font-semibold">
+                  {t('navbar.login')}
+                </button>
+              ) : (
+                <button onClick={handleLogout} className="bg-primary text-white px-5 py-2 rounded-md shadow-md hover:bg-orange-600 transition font-semibold">
+                  {t('navbar.logout')}
+                </button>
+              )}
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Render Login Modal */}
       {isLoginOpen && (
         <Login
           isOpen={isLoginOpen}
-          onClose={() => setIsLoginOpen(false)} // Close Login modal
+          onClose={() => setIsLoginOpen(false)}
         />
       )}
     </>
