@@ -13,9 +13,9 @@ const SimpleLanguageToggle = () => {
   return (
     <button
       onClick={toggleLanguage}
-      className="flex items-center space-x-2 px-4 py-2 bg-primary text-white rounded-md shadow-md hover:bg-orange-600 transition"
+      className="flex items-center space-x-2 px-3 py-2 bg-primary text-white rounded-lg shadow-sm hover:bg-primary_hover transition-colors duration-150 text-sm font-medium"
     >
-      <GrLanguage className="w-5 h-5" /> {/* Ícono de idioma */}
+      <GrLanguage className="w-4 h-4" /> {/* Ajustar tamaño del ícono */}
       <span>{language === 'en' ? 'EN' : 'ES'}</span>
     </button>
   );

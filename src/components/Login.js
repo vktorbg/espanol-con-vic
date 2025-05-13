@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Link } from "gatsby"; // Import Link for Forgot Password/Sign Up
 import { useAuth } from "../context/AuthContext";
 import { auth, googleProvider, signInWithPopup } from "../firebase"; // Ensure these are correctly exported from firebase config
+import { navigate } from "@reach/router"; // Importa navigate
 
 // --- Reusable Google Icon Component ---
 const GoogleIcon = () => (
@@ -38,8 +39,8 @@ const Login = ({ onClose }) => {
     setLoading(true);
     try {
       await login(email, password);
-      // Optional: localStorage.setItem("loginModalOpen", "false");
-      onClose(); // Close the modal after successful login
+      navigate("/dashboard"); // Redirige al dashboard después del login exitoso
+      onClose(); // Cierra el modal
     } catch (err) {
       console.error("Login Error:", err);
       // Provide more user-friendly errors based on Firebase error codes
@@ -61,7 +62,8 @@ const Login = ({ onClose }) => {
     try {
       // Use the loginWithGoogle function from your context
       await loginWithGoogle();
-      onClose(); // Close modal on success
+      navigate("/dashboard"); // Redirige al dashboard después del login exitoso
+      onClose(); // Cierra el modal
     } catch (err) {
       console.error("Google Sign-in Error:", err);
       // Handle specific Google errors if needed (e.g., popup blocked, network error)
