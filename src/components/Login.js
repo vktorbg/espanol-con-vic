@@ -193,17 +193,21 @@ const Login = ({ onClose }) => {
           type="button"
           onClick={handleGoogleLogin}
           disabled={loading}
-          className={`w-full inline-flex justify-center items-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-primary transition-colors ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-primary transition-colors ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
-          <GoogleIcon />
-          <span className="ml-2">Sign in with Google</span>
+          <img
+            src="https://developers.google.com/identity/images/g-logo.png"
+            alt="Google Logo"
+            className="h-5 w-5"
+          />
+          <span className="ml-3">Sign in with Google</span>
         </button>
 
         {/* Link to Sign Up */}
          <p className="mt-6 text-center text-sm text-gray-600">
             Don't have an account?{" "}
             <Link
-                to="/signupTrial" // Or '/signup' if that's preferred
+                to="/signup" // Or '/signup' if that's preferred
                 onClick={onClose} // Close modal when navigating away
                 className="font-medium text-primary hover:underline focus:outline-none focus:ring-1 focus:ring-primary rounded"
             >

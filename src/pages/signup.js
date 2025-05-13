@@ -1,6 +1,6 @@
 // /src/pages/signup.js
 import React, { useState } from "react";
-import { navigate } from "gatsby";
+import { navigate, graphql } from "gatsby";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer"; // Added Footer for consistency
 import { db, setDoc, doc } from "../firebase";
@@ -110,7 +110,7 @@ const SignupPage = () => {
               Create Your Account
             </h1>
             <p className="text-center text-gray-600 mb-6">
-                Join the Español con Vic community.
+                Join the <b>Spanish Fluency School</b> community.
             </p>
 
             {error && (
@@ -268,3 +268,17 @@ const SignupPage = () => {
 };
 
 export default SignupPage;
+
+export const query = graphql`
+  query($language: String!) {
+    locales: allLocale(filter: { language: { eq: $language }, ns: { eq: "translation" } }) {
+      edges {
+        node {
+          ns
+          data
+          language
+        }
+      }
+    }
+  }
+`;

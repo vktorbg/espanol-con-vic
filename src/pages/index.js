@@ -46,7 +46,7 @@ const HeroSplitScreen = () => {
                 {t('home.hero.explorePlansButton')}
               </motion.button>
             </GatsbyLink>
-            <Link to="/signupTrial" className="w-full sm:w-auto">
+            <Link to="/signup" className="w-full sm:w-auto">
               <motion.button
                 className="w-full sm:w-auto bg-white text-primary border border-primary text-base md:text-lg px-6 py-3 rounded-md font-bold shadow-md hover:bg-gray-100 transition"
                 whileHover={{ scale: 1.05 }}

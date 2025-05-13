@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       colors: {
         primary: "#D97706", // Orange
+        primary_hover: "#b56005", // Darker orange
         secondary: "#F3F4F6", // Light gray background
         accent: {
           600: '#4C51BF', // Replace with your desired color
