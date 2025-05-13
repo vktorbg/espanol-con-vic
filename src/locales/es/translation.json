@@ -268,60 +268,6 @@
     "contact": "Contáctanos",
     "socialMedia": "Síguenos",
     "copyrightBase": "© {{year}} Spanish Fluency School. Todos los derechos reservados."
-  },
-  "signupTrial": {
-    "welcomeMessage": "Bienvenido/a a <1>Spanish Fluency School</1>",
-    "logoAlt": "Logo de la Escuela",
-    "progressBar": "Paso {{currentStep}} de 3",
-    "step1": {
-      "title": "Regístrate y Reserva Tu Sesión de Prueba de $5",
-      "firstNameLabel": "Nombre",
-      "firstNamePlaceholder": "Tu nombre",
-      "lastNameLabel": "Apellido",
-      "lastNamePlaceholder": "Tu apellido",
-      "cityLabel": "Ciudad",
-      "cityPlaceholder": "Tu ciudad",
-      "emailLabel": "Correo Electrónico",
-      "emailPlaceholder": "tu@ejemplo.com",
-      "passwordLabel": "Contraseña",
-      "passwordPlaceholder": "Crea una contraseña",
-      "togglePasswordVisibility": "Alternar visibilidad de contraseña",
-      "hidePassword": "Ocultar",
-      "showPassword": "Mostrar",
-      "passwordHint": "Más de 8 caracteres, mayúscula, número recomendado",
-      "confirmPasswordLabel": "Confirmar Contraseña",
-      "confirmPasswordPlaceholder": "Vuelve a escribir tu contraseña",
-      "nextButton": "Siguiente: Agenda Tu Clase",
-      "checkingEmailButton": "Verificando Correo...",
-      "alerts": {
-        "fillAllFields": "Por favor, completa todos los campos.",
-        "invalidEmail": "Por favor, ingresa una dirección de correo válida.",
-        "weakPassword": "Por favor, crea una contraseña más segura (más de 8 caracteres, mayúscula, número).",
-        "passwordsMismatch": "Las contraseñas no coinciden.",
-        "emailInUse": "La dirección de correo {{email}} ya está en uso. Por favor, usa un correo diferente o inicia sesión.",
-        "emailVerificationError": "No se pudo verificar la dirección de correo. Por favor, inténtalo de nuevo."
-      }
-    },
-    "step2": {
-      "title": "Elige el Horario de Tu Clase",
-      "instruction": "Por favor, selecciona un horario para tu sesión de prueba de $5. Una vez agendada, procederás al pago."
-    },
-    "step3": {
-      "title": "Confirmar y Pagar",
-      "costInfo": "La clase de prueba cuesta $5",
-      "registrationDetailsTitle": "Detalles de Registro",
-      "nameLabel": "Nombre:",
-      "cityLabel": "Ciudad:",
-      "emailLabel": "Correo:",
-      "scheduledLabel": "Agendado:",
-      "loadingPaymentOptions": "Cargando opciones de pago...",
-      "processingPayment": "Procesando Pago y Creando Cuenta...",
-      "alerts": {
-        "emailAlreadyRegistered": "Esta dirección de correo ya está registrada. Por favor, intenta iniciar sesión o usa un correo diferente.",
-        "finalStepError": "Ocurrió un error durante el paso final. Por favor, contacta a soporte si el pago fue procesado.",
-        "paymentError": "Ocurrió un error en el pago. Por favor, inténtalo de nuevo.",
-        "paymentOptionsLoadError": "No se pudieron cargar las opciones de pago. Por favor, revisa tu conexión e inténtalo de nuevo."
-      }
-    }
   }
+  
 }
