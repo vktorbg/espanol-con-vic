@@ -95,11 +95,11 @@ const PaymentModal = ({ isOpen, onClose, type }) => {
       title: "Bank Transfer Details",
       content: (
         <div className="text-gray-700 space-y-3">
-          <p><strong>Bank Name:</strong> Global Standard Bank</p>
-          <p><strong>Account Number:</strong> 9876543210</p>
-          <p><strong>SWIFT/BIC:</strong> GSBIGLOBXXX</p>
-          <p><strong>Beneficiary Name:</strong> Spanish Fluency Academy</p>
-          <p className="mt-2"><strong>Reference:</strong> Your Full Name - Course Payment</p>
+          <p><strong>Bank Name:</strong> Regent Bank</p>
+          <p><strong>Account Number:</strong> 130129450461</p>
+          <p><strong>ABA / Route Number:</strong> 103913434</p>
+          <p><strong>Beneficiary Name:</strong> Victor Briceño</p>
+          <p className="mt-2"><strong>Reference:</strong> Your Full Name - Plan or Service</p>
         </div>
       ),
     },
@@ -109,7 +109,7 @@ const PaymentModal = ({ isOpen, onClose, type }) => {
         <div className="text-gray-700 space-y-3">
           <p><strong>Cryptocurrency:</strong> USDT (Tether)</p>
           <p><strong>Network:</strong> TRC20 (Tron Network)</p>
-          <p className="break-all"><strong>Wallet Address:</strong> TEXAMPLE123AddressForUSDTTRC20XYZ</p>
+          <p className="break-all"><strong>Wallet Address:</strong> TKc72u6vCJ8jboJ4Kmz8whc3VJCtzuJXPe</p>
           <p className="mt-4 text-sm text-red-600 font-medium">
             <strong>Important:</strong> Please ensure you select the TRC20 network when sending USDT. Using the wrong network may result in permanent loss of funds.
           </p>
