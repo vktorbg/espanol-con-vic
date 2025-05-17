@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { graphql } from 'gatsby';
 import { db } from "../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { getAuth, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Navbar from "../components/Navbar";
 
@@ -16,6 +17,7 @@ const AccountManagementPage = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [pwdMessage, setPwdMessage] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
 
   // Estados para solicitudes de suscripción
   const [subscriptionMessage, setSubscriptionMessage] = useState("");
@@ -48,9 +50,13 @@ const AccountManagementPage = () => {
       return;
     }
     try {
-      // updatePassword es un método del usuario de Firebase Auth.
-      await currentUser.updatePassword(newPassword);
+      const auth = getAuth();
+      const user = auth.currentUser;
+      const credential = EmailAuthProvider.credential(user.email, currentPassword);
+      await reauthenticateWithCredential(user, credential);
+      await updatePassword(user, newPassword);
       setPwdMessage("Password updated successfully.");
+      setCurrentPassword("");
       setNewPassword("");
       setConfirmNewPassword("");
     } catch (error) {
@@ -107,6 +113,16 @@ const AccountManagementPage = () => {
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-2xl font-semibold mb-4">Change Password</h2>
               <form onSubmit={handlePasswordChange} className="space-y-4">
+                <div>
+                  <input
+                    type="password"
+                    placeholder="Current Password"
+                    className="w-full p-2 border rounded-md"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    required
+                  />
+                </div>
                 <div>
                   <input
                     type="password"
