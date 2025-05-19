@@ -12,7 +12,7 @@ export default async (req, res) => {
 
   try {
     const data = await resend.emails.send({
-      from: 'Spanish Fluency School <your@email.com>',
+      from: 'Spanish Fluency School <info@spanishfluencyschool.com>',
       to: [email],
       subject: 'Welcome to Spanish Fluency School!',
       html: `<p>Hola ${firstName},</p>
