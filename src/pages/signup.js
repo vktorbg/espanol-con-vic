@@ -84,6 +84,16 @@ const SignupPage = () => {
         // Add any other default fields needed for a student record
       });
 
+      // Enviar email de bienvenida (Netlify Function)
+      await fetch('/.netlify/functions/sendWelcomeEmail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: tEmail,
+          firstName: tFirst
+        })
+      });
+
       // Redirect to dashboard on success
       navigate(`/dashboard`);
 
