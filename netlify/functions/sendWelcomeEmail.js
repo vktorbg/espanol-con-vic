@@ -40,7 +40,7 @@ export async function handler(event, context) {
           <!-- BODY -->
           <tr>
             <td style="padding: 30px;">
-              <p style="font-size: 16px; line-height: 1.6;">Hi [Student’s Name],</p>
+              <p style="font-size: 16px; line-height: 1.6;">Hi ${firstName},</p>
 
               <p style="font-size: 16px; line-height: 1.6;">
                 I’m happy to welcome you to the new platform at <strong>Spanish Fluency School</strong> — a space created to support your journey toward fluency.
