@@ -204,10 +204,7 @@ const LoginPage = () => {
           {/* Link to Sign Up */}
           <p className="mt-8 text-center text-xs text-gray-500"> {/* Smaller text */}
             Don't have an account?{" "}
-            <Link to="/signupTrial" className="font-medium text-primary hover:underline focus:outline-none focus:ring-1 focus:ring-primary rounded">
-              Sign up for a trial
-            </Link>
-             {" "}or{" "}
+            
             <Link to="/signup" className="font-medium text-primary hover:underline focus:outline-none focus:ring-1 focus:ring-primary rounded">
               Create account
             </Link>
