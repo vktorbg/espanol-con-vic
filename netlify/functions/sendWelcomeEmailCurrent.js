@@ -32,7 +32,7 @@ export async function handler(event, context) {
         <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
           <!-- HEADER -->
           <tr>
-            <td style="background-color:rgb(209, 124, 26); padding: 20px 30px;">
+            <td style="background-color: #F7931E; padding: 20px 30px;">
               <h1 style="text-align: center; margin: 0; color: #ffffff; font-size: 24px;">Welcome to Your New Dashboard!</h1>
             </td>
           </tr>
@@ -52,7 +52,7 @@ export async function handler(event, context) {
 
               <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
 
-              <h3 style="color: rgb(209, 124, 26);">✨ What you’ll find in your Dashboard:</h3>
+              <h3 style="color: #F7931E;">✨ What you’ll find in your Dashboard:</h3>
               <ul style="font-size: 16px; line-height: 1.8; padding-left: 20px;">
                 <li>📅 Schedule and reschedule your classes easily</li>
                 <li>🎥 Access your Zoom classroom link</li>

@@ -33,14 +33,14 @@ export async function handler(event, context) {
           <!-- HEADER -->
           <tr>
             <td style="background-color: #F7931E; padding: 20px 30px;">
-              <h1 style="margin: 0; color: #ffffff; font-size: 24px;">Welcome to Spanish Fluency School!</h1>
+              <h1 style="text-align: center; margin: 0; color: #ffffff; font-size: 24px;">Welcome to Spanish Fluency School!</h1>
             </td>
           </tr>
 
           <!-- BODY -->
           <tr>
             <td style="padding: 30px;">
-              <p style="font-size: 16px; line-height: 1.6;">Hi [Student’s Name],</p>
+              <p style="font-size: 16px; line-height: 1.6;">Hi ${firstName},</p>
               <p style="font-size: 16px; line-height: 1.6;">
                 Thank you for joining our community! I'm <strong>Vic</strong>, founder and head coach at <strong>Spanish Fluency School</strong>, and I'm excited to support you on your journey to Spanish fluency.
               </p>
