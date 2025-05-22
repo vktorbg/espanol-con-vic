@@ -23,18 +23,22 @@ import {
   CalendarDaysIcon,
   ArrowPathIcon, // For Reschedule
   LightBulbIcon, // For Learning Hub
+  ClipboardIcon // Add to your imports
 } from '@heroicons/react/24/outline'; // Using outline for a lighter feel
 
 // --- Payment Modal Component ---
 const PaymentModal = ({ isOpen, onClose, type }) => {
   if (!isOpen) return null;
 
-  // IMPORTANT: Ensure these URLs and details are correct and secure for production
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+  };
+
   const paypalUrl = "https://www.paypal.com/ncp/payment/ETVB89UTNVAH6";
   const bankDetails = {
     bankName: "Regent Bank",
     accountNumber: "130129450461",
-    // ABA / Route Number: Removed as per request
+    routeNumber: "103913434", 
     beneficiaryName: "Victor Briceño",
     reference: "Your Full Name - Plan or Service",
   };
@@ -48,29 +52,84 @@ const PaymentModal = ({ isOpen, onClose, type }) => {
     paypal: {
       title: "Pay with PayPal",
       content: (
-        <>
-          <p className="text-gray-600 mb-6 text-sm">
-            Click the button below to proceed to PayPal for secure payment.
+        <div className="text-gray-700 text-sm space-y-4">
+          <p>
+            You can pay using one of these two PayPal options:
           </p>
-          <a
-            href={paypalUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center w-full px-6 py-3 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-          >
-            Go to PayPal
-          </a>
-        </>
+          <div className="space-y-3">
+            <div className="bg-slate-100 p-4 rounded-md">
+              <h4 className="font-semibold text-slate-800 mb-1">Option 1: PayPal.Me (no fee)</h4>
+              <p>Send the amount via <strong>“Friends & Family”</strong> to avoid fees.</p>
+              <a
+                href="https://www.paypal.me/vktorbg" // replace with your actual PayPal.Me link
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-flex items-center justify-center w-full px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 transition"
+              >
+                Pay via PayPal.Me
+              </a>              
+            </div>
+
+            <div className="bg-slate-100 p-4 rounded-md">
+              <h4 className="font-semibold text-slate-800 mb-1">Option 2: Regular PayPal (with fee)</h4>
+              <p>
+                If you prefer this method, a <strong>5.9% fee will be added as a tax</strong> to cover PayPal processing costs.
+              </p>
+              <a
+                href="https://www.paypal.com/ncp/payment/ETVB89UTNVAH6"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-flex items-center justify-center w-full px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition"
+              >
+                Pay with PayPal (with fee)
+              </a>
+              <p className="text-xs text-slate-500 mt-2">
+                Example: If your lesson costs $100, you would pay $105.90.
+              </p>
+            </div>
+          </div>
+        </div>
       ),
     },
     bank: {
-      title: "Bank Transfer Details",
+      title: "Bank Transfer Details (U.S. Only)",
       content: (
         <div className="text-gray-700 space-y-2 text-sm">
-          <p><strong>Bank Name:</strong> {bankDetails.bankName}</p>
-          <p><strong>Account Number:</strong> {bankDetails.accountNumber}</p>
-          <p><strong>Beneficiary Name:</strong> {bankDetails.beneficiaryName}</p>
-          <p className="mt-1"><strong>Reference:</strong> {bankDetails.reference}</p>
+          
+          <div className="flex items-center space-x-2">
+            <span><strong>Bank Name:</strong> {bankDetails.bankName}</span>
+            
+          </div>
+          <div className="flex items-center space-x-2">
+            <span><strong>Account Number:</strong> {bankDetails.accountNumber}</span>
+            <button
+              onClick={() => copyToClipboard(bankDetails.accountNumber)}
+              className="ml-1 p-1 rounded hover:bg-slate-200"
+              title="Copy"
+            >
+              <ClipboardIcon className="w-4 h-4 text-slate-500" />
+            </button>
+          </div>
+          <div className="flex items-center space-x-2">
+            <span><strong>Route Number:</strong> {bankDetails.routeNumber}</span>
+            <button
+              onClick={() => copyToClipboard(bankDetails.routeNumber)}
+              className="ml-1 p-1 rounded hover:bg-slate-200"
+              title="Copy"
+            >
+              <ClipboardIcon className="w-4 h-4 text-slate-500" />
+            </button>
+          </div>
+          <div className="flex items-center space-x-2">
+            <span><strong>Beneficiary Name:</strong> {bankDetails.beneficiaryName}</span>
+            
+          </div>
+          <div className="mt-1">
+            <span><strong>Reference:</strong> {bankDetails.reference}</span>
+          </div>
+          <p className="text-xs text-red-600 font-semibold mb-2">
+            This bank account is for <span className="underline">U.S. transfers only</span>.
+          </p>
         </div>
       ),
     },
@@ -78,9 +137,36 @@ const PaymentModal = ({ isOpen, onClose, type }) => {
       title: "Pay with Binance (USDT)",
       content: (
         <div className="text-gray-700 space-y-2 text-sm">
-          <p><strong>Cryptocurrency:</strong> {binanceDetails.currency}</p>
-          <p><strong>Network:</strong> {binanceDetails.network}</p>
-          <p className="break-all"><strong>Wallet Address:</strong> {binanceDetails.walletAddress}</p>
+          <div className="flex items-center space-x-2">
+            <span><strong>Cryptocurrency:</strong> {binanceDetails.currency}</span>
+            <button
+              onClick={() => copyToClipboard(binanceDetails.currency)}
+              className="ml-1 p-1 rounded hover:bg-slate-200"
+              title="Copy"
+            >
+              <ClipboardIcon className="w-4 h-4 text-slate-500" />
+            </button>
+          </div>
+          <div className="flex items-center space-x-2">
+            <span><strong>Network:</strong> {binanceDetails.network}</span>
+            <button
+              onClick={() => copyToClipboard(binanceDetails.network)}
+              className="ml-1 p-1 rounded hover:bg-slate-200"
+              title="Copy"
+            >
+              <ClipboardIcon className="w-4 h-4 text-slate-500" />
+            </button>
+          </div>
+          <div className="flex items-center space-x-2 break-all">
+            <span><strong>Wallet Address:</strong> {binanceDetails.walletAddress}</span>
+            <button
+              onClick={() => copyToClipboard(binanceDetails.walletAddress)}
+              className="ml-1 p-1 rounded hover:bg-slate-200"
+              title="Copy"
+            >
+              <ClipboardIcon className="w-4 h-4 text-slate-500" />
+            </button>
+          </div>
           <p className="mt-3 text-xs text-red-600 font-medium">
             <strong>Important:</strong> Ensure you select the correct network. Sending to the wrong network may result in loss of funds.
           </p>
@@ -286,9 +372,10 @@ const Dashboard = () => {
                       href={rescheduleLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`inline-flex items-center space-x-1.5 px-3.5 py-2 border border-transparent text-xs font-medium rounded-lg shadow-sm text-white bg-sky-500 hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-400 transition-colors`}
+                      className="inline-flex items-center space-x-2 px-6 py-3 border border-transparent text-base font-semibold rounded-xl shadow-md text-white bg-gradient-to-r from-sky-500 to-blue-500 hover:from-sky-600 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-400 transition-colors transform hover:scale-105"
+                      style={{ boxShadow: "0 4px 24px 0 rgba(59,130,246,0.15)" }}
                     >
-                      <ArrowPathIcon className="w-4 h-4" />
+                      <ArrowPathIcon className="w-6 h-6" />
                       <span>Reschedule Class</span>
                     </a>
                   </div>
@@ -299,81 +386,82 @@ const Dashboard = () => {
 
           {/* Action Buttons Grid */}
           {studentData && (
-             <div className="bg-white p-5 rounded-2xl shadow-lg mb-8">
-               <h3 className="text-lg font-semibold text-slate-700 mb-4 px-1">Quick Actions</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                    <ActionButton 
-                        icon={VideoCameraIcon}
-                        href={studentData.zoomLink}
-                        target="_blank" rel="noopener noreferrer"
-                        isDisabled={!studentData.zoomLink}
-                    >
-                        Join Zoom
-                    </ActionButton>
-                    <ActionButton 
-                        icon={FolderIcon}
-                        href={studentData.folderLink}
-                        target="_blank" rel="noopener noreferrer"
-                        isDisabled={!studentData.folderLink}
-                    >
-                        Drive Folder
-                    </ActionButton>
-                    <ActionButton 
-                        icon={BookOpenIcon}
-                        href={studentData.readingExercisesLink}
-                        target="_blank" rel="noopener noreferrer"
-                        isDisabled={!studentData.readingExercisesLink}
-                    >
-                        Reading
-                    </ActionButton>
-                    <ActionButton 
-                        icon={LightBulbIcon}
-                        isDisabled={true}
-                    >
-                        Learning Hub <span className="text-xs opacity-80">(Soon)</span>
-                    </ActionButton>
-                    <ActionButton 
-                        icon={Cog6ToothIcon}
-                        onClick={() => navigate("/account")}
-                    >
-                        Settings
-                    </ActionButton>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+              {/* Quick Actions */}
+              <div className="bg-white p-5 rounded-2xl shadow-lg lg:col-span-2 flex flex-col justify-between">
+                <h3 className="text-lg font-semibold text-slate-700 mb-4 px-1">Quick Actions</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  <ActionButton 
+                    icon={VideoCameraIcon}
+                    href={studentData.zoomLink}
+                    target="_blank" rel="noopener noreferrer"
+                    isDisabled={!studentData.zoomLink}
+                  >
+                    Join Zoom
+                  </ActionButton>
+                  <ActionButton 
+                    icon={FolderIcon}
+                    href={studentData.folderLink}
+                    target="_blank" rel="noopener noreferrer"
+                    isDisabled={!studentData.folderLink}
+                  >
+                    Drive Folder
+                  </ActionButton>
+                  <ActionButton 
+                    icon={BookOpenIcon}
+                    href={studentData.readingExercisesLink}
+                    target="_blank" rel="noopener noreferrer"
+                    isDisabled={!studentData.readingExercisesLink}
+                  >
+                    Reading
+                  </ActionButton>
+                  <ActionButton 
+                    icon={LightBulbIcon}
+                    isDisabled={true}
+                  >
+                    Learning Hub <span className="text-xs opacity-80">(Soon)</span>
+                  </ActionButton>
+                  <ActionButton 
+                    icon={Cog6ToothIcon}
+                    onClick={() => navigate("/account")}
+                  >
+                    Settings
+                  </ActionButton>
                 </div>
-            </div>
-          )}
-          
-          {/* Payment Section Card */}
-          <div className="flex justify-center">
-            <div className="bg-white p-6 sm:p-7 rounded-2xl shadow-lg w-full max-w-lg text-center">
-              <h2 className="text-lg font-semibold text-slate-700 mb-3">Manage Subscription</h2>
-              <div ref={paymentDropdownRef} className="relative inline-block text-left w-full sm:w-auto">
-                <button
-                  type="button"
-                  className={`inline-flex items-center justify-center w-full sm:w-auto rounded-lg shadow-md px-5 py-2.5 bg-green-500 text-white text-sm font-medium hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-400 transition-all duration-150 ease-in-out transform hover:scale-105`}
-                  onClick={() => setIsPaymentDropdownOpen(!isPaymentDropdownOpen)}
-                >
-                  <CreditCardIcon className="w-5 h-5 mr-2" />
-                  Make a Payment
-                  <ChevronDownIcon className={`ml-2 h-4 w-4 transition-transform duration-200 ${isPaymentDropdownOpen ? "rotate-180" : ""}`} />
-                </button>
-                {isPaymentDropdownOpen && (
-                  <div className="absolute left-1/2 -translate-x-1/2 sm:left-0 sm:translate-x-0 mt-2 w-56 origin-top rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-20 animate-dropdownFadeIn">
-                    <div className="py-1">
-                      {['paypal', 'bank', 'binance'].map((type) => (
-                        <button
-                          key={type}
-                          onClick={() => handlePaymentOptionClick(type)}
-                          className="block w-full text-left px-4 py-2.5 text-xs text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-colors"
-                        >
-                          {type.charAt(0).toUpperCase() + type.slice(1).replace('bank', 'Bank Transfer').replace('binance', 'Binance (USDT)')}
-                        </button>
-                      ))}
+              </div>
+              {/* Payment Section */}
+              <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg w-full max-w-lg mx-auto lg:mx-0 text-center h-fit flex flex-col justify-between">
+                <h2 className="text-xl font-bold text-slate-700 mb-5 tracking-tight">Manage Subscription</h2>
+                <div ref={paymentDropdownRef} className="relative flex flex-col items-center w-full">
+                  <button
+                    type="button"
+                    className={`inline-flex items-center justify-center w-full sm:w-64 rounded-xl shadow-lg px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-base font-bold hover:from-green-600 hover:to-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-400 transition-all duration-200 ease-in-out transform hover:scale-105 mb-2`}
+                    onClick={() => setIsPaymentDropdownOpen(!isPaymentDropdownOpen)}
+                    style={{ boxShadow: "0 4px 24px 0 rgba(16,185,129,0.15)" }}
+                  >
+                    <CreditCardIcon className="w-6 h-6 mr-2" />
+                    Make a Payment
+                    <ChevronDownIcon className={`ml-2 h-5 w-5 transition-transform duration-200 ${isPaymentDropdownOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  {isPaymentDropdownOpen && (
+                    <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-full sm:w-64 origin-top rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-10 focus:outline-none animate-dropdownFadeIn border border-slate-100 z-30">
+                      <div className="py-2">
+                        {['paypal', 'bank', 'binance'].map((type) => (
+                          <button
+                            key={type}
+                            onClick={() => handlePaymentOptionClick(type)}
+                            className="block w-full text-left px-5 py-3 text-base font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition-colors rounded-xl"
+                          >
+                            {type.charAt(0).toUpperCase() + type.slice(1).replace('bank', 'Bank Transfer').replace('binance', 'Binance (USDT)')}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </main>
 
