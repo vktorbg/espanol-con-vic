@@ -84,7 +84,7 @@ const PaymentModal = ({ isOpen, onClose, type }) => {
                 Pay with PayPal (with fee)
               </a>
               <p className="text-xs text-slate-500 mt-2">
-                Example: If your lesson costs $100, you would pay $105.90.
+                Example: If your subscription costs $100, you would pay $105.90.
               </p>
             </div>
           </div>
