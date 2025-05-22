@@ -101,6 +101,18 @@ export async function handler(event, context) {
 `
     });
 
+    // 2. Enviar notificación a tu correo personal
+    await resend.emails.send({
+      from: 'Spanish Fluency School <info@spanishfluencyschool.com>',
+      to: ['spanishfluencyschool@gmail.com'], 
+      subject: 'Nuevo estudiante registrado',
+      html: `<p>Se ha registrado un nuevo estudiante:</p>
+             <ul>
+               <li><strong>Nombre:</strong> ${firstName}</li>
+               <li><strong>Email:</strong> ${email}</li>
+             </ul>`
+    });
+
     return {
       statusCode: 200,
       body: JSON.stringify({ success: true, data })

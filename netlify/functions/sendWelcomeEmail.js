@@ -14,6 +14,7 @@ export async function handler(event, context) {
   const { email, firstName } = JSON.parse(event.body);
 
   try {
+    // 1. Enviar correo de bienvenida al estudiante
     const data = await resend.emails.send({
       from: 'Spanish Fluency School <info@spanishfluencyschool.com>',
       to: [email],
@@ -114,6 +115,18 @@ export async function handler(event, context) {
 </body>
 </html>
 `
+    });
+
+    // 2. Enviar notificación a tu correo personal
+    await resend.emails.send({
+      from: 'Spanish Fluency School <info@spanishfluencyschool.com>',
+      to: ['spanishfluencyschool@gmail.com'], 
+      subject: 'Nuevo estudiante registrado',
+      html: `<p>Se ha registrado un nuevo estudiante:</p>
+             <ul>
+               <li><strong>Nombre:</strong> ${firstName}</li>
+               <li><strong>Email:</strong> ${email}</li>
+             </ul>`
     });
 
     return {

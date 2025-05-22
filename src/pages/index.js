@@ -1,6 +1,6 @@
 // src/pages/index.js (Unified Version with gatsby-plugin-react-i18next)
 
-import React from "react";
+import React, { useEffect } from "react";
 import { graphql } from 'gatsby';
 import { Link as GatsbyLink, navigate as gatsbyNavigate } from "gatsby";
 import { Link, useI18next } from 'gatsby-plugin-react-i18next';
@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useAuth } from "../context/AuthContext"; // <-- Agrega este import
 
 const HeroSplitScreen = () => {
   const { t } = useI18next();
@@ -77,6 +78,13 @@ const HeroSplitScreen = () => {
 
 const IndexPage = () => {
   const { t, language, navigate: i18nextNavigate } = useI18next();
+  const { currentUser } = useAuth(); // <-- Obtén el usuario autenticado
+
+  useEffect(() => {
+    if (currentUser) {
+      gatsbyNavigate("/dashboard");
+    }
+  }, [currentUser]);
 
   const teamMembers = t('home.team.members', { returnObjects: true }) || [];
   const plansList = t('home.plans.list', { returnObjects: true }) || [];
