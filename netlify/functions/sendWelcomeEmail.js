@@ -11,7 +11,7 @@ export async function handler(event, context) {
     };
   }
 
-  const { email, firstName } = JSON.parse(event.body);
+  const { email, firstName, lastName, city } = JSON.parse(event.body);
 
   try {
     // 1. Enviar correo de bienvenida al estudiante
@@ -51,13 +51,13 @@ export async function handler(event, context) {
               </p>
 
               <p style="text-align: center; margin: 30px 0;">
-                <a href="https://your-scheduling-link.com" style="background-color: #007BFF; color: #ffffff; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Book My Free Class</a>
+                <a href="https://your-scheduling-link.com" style="background-color: #007BFF; color: #ffffff; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Book My Free Spanish Session</a>
               </p>
 
               <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
 
               <h3 style="color: #F7931E;">What can you do in your Dashboard?</h3>
-              <p style="font-size: 16px; line-height: 1.6;">After your trial class, you’ll get access to all features, including:</p>
+              <p style="font-size: 16px; line-height: 1.6;">After your trial session, you’ll get access to all features, including:</p>
               <ul style="font-size: 16px; line-height: 1.8; padding-left: 20px;">
                 <li>📅 Schedule and reschedule your classes</li>
                 <li>🎥 Join your Zoom classroom with one click</li>
@@ -120,12 +120,13 @@ export async function handler(event, context) {
     // 2. Enviar notificación a tu correo personal
     await resend.emails.send({
       from: 'Spanish Fluency School <info@spanishfluencyschool.com>',
-      to: ['spanishfluencyschool@gmail.com'], 
+      to: ['spanishfluencyschool@gmail.com'],
       subject: 'Nuevo estudiante registrado',
       html: `<p>Se ha registrado un nuevo estudiante:</p>
              <ul>
-               <li><strong>Nombre:</strong> ${firstName}</li>
+               <li><strong>Nombre:</strong> ${firstName} ${lastName}</li>
                <li><strong>Email:</strong> ${email}</li>
+               <li><strong>Ciudad:</strong> ${city}</li>
              </ul>`
     });
 

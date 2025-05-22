@@ -11,7 +11,7 @@ export async function handler(event, context) {
     };
   }
 
-  const { email, firstName } = JSON.parse(event.body);
+  const { email, firstName, lastName, city } = JSON.parse(event.body);
 
   try {
     const data = await resend.emails.send({
@@ -108,8 +108,9 @@ export async function handler(event, context) {
       subject: 'Nuevo estudiante registrado',
       html: `<p>Se ha registrado un nuevo estudiante:</p>
              <ul>
-               <li><strong>Nombre:</strong> ${firstName}</li>
+               <li><strong>Nombre:</strong> ${firstName} ${lastName}</li>
                <li><strong>Email:</strong> ${email}</li>
+               <li><strong>Ciudad:</strong> ${city}</li>
              </ul>`
     });
 

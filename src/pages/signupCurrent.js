@@ -90,7 +90,9 @@ const SignupPage = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: tEmail,
-          firstName: tFirst
+          firstName: tFirst,
+          lastName: tLast,
+          city: tCity
         })
       });
 
