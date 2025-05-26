@@ -89,8 +89,8 @@
         },
         {
           "title": "Plan Confianza",
-          "newPrice": "120",
-          "frequency": "mes (25% desc.)",
+          "newPrice": "",
+          "frequency": "",
           "description": "Impulsa tu confianza con constancia.",
           "image": "/images/plan1.jpg",
           "alt": "Plan Confianza",
@@ -98,14 +98,13 @@
           "features": [
             "2 clases por semana (8/mes)",
             "Enfoque conversacional",
-            "$15 por clase (25% de ahorro)",
             "Feedback y correcciones personalizadas"
           ]
         },
         {
           "title": "Plan Fluidez",
-          "newPrice": "220",
-          "frequency": "mes (30% desc.)",
+          "newPrice": "",
+          "frequency": "",
           "description": "Práctica intensiva para un progreso rápido.",
           "image": "/images/plan2.jpg",
           "alt": "Plan Fluidez",
@@ -113,7 +112,6 @@
           "features": [
             "4 clases por semana (16/mes)",
             "Enfoque inmersivo",
-            "$13.75 por clase (30% de ahorro)",
             "Reportes de progreso mensuales",
             "Feedback y correcciones personalizadas"
           ]
@@ -123,7 +121,7 @@
     "howItWorks": {
       "sectionTitle": "Cómo Funciona",
       "step1Title": "Reserva Tu Prueba",
-      "step1Desc": "Empieza con una clase de prueba por solo $5: una lección de muestra para que conozcas nuestro estilo.",
+      "step1Desc": "Empieza con una clase de prueba: una lección de muestra para que conozcas nuestro estilo.",
       "step2Title": "Obtén Tu Plan",
       "step2Desc": "Define tus metas, crearemos un plan y horario personalizados.",
       "step3Title": "Empieza a Aprender",
@@ -157,7 +155,7 @@
     },
     "cta": {
       "sectionTitle": "¿Listo/a para agendar tu primera sesión?",
-      "paragraph": "Da el primer paso hacia la fluidez con una clase de prueba personalizada por solo $5.",
+      "paragraph": "Da el primer paso hacia la fluidez con una clase de prueba personalizada.",
       "trialButton": "RESERVA TU CLASE DE PRUEBA",
       "viewPlansButton": "Ver Todos los Planes"
     }
@@ -202,7 +200,7 @@
       "title": "Desbloquea tu fluidez con conversaciones cotidianas en español.",
       "paragraph": "Nuestro enfoque personalizado se centra en habilidades de habla del mundo real y las perspectivas culturales que necesitas para conectar auténticamente. Aprende online, cuando quieras.",
       "explorePlansButton": "Explora Nuestros Planes",
-      "trialClassButton": "Reserva tu Clase de Prueba de $5",
+      "trialClassButton": "Reserva tu Clase de Prueba",
       "imageAlt": "Fondo hero para página Servicios"
     },
     "serviceList": {
@@ -232,8 +230,8 @@
     },
     "cta": {
       "sectionTitle": "¿Listo/a para Empezar a Hablar Español?",
-      "paragraph": "Da el primer paso con una clase de prueba personalizada de $5. Descubre tu potencial y ve cómo nuestro enfoque funciona para ti.",
-      "trialButton": "Obtén Tu Prueba de $5",
+      "paragraph": "Da el primer paso con una clase de prueba personalizada. Descubre tu potencial y ve cómo nuestro enfoque funciona para ti.",
+      "trialButton": "Obtén Tu Prueba",
       "viewPlansButton": "Ver Todos los Planes"
     }
   },
@@ -245,7 +243,7 @@
     },
     "planGrid": {
       "ctaTitle": "¿Listo/a para empezar a hablar sin miedo?",
-      "ctaButton": "Reserva tu Clase de Prueba de $5 ahora",
+      "ctaButton": "Reserva tu Clase de Prueba ahora",
       "ctaSubtext": "Después de tu prueba, elige el plan que mejor se adapte a tus necesidades de aprendizaje."
     },
     "paymentInfo": {
@@ -254,7 +252,7 @@
     "howItWorks": {
       "sectionTitle": "Cómo Funciona",
       "steps": [
-        "Reserva una clase de prueba de $5.",
+        "Reserva una clase de prueba.",
         "Conoce a tu profesor/a y discute tus metas.",
         "Obtén un plan de aprendizaje personalizado.",
         "¡Elige tu suscripción ideal y empieza a practicar!"

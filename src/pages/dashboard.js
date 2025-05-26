@@ -91,48 +91,6 @@ const PaymentModal = ({ isOpen, onClose, type }) => {
         </div>
       ),
     },
-    bank: {
-      title: "Bank Transfer Details (U.S. Only)",
-      content: (
-        <div className="text-gray-700 space-y-2 text-sm">
-          
-          <div className="flex items-center space-x-2">
-            <span><strong>Bank Name:</strong> {bankDetails.bankName}</span>
-            
-          </div>
-          <div className="flex items-center space-x-2">
-            <span><strong>Account Number:</strong> {bankDetails.accountNumber}</span>
-            <button
-              onClick={() => copyToClipboard(bankDetails.accountNumber)}
-              className="ml-1 p-1 rounded hover:bg-slate-200"
-              title="Copy"
-            >
-              <ClipboardIcon className="w-4 h-4 text-slate-500" />
-            </button>
-          </div>
-          <div className="flex items-center space-x-2">
-            <span><strong>Route Number:</strong> {bankDetails.routeNumber}</span>
-            <button
-              onClick={() => copyToClipboard(bankDetails.routeNumber)}
-              className="ml-1 p-1 rounded hover:bg-slate-200"
-              title="Copy"
-            >
-              <ClipboardIcon className="w-4 h-4 text-slate-500" />
-            </button>
-          </div>
-          <div className="flex items-center space-x-2">
-            <span><strong>Beneficiary Name:</strong> {bankDetails.beneficiaryName}</span>
-            
-          </div>
-          <div className="mt-1">
-            <span><strong>Reference:</strong> {bankDetails.reference}</span>
-          </div>
-          <p className="text-xs text-red-600 font-semibold mb-2">
-            This bank account is for <span className="underline">U.S. transfers only</span>.
-          </p>
-        </div>
-      ),
-    },
     binance: {
       title: "Pay with Binance (USDT)",
       content: (
@@ -446,13 +404,13 @@ const Dashboard = () => {
                   {isPaymentDropdownOpen && (
                     <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-full sm:w-64 origin-top rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-10 focus:outline-none animate-dropdownFadeIn border border-slate-100 z-30">
                       <div className="py-2">
-                        {['paypal', 'bank', 'binance'].map((type) => (
+                        {['paypal', 'binance'].map((type) => (
                           <button
                             key={type}
                             onClick={() => handlePaymentOptionClick(type)}
                             className="block w-full text-left px-5 py-3 text-base font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition-colors rounded-xl"
                           >
-                            {type.charAt(0).toUpperCase() + type.slice(1).replace('bank', 'Bank Transfer').replace('binance', 'Binance (USDT)')}
+                            {type.charAt(0).toUpperCase() + type.slice(1).replace('binance', 'Binance (USDT)')}
                           </button>
                         ))}
                       </div>

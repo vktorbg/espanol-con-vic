@@ -89,8 +89,8 @@
         },
         {
           "title": "Confidence Plan",
-          "newPrice": "120",
-          "frequency": "month (25% off)",
+          "newPrice": "", 
+          "frequency": "",
           "description": "Boost your confidence with consistency.",
           "image": "/images/plan1.jpg",
           "alt": "Confidence Plan",
@@ -98,13 +98,12 @@
           "features": [
             "2 classes per week (8/month)",
             "Conversational focus",
-            "$15 per class (25% savings)",
             "Personalized feedback and corrections"
           ]
         },
         {
           "title": "Fluency Plan",
-          "newPrice": "220",
+          "newPrice": "", 
           "frequency": "month (30% off)",
           "description": "Intensive practice for rapid progress.",
           "image": "/images/plan2.jpg",
@@ -113,7 +112,6 @@
           "features": [
             "4 classes per week (16/month)",
             "Immersive approach",
-            "$13.75 per class (30% savings)",
             "Monthly progress reports",
             "Personalized feedback and corrections"
           ]
@@ -123,7 +121,7 @@
     "howItWorks": {
       "sectionTitle": "How It Works",
       "step1Title": "Book Your Trial",
-      "step1Desc": "Start with a $5 trial class - a sample lesson to experience our teaching style.",
+      "step1Desc": "Start with a trial class - a sample lesson to experience our teaching style.",
       "step2Title": "Get Your Plan",
       "step2Desc": "Set your goals, build a personalized plan and schedule.",
       "step3Title": "Start Learning",
@@ -157,7 +155,7 @@
     },
     "cta": {
       "sectionTitle": "Ready to Schedule Your First Session?",
-      "paragraph": "Take the first step towards fluency with a personalized trial class for just $5.",
+      "paragraph": "Take the first step towards fluency with a personalized trial class.",
       "trialButton": "BOOK YOUR TRIAL CLASS",
       "viewPlansButton": "View All Plans"
     }
@@ -202,7 +200,7 @@
       "title": "Unlock your fluency with everyday Spanish conversations.",
       "paragraph": "Our personalized approach focuses on real-world speaking skills and the cultural insights you need to connect authentically. Learn online, whenever you want.",
       "explorePlansButton": "Explore Our Plans",
-      "trialClassButton": "Book Your $5 Trial Class",
+      "trialClassButton": "Book Your Trial Class",
       "imageAlt": "Hero background for Services page"
     },
     "serviceList": {
@@ -232,8 +230,8 @@
     },
     "cta": {
       "sectionTitle": "Ready to Start Speaking Spanish?",
-      "paragraph": "Take the first step with a personalized $5 trial class. Discover your potential and see how our approach works for you.",
-      "trialButton": "Get Your $5 Trial",
+      "paragraph": "Take the first step with a personalized trial class. Discover your potential and see how our approach works for you.",
+      "trialButton": "Get Your Trial",
       "viewPlansButton": "See All Learning Plans"
     }
   },
@@ -245,7 +243,7 @@
     },
     "planGrid": {
       "ctaTitle": "Ready to Start Speaking Fearlessly?",
-      "ctaButton": "Book Your $5 Trial Class Now",
+      "ctaButton": "Book Your Trial Class Now",
       "ctaSubtext": "After your trial, choose the plan that best suits your learning needs."
     },
     "paymentInfo": {
@@ -254,7 +252,7 @@
     "howItWorks": {
         "sectionTitle": "How It Works",
         "steps": [
-            "Book a $5 trial class.",
+            "Book a trial class.",
             "Meet your teacher and discuss your goals.",
             "Get a personalized learning plan.",
             "Choose your ideal subscription and start practicing!"
