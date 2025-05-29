@@ -363,7 +363,7 @@ const Dashboard = () => {
                     target="_blank" rel="noopener noreferrer"
                     isDisabled={!studentData.folderLink}
                   >
-                    Materials and Exercises
+                    Materials
                   </ActionButton>
                   <ActionButton 
                     icon={BookOpenIcon}
