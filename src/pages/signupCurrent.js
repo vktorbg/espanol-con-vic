@@ -1,8 +1,8 @@
 // /src/pages/signup.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // <--- Agrega useEffect aquí
 import { navigate, graphql } from "gatsby";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer"; // Added Footer for consistency
+import Footer from "../components/Footer";
 import { db, setDoc, doc } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 
@@ -19,7 +19,14 @@ const SignupPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const { signup } = useAuth();
+  const { signup, currentUser } = useAuth(); // <--- Asegúrate de obtener currentUser
+
+  // Redirige si ya está autenticado
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/dashboard");
+    }
+  }, [currentUser]);
 
   // Calculate password strength (same as before)
   const handlePasswordChange = (e) => {

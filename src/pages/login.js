@@ -1,5 +1,5 @@
 // /src/pages/login.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // <--- Agrega useEffect aquí
 import { Link, navigate } from "gatsby";
 import { graphql } from 'gatsby';
 import Navbar from "../components/Navbar";
@@ -24,7 +24,14 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const { login, loginWithGoogle } = useAuth(); // Assuming loginWithGoogle exists
+  const { login, loginWithGoogle, currentUser } = useAuth(); // <--- Asegúrate de obtener currentUser
+
+  // Redirige si ya está autenticado
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/dashboard");
+    }
+  }, [currentUser]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
